@@ -136,7 +136,12 @@ extension TimelinePageViewController {
   
   
   func handleSingleTap(_ sender: UITapGestureRecognizer) {
-    performSegue(withIdentifier: "showDetail", sender: sender)
+    if let cell = sender.view as? HeaderCell {
+      // Network call...
+      performSegue(withIdentifier: "showProfile", sender: sender)
+    }else {
+      performSegue(withIdentifier: "showDetail", sender: sender)
+    }
     print("Single Tapped")
   }
   func handleDoubleTap(_ sender: UITapGestureRecognizer) {
@@ -191,6 +196,9 @@ extension TimelinePageViewController {
  
   override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerCell = tableView.dequeueReusableCell(withIdentifier: "Header") as! HeaderCell
+    let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
+    singleTapRecognizer.numberOfTapsRequired = 1
+    headerCell.addGestureRecognizer(singleTapRecognizer)
     headerCell.configure(post: dataSource[section])
     headerCell.backgroundColor = UIColor.white
     headerCell.alpha = 1.0

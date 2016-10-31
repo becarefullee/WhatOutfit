@@ -138,6 +138,7 @@
                     <navigationItem key="navigationItem" title="Home" id="Wne-9i-x3Z"/>
                     <connections>
                         <segue destination="8rr-wr-pTF" kind="show" identifier="showDetail" id="ZWT-gO-yK0"/>
+                        <segue destination="QTM-v2-JUm" kind="show" identifier="showProfile" id="Dju-3C-VMa"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rs0-7f-GdS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -284,7 +285,7 @@
         <scene sceneID="ZIb-ar-7zn">
             <objects>
                 <collectionViewController id="HN8-rP-Yoc" customClass="ProfilePageViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="dxm-2S-tyj">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="dxm-2S-tyj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -315,6 +316,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="BKW-YT-i9u" id="pyx-sL-izd"/>
+                                    <segue destination="8rr-wr-pTF" kind="show" identifier="showDetail" id="hTg-Z2-yxz"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -347,6 +349,9 @@
                                                                     <state key="normal" title="125">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
+                                                                    <connections>
+                                                                        <action selector="postBtnPressed:" destination="HN8-rP-Yoc" eventType="touchUpInside" id="Ul6-1l-NhS"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mil-NW-7DM">
                                                                     <rect key="frame" x="0.0" y="37.666666666666671" width="127" height="36.000000000000014"/>
@@ -382,6 +387,9 @@
                                                             <state key="normal" title="posts">
                                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="postBtnPressed:" destination="HN8-rP-Yoc" eventType="touchUpInside" id="KMW-ec-GKK"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rII-13-XwX">
                                                             <rect key="frame" x="0.0" y="37.666666666666671" width="127" height="36.000000000000014"/>
@@ -522,6 +530,25 @@
             </objects>
             <point key="canvasLocation" x="1593" y="247"/>
         </scene>
+        <!--Profile-->
+        <scene sceneID="iEs-vE-czu">
+            <objects>
+                <viewController id="QTM-v2-JUm" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nQj-7R-yQb"/>
+                        <viewControllerLayoutGuide type="bottom" id="DPQ-zz-6Vg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zMC-Xu-0bL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Profile" id="ekE-Eo-1kx"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DFY-3V-eAh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2583" y="246"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="vEW-Zg-srl">
             <objects>
@@ -574,5 +601,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sUC-rH-i84"/>
+        <segue reference="hTg-Z2-yxz"/>
     </inferredMetricsTieBreakers>
 </document>

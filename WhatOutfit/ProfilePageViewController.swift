@@ -23,7 +23,8 @@ class ProfilePageViewController: UICollectionViewController {
   fileprivate var cellWidth: CGFloat {
     return (screenWidth - 12) / 3
   }
-  
+  fileprivate let anchor: CGPoint = CGPoint(x:0, y:240)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpDataSource()
@@ -136,6 +137,16 @@ extension ProfilePageViewController: UICollectionViewDelegateFlowLayout {
   
 }
 
+
+extension ProfilePageViewController {
+  @IBAction func postBtnPressed(_ sender: UIButton) {
+    scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+  }
+  
+  func scrollToCertainPoint(scrollView: UIScrollView, point: CGPoint) {
+    scrollView.setContentOffset(CGPoint(x: point.x, y: point.y), animated: true)
+  }
+}
 
 
 

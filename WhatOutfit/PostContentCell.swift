@@ -10,9 +10,9 @@ import UIKit
 
 class PostContentCell: UITableViewCell {
 
-  var post: Post?
-  var screenWidth: CGFloat = UIScreen.main.bounds.width
   var index: Int!
+  var post: Post?
+  fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
 
   @IBOutlet weak var contentImage: UIImageView!
   @IBOutlet weak var likeBtn: UIButton!
