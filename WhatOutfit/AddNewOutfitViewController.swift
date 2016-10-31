@@ -15,7 +15,6 @@ class AddNewOutfitViewController: UIViewController {
   fileprivate let plusBtn: UIImage = UIImage(named: "plus")!
   fileprivate var post: Post?
   fileprivate var imageSet: [UIImage] = []
-  fileprivate var pickedImage: UIImage?
   fileprivate var imagePicker : UIImagePickerController!
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   fileprivate var cellWidth: CGFloat {
@@ -54,7 +53,7 @@ class AddNewOutfitViewController: UIViewController {
 }
 
 extension AddNewOutfitViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func initWithImagePickView(type:NSString){
+  func initWithImagePickView(type:String){
     self.imagePicker = UIImagePickerController()
     self.imagePicker.delegate = self
     self.imagePicker.allowsEditing = true

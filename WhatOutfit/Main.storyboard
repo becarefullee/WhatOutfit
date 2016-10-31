@@ -335,16 +335,16 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="yWu-et-GJE" userLabel="Top">
-                                            <rect key="frame" x="140" y="16" width="254" height="145.66666666666666"/>
+                                            <rect key="frame" x="140" y="16" width="254" height="145"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NlP-Vt-LAN" userLabel="Left">
-                                                    <rect key="frame" x="0.0" y="0.0" width="127" height="145.66666666666666"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="127" height="145"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ira-YO-j2k" userLabel="Number">
-                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="145.66666666666666"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="145"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4y-YB-dDL">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="127" height="37.666666666666664"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="127" height="37"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                     <state key="normal" title="125">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -354,21 +354,21 @@
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mil-NW-7DM">
-                                                                    <rect key="frame" x="0.0" y="37.666666666666671" width="127" height="36.000000000000014"/>
+                                                                    <rect key="frame" x="0.0" y="37" width="127" height="36"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                     <state key="normal" title="4455">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8U-eT-8HO">
-                                                                    <rect key="frame" x="0.0" y="73.666666666666671" width="127" height="36"/>
+                                                                    <rect key="frame" x="0.0" y="73" width="127" height="36"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                     <state key="normal" title="15k">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pX-GY-7Xr">
-                                                                    <rect key="frame" x="0.0" y="109.66666666666666" width="127" height="35.999999999999972"/>
+                                                                    <rect key="frame" x="0.0" y="109" width="127" height="36"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                     <state key="normal" title="1.8k">
                                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -379,10 +379,10 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vcR-hm-4Ik" userLabel="Right">
-                                                    <rect key="frame" x="127" y="0.0" width="127" height="145.66666666666666"/>
+                                                    <rect key="frame" x="127" y="0.0" width="127" height="145"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pkq-nW-aor">
-                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="37.666666666666664"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="37"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                                                             <state key="normal" title="posts">
                                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -392,21 +392,21 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rII-13-XwX">
-                                                            <rect key="frame" x="0.0" y="37.666666666666671" width="127" height="36.000000000000014"/>
+                                                            <rect key="frame" x="0.0" y="37" width="127" height="36"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                                                             <state key="normal" title="followers">
                                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uqS-CC-auH">
-                                                            <rect key="frame" x="0.0" y="73.666666666666671" width="127" height="36"/>
+                                                            <rect key="frame" x="0.0" y="73" width="127" height="36"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                                                             <state key="normal" title="following">
                                                                 <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDW-t8-aoQ">
-                                                            <rect key="frame" x="0.0" y="109.66666666666666" width="127" height="35.999999999999972"/>
+                                                            <rect key="frame" x="0.0" y="109" width="127" height="36"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
                                                             <state key="normal" title="likes">
                                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -433,7 +433,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wif-rI-lxY">
-                                            <rect key="frame" x="267" y="163.66666666666666" width="127" height="32"/>
+                                            <rect key="frame" x="267" y="163" width="127" height="32"/>
                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                             <state key="normal" title="Edit Profile">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -524,7 +524,15 @@
                             <outlet property="delegate" destination="HN8-rP-Yoc" id="RAC-88-wfG"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Eddie" id="v2U-3d-FXx"/>
+                    <navigationItem key="navigationItem" title="Eddie" id="v2U-3d-FXx">
+                        <barButtonItem key="leftBarButtonItem" image="添加好友 " id="njz-Hn-S7w">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="消息" id="oeu-Z9-rBl">
+                            <inset key="imageInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKr-PX-H7z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -596,6 +604,8 @@
         <image name="IMG" width="1080" height="1080"/>
         <image name="praise" width="64" height="64"/>
         <image name="主页" width="32" height="32"/>
+        <image name="消息" width="32" height="32"/>
+        <image name="添加好友 " width="32" height="32"/>
         <image name="用户" width="32" height="32"/>
         <image name="相机" width="32" height="32"/>
     </resources>
