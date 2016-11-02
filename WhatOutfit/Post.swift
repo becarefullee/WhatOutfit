@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Post {
+struct Post {
   
   
   var profileImage: UIImage

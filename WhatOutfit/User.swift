@@ -10,7 +10,7 @@ import Foundation
 import  UIKit
 
 
-class User {
+struct User {
   
   var nickName: String
   var userName: String
