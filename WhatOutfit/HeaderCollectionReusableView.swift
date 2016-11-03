@@ -10,7 +10,6 @@ import UIKit
 
 class HeaderCollectionReusableView: UICollectionReusableView {
   
-  var userInfo: User?
   let color: UIColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
   
   @IBOutlet weak var profilePicture: UIImageView!
@@ -32,18 +31,18 @@ class HeaderCollectionReusableView: UICollectionReusableView {
       profilePicture.layer.cornerRadius = 8
       profilePicture.layer.borderWidth = 1
       profilePicture.layer.masksToBounds = true
-      setBtnStyleToGrayColor(sender: editProfile, color: color)
+      setBtnStyleToColor(sender: editProfile, color: color, borderColor: color)
   }
   
   
-  func configureProfile() {
-    profilePicture.image = userInfo?.profilePicture
-    nameLabel.text = userInfo?.nickName
-    whatsupLabel.text = userInfo?.whatsup
-    numberOfFollowing.setTitle("\(userInfo?.numberOfFollowing)", for: .normal)
-    numberOfFollowers.setTitle("\(userInfo?.numberOfFollowers)", for: .normal)
-    numberOfPosts.setTitle("\(userInfo?.numberOfPosts)", for: .normal)
-    numberOfLikes.setTitle("\(userInfo?.numberOfLikes)", for: .normal)
+  func configureProfile(userInfo: User) {
+    profilePicture.image = userInfo.profilePicture
+    nameLabel.text = userInfo.nickName
+    whatsupLabel.text = userInfo.whatsup
+    numberOfFollowing.setTitle("\(userInfo.numberOfFollowing)", for: .normal)
+    numberOfFollowers.setTitle("\(userInfo.numberOfFollowers)", for: .normal)
+    numberOfPosts.setTitle("\(userInfo.numberOfPosts)", for: .normal)
+    numberOfLikes.setTitle("\(userInfo.numberOfLikes)", for: .normal)
     
   }
   

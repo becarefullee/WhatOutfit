@@ -8,25 +8,25 @@
 
 import Foundation
 import UIKit
-
+import Parse
 
 struct Post {
   
   
-  var profileImage: UIImage
+  var profileImage: PFFile
   var userName: String
   var postTime: Date
-  var contentImage: UIImage
+  var contentImage: PFFile
   var numberOfLikes: Int
   var likedByCurrentUser: Bool
   var outfit: [UIImage]
   
-  init(userName: String, postTime: Date, numberOfLikes: Int, profileImage: String, contentImage: String, likedByCurrentUser: Bool = false, outfit: [UIImage] = []) {
+  init(userName: String, postTime: Date, numberOfLikes: Int, profileImage: PFFile, contentImage: PFFile, likedByCurrentUser: Bool = false, outfit: [UIImage] = []) {
     self.userName = userName
     self.postTime = postTime
     self.numberOfLikes = numberOfLikes
-    self.profileImage = UIImage(named: profileImage)!
-    self.contentImage = UIImage(named: contentImage)!
+    self.profileImage = profileImage
+    self.contentImage = contentImage
     self.likedByCurrentUser = likedByCurrentUser
     self.outfit = outfit
   }

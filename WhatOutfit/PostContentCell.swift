@@ -30,7 +30,7 @@ class PostContentCell: UITableViewCell {
     }
   
   func configure(post: Post, index: Int) {
-    contentImage.image = post.contentImage
+  //  contentImage.image = post.contentImage
     numberOfLikes.text = "\(converLikesToString(numberOfLikes: post.numberOfLikes)) likes"
     self.index = index
   }

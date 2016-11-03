@@ -31,7 +31,7 @@ class HeaderCell: UITableViewCell {
 
   
   func configure(post:Post) {
-    profileImage.image = post.profileImage
+ //   profileImage.image = post.profileImage
     postTime.text = convertDateToString(date: post.postTime)
     userName.text = post.userName
   }

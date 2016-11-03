@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 
-class signInVC: UIViewController {
+class signInViewController: UIViewController {
     
     // textfield
     @IBOutlet weak var label: UILabel!
@@ -44,7 +44,7 @@ class signInVC: UIViewController {
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         
         // tap to hide keyboard
-        let hideTap = UITapGestureRecognizer(target: self, action: #selector(signInVC.hideKeyboard(_:)))
+        let hideTap = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard(_:)))
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
@@ -85,8 +85,6 @@ class signInVC: UIViewController {
     let user = PFUser()
     user.username = usernameTxt.text?.lowercased()
     user.password = passwordTxt.text
-    
-    
     // save data in server
     user.signUpInBackground { (success, error) in
       if success {

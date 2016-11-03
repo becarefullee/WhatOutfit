@@ -22,12 +22,12 @@ func imageWithColorToButton(_ colorButton: UIColor) -> UIImage {
 }
 
 
-func setBtnStyleToGrayColor(sender: UIButton, color: UIColor) {
+func setBtnStyleToColor(sender: UIButton, color: UIColor, borderColor: UIColor) {
     sender.setBackgroundImage(imageWithColorToButton(color), for: UIControlState.normal)
     sender.setBackgroundImage(imageWithColorToButton(color), for: UIControlState.highlighted)
-    sender.layer.borderColor = color.cgColor
+    sender.layer.borderColor = borderColor.cgColor
     sender.layer.borderWidth = 1.0
-    sender.layer.cornerRadius = 2
+    sender.layer.cornerRadius = 3
     sender.layer.masksToBounds = true
 }
 
