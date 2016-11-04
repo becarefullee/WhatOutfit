@@ -14,6 +14,10 @@ var to = String()
 
 class FollowViewController: UITableViewController {
 
+  
+  var userId: String?
+  var userName: String?
+  
   var usernameArray = [String]()
   var avaArray = [PFFile]()
   var followArray = [String]()
@@ -59,7 +63,7 @@ class FollowViewController: UITableViewController {
       
       
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()!.objectId)
+      query.whereKey("follower", equalTo: userId)
       query.whereKey("following", equalTo: objectId[indexPath.row])
       query.countObjectsInBackground (block: { (count:Int32, error) -> Void in
         if error == nil {
@@ -76,7 +80,7 @@ class FollowViewController: UITableViewController {
       })
       
       
-      if cell.userNameLabel.text == PFUser.current()?.username {
+      if cell.userNameLabel.text == userName {
         cell.followBtn.isHidden = true
       }
       
@@ -93,7 +97,7 @@ extension FollowViewController {
   func loadFollowers() {
     
     let followQuery = PFQuery(className: "Follow")
-    followQuery.whereKey("following", equalTo: PFUser.current()?.objectId!)
+    followQuery.whereKey("following", equalTo:userId)
     followQuery.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
         
@@ -140,7 +144,7 @@ extension FollowViewController {
   func loadFollowings() {
     
     let followQuery = PFQuery(className: "Follow")
-    followQuery.whereKey("follower", equalTo: PFUser.current()!.objectId!)
+    followQuery.whereKey("follower", equalTo: userId!)
     followQuery.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
         
@@ -193,7 +197,7 @@ extension FollowViewController {
     // to follow
     if title == "FOLLOW" {
       let object = PFObject(className: "Follow")
-      object["follower"] = PFUser.current()?.objectId
+      object["follower"] = userId!
       object["following"] = objectId[cell.index!]
       object.saveInBackground(block: { (success:Bool, error) -> Void in
         if success {
@@ -201,14 +205,14 @@ extension FollowViewController {
           cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
           setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
         } else {
-          print(error?.localizedDescription)
+//          print(error)
         }
       })
       
       // unfollow
     } else {
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()!.objectId!)
+      query.whereKey("follower", equalTo: userId!)
       query.whereKey("following", equalTo: objectId[cell.index!])
       query.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
         if error == nil {
@@ -220,17 +224,31 @@ extension FollowViewController {
                 cell.followBtn.setTitle("FOLLOW", for: UIControlState())
                 setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
               } else {
-                print(error?.localizedDescription)
+//                print(error)
               }
             })
           }
           
         } else {
-          print(error?.localizedDescription)
+//          print(error)
         }
       })
       
-      
     }
   }
+}
+
+
+
+extension FollowViewController {
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showGuest" {
+      let dvc = segue.destination as! GuestViewController
+      dvc.guestId = objectId[(tableView.indexPathForSelectedRow?.row)!]
+      dvc.userName = usernameArray[(tableView.indexPathForSelectedRow?.row)!]
+      print(dvc.userName!)
+    }
+  }
+  
 }

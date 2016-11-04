@@ -10,7 +10,6 @@ import UIKit
 
 class HeaderCollectionReusableView: UICollectionReusableView {
   
-  let color: UIColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
   
   @IBOutlet weak var profilePicture: UIImageView!
   @IBOutlet weak var nameLabel: UILabel!
@@ -31,7 +30,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
       profilePicture.layer.cornerRadius = 8
       profilePicture.layer.borderWidth = 1
       profilePicture.layer.masksToBounds = true
-      setBtnStyleToColor(sender: editProfile, color: color, borderColor: color)
   }
   
   
