@@ -24,7 +24,8 @@ class ProfilePageViewController: UICollectionViewController {
   fileprivate var page : Int = 9
   fileprivate var likesSelected: Bool = false
   fileprivate var header: HeaderCollectionReusableView?
-  fileprivate let greyColor: UIColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+  fileprivate let greyColor: UIColor = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)
+  fileprivate let lightGreyColor: UIColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
   fileprivate let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -129,7 +130,7 @@ extension ProfilePageViewController {
     case UICollectionElementKindSectionHeader:
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "collectionHeader", for: indexPath) as! HeaderCollectionReusableView
       header = headerView
-      setBtnStyleToColor(sender: (header?.editProfile)!, color: greyColor, borderColor: greyColor)
+      setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
 
       //Nickname
       headerView.nameLabel.text = PFUser.current()!.object(forKey: "nickname") as? String

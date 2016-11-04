@@ -18,11 +18,11 @@ class FollowViewController: UITableViewController {
   var userId: String?
   var userName: String?
   
-  var usernameArray = [String]()
-  var avaArray = [PFFile]()
-  var followArray = [String]()
-  var objectId = [String]()
-  var nickName = [String]()
+  fileprivate var usernameArray = [String]()
+  fileprivate var avaArray = [PFFile]()
+  fileprivate var followArray = [String]()
+  fileprivate var objectId = [String]()
+  fileprivate var nickName = [String]()
 
   fileprivate let greenColor: UIColor = UIColor(red: 71/255, green: 216/255, blue: 14/255, alpha: 1)
   fileprivate let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
@@ -39,6 +39,10 @@ class FollowViewController: UITableViewController {
       }
     }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
   
     // MARK: - Table view data source
 
@@ -63,7 +67,7 @@ class FollowViewController: UITableViewController {
       
       
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: userId)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
       query.whereKey("following", equalTo: objectId[indexPath.row])
       query.countObjectsInBackground (block: { (count:Int32, error) -> Void in
         if error == nil {
@@ -80,7 +84,7 @@ class FollowViewController: UITableViewController {
       })
       
       
-      if cell.userNameLabel.text == userName {
+      if cell.userNameLabel.text == PFUser.current()?.username! {
         cell.followBtn.isHidden = true
       }
       

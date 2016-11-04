@@ -16,7 +16,6 @@ class GuestViewController: UICollectionViewController {
 
   var guestId: String?
   var userName: String?
-  
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
   fileprivate var numberOfPosts: Int = 0
@@ -28,6 +27,7 @@ class GuestViewController: UICollectionViewController {
   fileprivate var likesSelected: Bool = false
   fileprivate var header: HeaderCollectionReusableView?
   fileprivate let greyColor: UIColor = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)
+  fileprivate let lightGreyColor: UIColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
   fileprivate let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
   fileprivate let greenColor: UIColor = UIColor(red: 71/255, green: 216/255, blue: 14/255, alpha: 1)
 
@@ -131,7 +131,7 @@ extension GuestViewController {
       if PFUser.current()?.username == userName {
         self.header?.editProfile.setTitle("Edit Profile", for: .normal)
         self.header?.tintColor = UIColor.black
-        setBtnStyleToColor(sender: (header?.editProfile)!, color: greyColor, borderColor: greyColor)
+        setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
       }else {
         let followQuery = PFQuery(className: "Follow")
         followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
@@ -139,12 +139,10 @@ extension GuestViewController {
         followQuery.countObjectsInBackground (block: { (count:Int32, error) -> Void in
           if error == nil {
             if count == 0 {
-//              self.header?.editProfile.titleLabel?.tintColor = self.defaultBlue
               self.header?.editProfile.tintColor = self.defaultBlue
               self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
               setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
             } else {
-//              self.header?.editProfile.titleLabel?.tintColor = UIColor.white
               self.header?.editProfile.tintColor = UIColor.white
               self.header?.editProfile.setTitle("FOLLOWING", for: UIControlState())
               setBtnStyleToColor(sender: (self.header?.editProfile)!, color: self.greenColor, borderColor: self.greenColor)
@@ -313,7 +311,57 @@ extension GuestViewController {
 
 
 
+//:MARK Follow and unfollow
 
+extension GuestViewController {
+  
+  @IBAction func followBtnTapped(_ sender: UIButton) {
+    let title = header?.editProfile.title(for: UIControlState())
+    
+    // to follow
+    if title == "FOLLOW" {
+      let object = PFObject(className: "Follow")
+      object["follower"] = PFUser.current()?.objectId!
+      object["following"] = guestId
+      object.saveInBackground(block: { (success:Bool, error) -> Void in
+        if success {
+          self.header?.editProfile.tintColor = UIColor.white
+          self.header?.editProfile.setTitle("FOLLOWING", for: UIControlState())
+          setBtnStyleToColor(sender: (self.header?.editProfile)!, color: self.greenColor, borderColor: self.greenColor)
+        } else {
+          print(error!.localizedDescription)
+        }
+      })
+      
+      // unfollow
+    } else {
+      let query = PFQuery(className: "Follow")
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("following", equalTo: guestId)
+      query.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
+        if error == nil {
+          for object in objects! {
+            object.deleteInBackground(block: { (success:Bool, error) -> Void in
+              if success {
+                self.header?.editProfile.tintColor = self.defaultBlue
+                self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
+                setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
+              } else {
+            print(error!.localizedDescription)
+              }
+            })
+          }
+          
+        } else {
+            print(error!.localizedDescription)
+        }
+      })
+      
+    }
+
+  }
+  
+}
 
 
 
