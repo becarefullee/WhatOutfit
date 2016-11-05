@@ -13,10 +13,9 @@ private let reuseIdentifier = "Cell"
 
 class ProfilePageViewController: UICollectionViewController {
 
-  fileprivate var outfitsImageSet: [UIImage] = []
-  fileprivate var likesImageSet: [UIImage] = []
+  fileprivate var outfitsImageSet: [UIImage?] = []
+  fileprivate var likesImageSet: [UIImage?] = []
 
-  
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
   fileprivate var numberOfPosts: Int = 0
@@ -58,7 +57,7 @@ class ProfilePageViewController: UICollectionViewController {
       UserDefaults.standard.synchronize()
     }
     collectionView?.reloadData()
-//    loadPosts(from: network)
+    loadPosts(from: network)
   }
   
   
@@ -94,7 +93,7 @@ extension ProfilePageViewController {
     header?.outfitsBtn.setTitleColor(defaultBlue, for: .normal)
     likesSelected = false
     collectionView?.reloadData()
-    }
+  }
   
   @IBAction func likesBtnPressed(_ sender: UIButton) {
     header?.likesBtn.setTitleColor(defaultBlue, for: .normal)
@@ -114,8 +113,7 @@ extension ProfilePageViewController {
     if likesSelected {
       return likesImageSet.count
     }
-//    return outfitImage.count
-    return outfitsImageSet.count
+      return outfitsImageSet.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -133,7 +131,26 @@ extension ProfilePageViewController {
     case UICollectionElementKindSectionHeader:
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "collectionHeader", for: indexPath) as! HeaderCollectionReusableView
       header = headerView
+      
+      let query = PFQuery(className: "UserInfo")
+      query.whereKey("uid", equalTo: (PFUser.current()!.objectId)!)
+      query.getFirstObjectInBackground(block: { (object, error) in
+        //Followers
+        let followers = object?["followers"] as! Int
+        headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
+        
+        //Followings
+        let followings = object?["followings"] as! Int
+        headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
+      })
+      
+      //Likes
+      let likes = PFUser.current()!.object(forKey: "likes") as! Int
+      headerView.numberOfLikes.setTitle("\(likes)", for: .normal)
+
+      
       setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
+      
       //Nickname
       headerView.nameLabel.text = PFUser.current()!.object(forKey: "nickname") as? String
       
@@ -150,24 +167,6 @@ extension ProfilePageViewController {
           headerView.profilePicture.image = UIImage(data: data!)
         })
       }
-
-      let query = PFQuery(className: "UserInfo")
-      query.whereKey("uid", equalTo: (PFUser.current()!.objectId)!)
-      query.getFirstObjectInBackground(block: { (object, error) in
-        //Followers
-        let followers = object?["followers"] as! Int
-        headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
-        
-        //Followings
-        let followings = object?["followings"] as! Int
-        headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
-      })
-      
-      //Likes
-      let likes = PFUser.current()!.object(forKey: "likes") as! Int
-      headerView.numberOfLikes.setTitle("\(likes)", for: .normal)
-      
-      
     return headerView
     default:
       assert(false, "Unexpected element kind")
@@ -210,20 +209,6 @@ extension ProfilePageViewController {
 
 extension ProfilePageViewController {
   
-  
-//  func loadMore() {
-//    
-//    if page <= outfitImage.count {
-//      
-//      // increase page size
-//      page = page + 9
-//      loadPosts(from: network)
-//      
-//    }
-//
-//  }
-  
-  
   // Load Outfit
   func loadPosts(from: String) {
     var query = PFQuery(className: "Post")
@@ -238,30 +223,58 @@ extension ProfilePageViewController {
 //    }
     query.whereKey("uid", equalTo: PFUser.current()!.objectId!)
     query.addDescendingOrder("createdAt")
+    
+   
+
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
-
+      
+          let count = objects?.count
+          print(count)
+    
+          guard count != 0 else {
+          return
+          }
+          self.outfitId.removeAll(keepingCapacity: false)
+          self.likesImageSet.removeAll(keepingCapacity: false)
+          self.outfitsImageSet.removeAll(keepingCapacity: false)
           if error == nil {
-
-            self.outfitsImageSet.removeAll(keepingCapacity: false)
-            self.likesImageSet.removeAll(keepingCapacity: false)
-            
-            for object in objects! {
+            if self.likesSelected {
+              self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+            }else{
+              self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+            }
+  
+    
+            for i in 0...count!-1{
               if from == self.network {
-                object.pinInBackground(block: { (success, error) in
+                objects?[i].pinInBackground(block: { (success, error) in
                 })
               }
-              let contentImage = object.value(forKey: "pic") as! PFFile
-              let image = try! contentImage.getData()
-              if self.likesSelected {
-                self.likesImageSet.append(UIImage(data: image)!)
-                self.likesId.append(object.objectId!)
-              }else {
-                self.outfitsImageSet.append(UIImage(data: image)!)
-                self.outfitId.append(object.objectId!)
-              }
-        }
-            self.collectionView?.reloadData()
-      } else {
+              let contentImage = objects?[i].value(forKey: "pic") as! PFFile
+              contentImage.getDataInBackground(block: { (data, error) in
+                if error == nil{
+                  let image = UIImage(data:data!)
+                    if self.likesSelected {
+                      self.likesImageSet[i] = image!
+                      self.likesId.append((objects?[i].objectId!)!)
+                    }else{
+                      self.outfitsImageSet[i] = image!
+                      self.outfitId.append((objects?[i].objectId!)!)
+                      print(i)
+                    }
+                  
+                   let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                  if i == count!-1{
+                    DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
+                      self.collectionView?.reloadData()
+                    })
+                  }
+                }else{
+                  print("Getdatafailed")
+                }
+              })
+            }
+          } else {
         print(error!.localizedDescription)
       }
     })

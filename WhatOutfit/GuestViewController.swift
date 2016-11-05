@@ -19,8 +19,8 @@ class GuestViewController: UICollectionViewController {
   var follow: String?
     
   
-  fileprivate var outfitsImageSet: [UIImage] = []
-  fileprivate var likesImageSet: [UIImage] = []
+  fileprivate var outfitsImageSet: [UIImage?] = []
+  fileprivate var likesImageSet: [UIImage?] = []
 
   
   fileprivate let network: String = "Network"
@@ -58,6 +58,7 @@ class GuestViewController: UICollectionViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     collectionView?.reloadData()
+    loadPosts(from: network)
   }
   
   func setUpForNavigationBar() {
@@ -146,7 +147,20 @@ extension GuestViewController {
       let query = PFUser.query()
 //      let object = try! query?.getObjectWithId(guestId!)
       query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
-      
+    
+        let query = PFQuery(className: "UserInfo")
+        query.whereKey("uid", equalTo: self.guestId)
+        query.getFirstObjectInBackground(block: { (object, error) in
+          //Followers
+          let followers = object?["followers"] as! Int
+          headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
+          
+          //Followings
+          let followings = object?["followings"] as! Int
+          headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
+        })
+        
+        
         //Nickname
         headerView.nameLabel.text = object?["username"] as? String
         
@@ -166,19 +180,6 @@ extension GuestViewController {
         let image = object?["ava"] as! PFFile
         image.getDataInBackground(block: { (data, error) in
           headerView.profilePicture.image = UIImage(data: data!)
-        })
-        
-        
-        let query = PFQuery(className: "UserInfo")
-        query.whereKey("uid", equalTo: self.guestId)
-        query.getFirstObjectInBackground(block: { (object, error) in
-          //Followers
-          let followers = object?["followers"] as! Int
-          headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
-          
-          //Followings
-          let followings = object?["followings"] as! Int
-          headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
         })
       })
     return headerView
@@ -229,35 +230,62 @@ extension GuestViewController {
     if from == local {
       query.fromLocalDatastore()
     }
-    //    if from == network {
-    //      query.limit = page
-    //    }
+
     query.whereKey("uid", equalTo: guestId)
     query.addDescendingOrder("createdAt")
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
+      let count = objects?.count
+      print(count)
+      
+      guard count != 0 else {
+        return
+      }
+      self.outfitId.removeAll(keepingCapacity: false)
+      self.likesImageSet.removeAll(keepingCapacity: false)
+      self.outfitsImageSet.removeAll(keepingCapacity: false)
       if error == nil {
-        
-        self.outfitsImageSet.removeAll(keepingCapacity: false)
-        self.likesImageSet.removeAll(keepingCapacity: false)
-
-        
-        for object in objects! {
-          let contentImage = object.value(forKey: "pic") as! PFFile
-          let image = try! contentImage.getData()
-          if self.likesSelected {
-            self.likesImageSet.append(UIImage(data: image)!)
-            self.likesId.append(object.objectId!)
-          }else {
-            self.outfitsImageSet.append(UIImage(data: image)!)
-            self.outfitId.append(object.objectId!)
-          }
+        if self.likesSelected {
+          self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+        }else{
+          self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
         }
-        self.collectionView?.reloadData()
+        
+        
+        for i in 0...count!-1{
+//          if from == self.network {
+//            objects?[i].pinInBackground(block: { (success, error) in
+//            })
+//          }
+          let contentImage = objects?[i].value(forKey: "pic") as! PFFile
+          contentImage.getDataInBackground(block: { (data, error) in
+            if error == nil{
+              let image = UIImage(data:data!)
+              if self.likesSelected {
+                self.likesImageSet[i] = image!
+                self.likesId.append((objects?[i].objectId!)!)
+              }else{
+                self.outfitsImageSet[i] = image!
+                self.outfitId.append((objects?[i].objectId!)!)
+                print(i)
+              }
+              
+              let delayTime = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+              if i == count!-1{
+                DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
+                  self.collectionView?.reloadData()
+                })
+              }
+            }else{
+              print("GetDataFailed")
+            }
+          })
+        }
       } else {
         print(error!.localizedDescription)
       }
     })
+
   }
 }
 
@@ -317,9 +345,13 @@ extension GuestViewController {
           let query = PFQuery(className: "UserInfo")
           query.whereKey("uid", equalTo: self.guestId!)
           query.getFirstObjectInBackground(block: { (object, error) in
-            var followers = (object?["followers"] as! Int) + 1
+            let followers = (object?["followers"] as! Int) + 1
             object?["followers"] = followers
-            object?.saveInBackground()
+            object?.saveInBackground(block: { (success, error) in
+              if success {
+                self.collectionView?.reloadData()
+              }
+            })
           })
           
           //Change current user's followings
@@ -357,7 +389,11 @@ extension GuestViewController {
                 unfollow.getFirstObjectInBackground(block: { (object, error) in
                   let followers = (object?["followers"] as! Int) - 1
                   object?["followers"] = followers
-                  object?.saveInBackground()
+                  object?.saveInBackground(block: { (success, error) in
+                    if success {
+                      self.collectionView?.reloadData()
+                    }
+                  })
                 })
                 
                 //Change current user's followings
@@ -377,7 +413,6 @@ extension GuestViewController {
         }
       })
     }
-    collectionView?.reloadData()
   }
   
 }
