@@ -14,7 +14,7 @@ var to = String()
 
 class FollowViewController: UITableViewController {
 
-  
+  var source: String?
   var userId: String?
   var userName: String?
   
@@ -23,6 +23,8 @@ class FollowViewController: UITableViewController {
   fileprivate var followArray = [String]()
   fileprivate var objectId = [String]()
   fileprivate var nickName = [String]()
+  fileprivate var follow = [String]()
+  
 
   fileprivate let greenColor: UIColor = UIColor(red: 71/255, green: 216/255, blue: 14/255, alpha: 1)
   fileprivate let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
@@ -31,17 +33,22 @@ class FollowViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = to
-      
-      if to == "Followers" {
-        loadFollowers()
-      } else {
-        loadFollowings()
-      }
+        source = to
+        if to == "Followers" {
+          loadFollowers()
+        } else {
+          loadFollowings()
+        }
     }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    tableView.reloadData()
+    if source == "Followers" {
+      loadFollowers()
+    } else {
+      loadFollowings()
+    }
+   // tableView.reloadData()
   }
   
     // MARK: - Table view data source
@@ -65,6 +72,8 @@ class FollowViewController: UITableViewController {
         }
       }
       
+      self.follow.removeAll(keepingCapacity: false)
+
       
       let query = PFQuery(className: "Follow")
       query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
@@ -74,10 +83,12 @@ class FollowViewController: UITableViewController {
           if count == 0 {
             cell.followBtn.tintColor = self.defaultBlue
             cell.followBtn.setTitle("FOLLOW", for: UIControlState())
+            self.follow.append("FOLLOW")
             setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
           } else {
             cell.followBtn.tintColor = UIColor.white
             cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
+            self.follow.append("FOLLOWING")
             setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
           }
         }
@@ -122,6 +133,8 @@ extension FollowViewController {
 
             self.usernameArray.removeAll(keepingCapacity: false)
             self.avaArray.removeAll(keepingCapacity: false)
+            self.objectId.removeAll(keepingCapacity: false)
+            self.nickName.removeAll(keepingCapacity: false)
             
             // find related objects in User class of Parse
             for object in objects! {
@@ -168,6 +181,8 @@ extension FollowViewController {
             
             self.usernameArray.removeAll(keepingCapacity: false)
             self.avaArray.removeAll(keepingCapacity: false)
+            self.objectId.removeAll(keepingCapacity: false)
+            self.nickName.removeAll(keepingCapacity: false)
             
             for object in objects! {
               self.usernameArray.append(object.object(forKey: "username") as! String)
@@ -201,22 +216,48 @@ extension FollowViewController {
     // to follow
     if title == "FOLLOW" {
       let object = PFObject(className: "Follow")
-      object["follower"] = userId!
+      object["follower"] = PFUser.current()?.objectId!
       object["following"] = objectId[cell.index!]
       object.saveInBackground(block: { (success:Bool, error) -> Void in
         if success {
+          
+          print("\(PFUser.current()?.username) follow \(self.usernameArray[cell.index!])")
+          
           cell.followBtn.tintColor = UIColor.white
           cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
           setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
+          
+          
+          self.follow[cell.index!] = "FOLLOWING"
+          // Change the followers of the people you follow
+          let query = PFQuery(className: "UserInfo")
+          query.whereKey("uid", equalTo: self.objectId[cell.index!])
+          query.getFirstObjectInBackground(block: { (object, error) in
+            let followers = (object?["followers"] as! Int) + 1
+            object?["followers"] = followers
+            object?.saveInBackground()
+          })
+          
+          //Change current user's followings
+          let current = PFQuery(className: "UserInfo")
+          current.whereKey("uid", equalTo: (PFUser.current()!.objectId)!)
+          current.getFirstObjectInBackground(block: { (object, error) in
+            object?["followings"] = (object?["followings"] as! Int) + 1
+            object?.saveInBackground()
+          })
+
+          
+          
         } else {
-//          print(error)
+          print(error?.localizedDescription)
         }
       })
       
       // unfollow
     } else {
+      
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: userId!)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
       query.whereKey("following", equalTo: objectId[cell.index!])
       query.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
         if error == nil {
@@ -224,17 +265,38 @@ extension FollowViewController {
           for object in objects! {
             object.deleteInBackground(block: { (success:Bool, error) -> Void in
               if success {
+                
+                print("\(PFUser.current()?.username) unfollow \(self.usernameArray[cell.index!])")
+
                 cell.followBtn.tintColor = self.defaultBlue
                 cell.followBtn.setTitle("FOLLOW", for: UIControlState())
                 setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
+                
+                self.follow[cell.index!] = "FOLLOW"
+                // Change the followers of the people you follow
+                let unfollow = PFQuery(className: "UserInfo")
+                unfollow.whereKey("uid", equalTo: self.objectId[cell.index!])
+                unfollow.getFirstObjectInBackground(block: { (object, error) in
+                  let followers = (object?["followers"] as! Int) - 1
+                  object?["followers"] = followers
+                  object?.saveInBackground()
+                })
+                
+                //Change current user's followings
+                let current = PFQuery(className: "UserInfo")
+                current.whereKey("uid", equalTo: (PFUser.current()!.objectId)!)
+                current.getFirstObjectInBackground(block: { (object, error) in
+                  object?["followings"] = (object?["followings"] as! Int) - 1
+                  object?.saveInBackground()
+                })
               } else {
-//                print(error)
+                print(error?.localizedDescription)
               }
             })
           }
           
         } else {
-//          print(error)
+          print(error?.localizedDescription)
         }
       })
       
@@ -251,7 +313,7 @@ extension FollowViewController {
       let dvc = segue.destination as! GuestViewController
       dvc.guestId = objectId[(tableView.indexPathForSelectedRow?.row)!]
       dvc.userName = usernameArray[(tableView.indexPathForSelectedRow?.row)!]
-      print(dvc.userName!)
+      dvc.follow = follow[(tableView.indexPathForSelectedRow?.row)!]
     }
   }
   
