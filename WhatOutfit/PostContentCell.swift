@@ -25,6 +25,7 @@ class PostContentCell: UITableViewCell {
   var pid: String?
   var index: Int!
   var isLiked: Bool?
+  var likes: Int?
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   fileprivate let likeImage = UIImage(named:"praised")
@@ -128,8 +129,32 @@ class PostContentCell: UITableViewCell {
       object.saveInBackground { (success, error) in
         if success {
           self.likeBtn.setImage(self.likeImage, for: .normal)
-          print("Update Sucess")
+          self.likes = self.likes! + 1
+          self.numberOfLikes.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
           self.isLiked = !self.isLiked!
+          
+          print("Update Sucess")
+          
+          //CurrentUser's Likes plus one
+          PFUser.current()?.incrementKey("likes")
+          PFUser.current()?.saveInBackground(block: { (success, error) in
+            if success {
+              print("User likes update")
+            }
+          })
+          //Post's like plus one
+          let query = PFQuery(className: "Post")
+          query.getObjectInBackground(withId: self.pid!, block: { (object, error) in
+            object?.incrementKey("likes")
+            object?.saveInBackground(block: { (success, error) in
+              if success {
+                print("Likes updated")
+              }else {
+                print(error!.localizedDescription)
+              }
+            })
+          })
+          
         }else {
           print(error!.localizedDescription)
         }
@@ -145,8 +170,30 @@ class PostContentCell: UITableViewCell {
           objects?.first?.deleteInBackground(block: { (success, error) in
             if success {
               self.likeBtn.setImage(self.unlikeImage, for: .normal)
+              self.likes = self.likes! - 1
+              self.numberOfLikes.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
               self.isLiked = !self.isLiked!
               print("Delete Success")
+              
+              //CurrentUser's Likes minus one
+              PFUser.current()?.incrementKey("likes", byAmount: -1)
+              PFUser.current()?.saveInBackground(block: { (success, error) in
+                if success {
+                  print("User likes update")
+                }
+              })
+              //Post's like minus one
+              let query = PFQuery(className: "Post")
+              query.getObjectInBackground(withId: self.pid!, block: { (object, error) in
+                object?.incrementKey("likes", byAmount: -1)
+                object?.saveInBackground(block: { (success, error) in
+                  if success {
+                    print("Likes updated")
+                  }else {
+                    print(error!.localizedDescription)
+                  }
+                })
+              })
             }else {
               print(error!.localizedDescription)
             }

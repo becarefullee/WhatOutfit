@@ -126,6 +126,11 @@ extension TimelinePageViewController: CellDelegate {
 extension TimelinePageViewController: postCellDelegate {
   func updateLikeBtn(index: Int, isliked: Bool) {
     likeBtn[index] = isliked
+    if isliked {
+      likes[index] += 1
+    }else {
+      likes[index] -= 1
+    }
   }
 }
 
@@ -157,6 +162,7 @@ extension TimelinePageViewController {
     cell.selectionStyle = .none
     
     cell.delegate = self
+    cell.likes = likes[indexPath.section]
     cell.index = indexPath.section
     cell.pid = postId[indexPath.section]
     if let isLiked = likeBtn[indexPath.section] {
