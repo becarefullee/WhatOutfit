@@ -10,9 +10,6 @@ import UIKit
 import Parse
 
 fileprivate let reuseIdentifier = "Cell"
-fileprivate let likeImage = UIImage(named:"praised")
-fileprivate let unlikeImage = UIImage(named:"praise")
-
 
 class TimelinePageViewController: UITableViewController {
   
@@ -20,12 +17,14 @@ class TimelinePageViewController: UITableViewController {
   var contentImageSet: [UIImage?] = []
   var avaImageSet: [UIImage?] = []
   
+  fileprivate let likeImage = UIImage(named:"praised")
+  fileprivate let unlikeImage = UIImage(named:"praise")
+  
   fileprivate var followGuest: String?
   fileprivate var toGuest: String?
   fileprivate var guestName: String?
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
-  fileprivate var dataSource = [Post]()
   fileprivate let contentCellHeight: CGFloat = UIScreen.main.bounds.width + 44
   
   fileprivate var likeBtn: [Bool?] = []
@@ -70,16 +69,6 @@ class TimelinePageViewController: UITableViewController {
   
   
   @IBAction func likeBtnPressed(_ sender: UIButton) {
-    let id: Int = Int(sender.title(for: .normal)!)!
-    dataSource[id].likedByCurrentUser = !dataSource[id].likedByCurrentUser
-    if dataSource[id].likedByCurrentUser {
-      sender.setImage(likeImage, for: .normal)
-      dataSource[id].numberOfLikes += 1
-    }else {
-      sender.setImage(unlikeImage, for: .normal)
-      dataSource[id].numberOfLikes -= 1
-    }
-    tableView.reloadData()
   }
   
   
@@ -137,7 +126,6 @@ extension TimelinePageViewController: CellDelegate {
 extension TimelinePageViewController: postCellDelegate {
   func updateLikeBtn(index: Int, isliked: Bool) {
     likeBtn[index] = isliked
-    print(likeBtn[index])
   }
 }
 
@@ -256,22 +244,6 @@ extension TimelinePageViewController {
             self.postId.removeAll(keepingCapacity: false)
             self.likes.removeAll(keepingCapacity: false)
             self.uid.removeAll(keepingCapacity: false)
-            
-            
-            //            for object in objects! {
-            ////              self.userNameArray.append(object.object(forKey: "username") as! String)
-            ////              self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-            ////              self.dateArray.append((object.createdAt)! as Date)
-            ////              self.picArray.append(object.object(forKey: "pic") as! PFFile)
-            ////              self.postId.append(object.objectId! as String)
-            ////              self.likes.append(object.object(forKey: "likes") as! Int)
-            //
-            //                let post = Post(userName: object.object(forKey: "username") as! String, postTime: object.createdAt! as Date, numberOfLikes: object.object(forKey: "likes") as! Int, profileImage: object.object(forKey: "ava") as! PFFile, contentImage: object.object(forKey: "pic") as! PFFile)
-            //                self.dataSource.append(post)
-            //            }
-            //
-            //              self.tableView.reloadData()
-            
             
             let count = objects?.count
             

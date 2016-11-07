@@ -27,8 +27,6 @@ class PostContentCell: UITableViewCell {
   var isLiked: Bool?
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
-  
-  
   fileprivate let likeImage = UIImage(named:"praised")
   fileprivate let unlikeImage = UIImage(named:"praise")
   
@@ -58,17 +56,6 @@ class PostContentCell: UITableViewCell {
     super.setSelected(selected, animated: animated)
   }
   
-  func configure(post: Post, index: Int) {
-    
-    //  contentImage.image = post.contentImage
-    post.contentImage.getDataInBackground { (data, error) in
-      self.contentImage.image = UIImage(data: data!)
-    }
-    numberOfLikes.text = "\(converLikesToString(numberOfLikes: post.numberOfLikes)) likes"
-    self.index = index
-  }
-  
-  
   func converLikesToString(numberOfLikes: Int) -> String{
     var number:String = String(numberOfLikes)
     switch numberOfLikes {
@@ -95,9 +82,6 @@ class PostContentCell: UITableViewCell {
     print("Single Tapped")
   }
   func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-    //    print(self.center)
-    //    print(self.contentImage.center)
-    
     if let isLiked = isLiked {
       if isLiked {
         updateLikeRelation(operation: operation.delete)
@@ -141,7 +125,6 @@ class PostContentCell: UITableViewCell {
       let object = PFObject(className: "Like")
       object["uid"] = PFUser.current()?.objectId!
       object["pid"] = pid!
-      print(pid)
       object.saveInBackground { (success, error) in
         if success {
           self.likeBtn.setImage(self.likeImage, for: .normal)
