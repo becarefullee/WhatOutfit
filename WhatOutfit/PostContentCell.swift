@@ -9,17 +9,35 @@
 import UIKit
 import Parse
 
+protocol postCellDelegate {
+  func updateLikeBtn(index: Int, isliked: Bool)
+}
+
+
 class PostContentCell: UITableViewCell {
-
+  
+  enum operation {
+    case delete
+    case add
+  }
+  
+  var delegate: postCellDelegate?
+  var pid: String?
   var index: Int!
-  var post: Post?
+  var isLiked: Bool?
+  
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
-
+  
+  
+  fileprivate let likeImage = UIImage(named:"praised")
+  fileprivate let unlikeImage = UIImage(named:"praise")
+  
+  
   @IBOutlet weak var contentImage: UIImageView!
   @IBOutlet weak var likeBtn: UIButton!
   @IBOutlet weak var numberOfLikes: UILabel!
   
-
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     contentImage.bounds.size.width = screenWidth
@@ -27,22 +45,22 @@ class PostContentCell: UITableViewCell {
     contentImage.isUserInteractionEnabled = true
     
     
-        let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
-        let doubleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
-        singleTapRecognizer.numberOfTapsRequired = 1
-        doubleTapRecognizer.numberOfTapsRequired = 2
-        singleTapRecognizer.require(toFail: doubleTapRecognizer)
-        contentImage.addGestureRecognizer(singleTapRecognizer)
-        contentImage.addGestureRecognizer(doubleTapRecognizer)
-    }
-
+    let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
+    let doubleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+    singleTapRecognizer.numberOfTapsRequired = 1
+    doubleTapRecognizer.numberOfTapsRequired = 2
+    singleTapRecognizer.require(toFail: doubleTapRecognizer)
+    contentImage.addGestureRecognizer(singleTapRecognizer)
+    contentImage.addGestureRecognizer(doubleTapRecognizer)
+  }
+  
   override func setSelected(_ selected: Bool, animated: Bool) {
     super.setSelected(selected, animated: animated)
-    }
+  }
   
   func configure(post: Post, index: Int) {
     
-  //  contentImage.image = post.contentImage
+    //  contentImage.image = post.contentImage
     post.contentImage.getDataInBackground { (data, error) in
       self.contentImage.image = UIImage(data: data!)
     }
@@ -50,7 +68,7 @@ class PostContentCell: UITableViewCell {
     self.index = index
   }
   
-
+  
   func converLikesToString(numberOfLikes: Int) -> String{
     var number:String = String(numberOfLikes)
     switch numberOfLikes {
@@ -68,33 +86,30 @@ class PostContentCell: UITableViewCell {
       return number
     default:
       return number
-
+      
     }
   }
   
   func handleSingleTap(_ sender: UITapGestureRecognizer) {
-//    performSegue(withIdentifier: "showDetail", sender: sender)
+    //    performSegue(withIdentifier: "showDetail", sender: sender)
     print("Single Tapped")
   }
   func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-    print(self.center)
-    likeAnimation(center: self.contentImage.center)
-//    let cell = sender.view?.superview?.superview as! PostContentCell
-//    let id: Int = cell.index
-//    dataSource[id].likedByCurrentUser = !dataSource[id].likedByCurrentUser
-//    if dataSource[id].likedByCurrentUser {
-//      likeAnimation(center: cell.center)
-//      cell.likeBtn.setImage(likeImage, for: .normal)
-//      dataSource[id].numberOfLikes += 1
-//    }else {
-//      cell.likeBtn.setImage(unlikeImage, for: .normal)
-//      dataSource[id].numberOfLikes -= 1
-//    }
-//    let index = [IndexPath(item: 0, section: id)]
-//    tableView.reloadRows(at: index, with: .none)
-//    print("Double Tapped")
+    //    print(self.center)
+    //    print(self.contentImage.center)
+    
+    if let isLiked = isLiked {
+      if isLiked {
+        updateLikeRelation(operation: operation.delete)
+        delegate?.updateLikeBtn(index: index, isliked: false)
+      }else {
+        likeAnimation(center: self.contentImage.center)
+        updateLikeRelation(operation: operation.add)
+        delegate?.updateLikeBtn(index: index, isliked: true)
+      }
+    }
   }
-
+  
   
   func likeAnimation(center: CGPoint) {
     let newView = UIImageView(image:UIImage(named: "praised_1"))
@@ -116,8 +131,47 @@ class PostContentCell: UITableViewCell {
       })
     }
   }
-
   
+  
+  
+  func updateLikeRelation(operation: operation) {
+    switch operation {
+    case .add:
+      //Add a like relation
+      let object = PFObject(className: "Like")
+      object["uid"] = PFUser.current()?.objectId!
+      object["pid"] = pid!
+      print(pid)
+      object.saveInBackground { (success, error) in
+        if success {
+          self.likeBtn.setImage(self.likeImage, for: .normal)
+          print("Update Sucess")
+          self.isLiked = !self.isLiked!
+        }else {
+          print(error!.localizedDescription)
+        }
+      }
+      
+    case .delete:
+      //Delete a like relation
+      let query = PFQuery(className: "Like")
+      query.whereKey("pid", equalTo: pid)
+      query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+      query.findObjectsInBackground { (objects, error) in
+        if (objects?.count)! > 0 {
+          objects?.first?.deleteInBackground(block: { (success, error) in
+            if success {
+              self.likeBtn.setImage(self.unlikeImage, for: .normal)
+              self.isLiked = !self.isLiked!
+              print("Delete Success")
+            }else {
+              print(error!.localizedDescription)
+            }
+          })
+        }
+      }
+    }
+  }
   
   
 }
