@@ -83,7 +83,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="429"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cc6-OS-1tY">
+                                        <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cc6-OS-1tY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="385"/>
                                             <gestureRecognizers/>
                                         </imageView>
@@ -143,6 +143,7 @@
                     <navigationItem key="navigationItem" title="Home" id="Wne-9i-x3Z"/>
                     <connections>
                         <segue destination="8rr-wr-pTF" kind="show" identifier="showDetail" id="ZWT-gO-yK0"/>
+                        <segue destination="ikn-uM-4QM" kind="show" identifier="showGuest" id="q9G-Hc-3Es"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rs0-7f-GdS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -253,7 +254,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7NP-Iw-fUM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7NP-Iw-fUM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -292,7 +293,7 @@
             <objects>
                 <tableViewController id="CbC-5N-LTg" customClass="FollowViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" id="70Y-IZ-4Yj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -375,7 +376,7 @@
         <scene sceneID="ZIb-ar-7zn">
             <objects>
                 <collectionViewController id="HN8-rP-Yoc" customClass="ProfilePageViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="dxm-2S-tyj">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="dxm-2S-tyj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -648,7 +649,7 @@
             <objects>
                 <collectionViewController id="ikn-uM-4QM" customClass="GuestViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9ld-cx-81l">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="yJq-V2-Y2f">
@@ -914,7 +915,7 @@
                         <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5fk-er-rsX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="5fk-er-rsX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -935,7 +936,7 @@
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-7"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dpF-hw-tBk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dpF-hw-tBk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1039,8 +1040,9 @@
         <image name="相机" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="q9G-Hc-3Es"/>
         <segue reference="sUC-rH-i84"/>
-        <segue reference="hTg-Z2-yxz"/>
+        <segue reference="ZWT-gO-yK0"/>
         <segue reference="7gy-fI-ML2"/>
     </inferredMetricsTieBreakers>
 </document>

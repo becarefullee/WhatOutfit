@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Parse
 
 fileprivate let reuseIdentifier = "Cell"
 fileprivate let likeImage = UIImage(named:"praised")
@@ -17,15 +17,31 @@ fileprivate let unlikeImage = UIImage(named:"praise")
 class TimelinePageViewController: UITableViewController {
 
 
+  var contentImageSet: [UIImage?] = []
+  var avaImageSet: [UIImage?] = []
+  
+  fileprivate var followGuest: String?
+  fileprivate var toGuest: String?
+  fileprivate var guestName: String?
+  
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   fileprivate var dataSource = [Post]()
+  fileprivate let contentCellHeight: CGFloat = UIScreen.main.bounds.width + 44
 
+  fileprivate var userNameArray: [String] = []
+  fileprivate var avaArray: [PFFile] = []
+  fileprivate var postId: [String] = []
+  fileprivate var uid: [String] = []
+  fileprivate var followArray: [String] = []
+  fileprivate var dateArray: [Date] = []
+  fileprivate var picArray: [PFFile] = []
+  fileprivate var likes: [Int] = []
   
   override func viewDidLoad() {
       super.viewDidLoad()
       setUpForNavigationBar()
-      setupDataSouce()
       setUpRefreshControl()
+      loadPosts()
   }
   
   
@@ -37,21 +53,18 @@ class TimelinePageViewController: UITableViewController {
     super.viewWillAppear(animated)
     let statusView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 20))
     statusView.backgroundColor = UIColor.white
-//      self.statusView = statusView
     UIApplication.shared.keyWindow?.addSubview(statusView)
   }
 
 
   
   func refresh(_ sender: AnyObject?) {
-    let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-    DispatchQueue.main.asyncAfter(deadline: delayTime) {
+    loadPosts()
       if #available(iOS 10.0, *) {
-        self.tableView?.refreshControl?.endRefreshing()
-       } else {
+        self.tableView.refreshControl?.endRefreshing()
+      } else {
         // Fallback on earlier versions
       }
-    }
   }
 
   
@@ -89,70 +102,79 @@ extension TimelinePageViewController {
       // Fallback on earlier versions
     }
   }
-  
-  func setupDataSouce() {
-    
-  }
 }
 
-//:MARK TapRecognizerHandler
 
-extension TimelinePageViewController {
-  
-  func likeAnimation(center: CGPoint) {
-    let newView = UIImageView(image:UIImage(named: "praised_1"))
-    newView.center = center
-    newView.alpha = 0
-    view.addSubview(newView)
-    UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.3, options: [], animations: {
-      newView.alpha = 1
-      newView.transform = CGAffineTransform(scaleX: 2.3, y: 2.3)
-      
-    }) { (finished) in
-      UIView.animate(withDuration: 0.3, animations: {
-        newView.alpha = 0
-        newView.transform = CGAffineTransform.identity
-        newView.transform = CGAffineTransform(scaleX: 1/2.3, y: 1/2.3)
-        }, completion: { (finished) in
-          newView.removeFromSuperview()
+//:MARK CellDelegate
+
+extension TimelinePageViewController: CellDelegate {
+  func performSegue(identifier: String, guestId: String, guestName: String) {
+    
+    // Query follow realtion
+    if PFUser.current()?.objectId != guestId {
+      let query = PFQuery(className: "Follow")
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("following", equalTo: guestId)
+      query.countObjectsInBackground (block: { (count:Int32, error) -> Void in
+        if error == nil {
+          if count == 0 {
+            self.followGuest = "FOLLOW"
+          } else {
+            self.followGuest = "FOLLOWING"
+          }
+        }
       })
     }
-  }
-  
-  
-  func handleSingleTap(_ sender: UITapGestureRecognizer) {
-    if let cell = sender.view as? HeaderCell {
-      // Network call...
-      performSegue(withIdentifier: "showProfile", sender: sender)
-    }else {
-      performSegue(withIdentifier: "showDetail", sender: sender)
-    }
-    print("Single Tapped")
-  }
-  func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-    
-    let cell = sender.view?.superview?.superview as! PostContentCell
-    let id: Int = cell.index
-    dataSource[id].likedByCurrentUser = !dataSource[id].likedByCurrentUser
-    if dataSource[id].likedByCurrentUser {
-      likeAnimation(center: cell.center)
-      cell.likeBtn.setImage(likeImage, for: .normal)
-      dataSource[id].numberOfLikes += 1
-    }else {
-      cell.likeBtn.setImage(unlikeImage, for: .normal)
-      dataSource[id].numberOfLikes -= 1
-    }
-    tableView.reloadData()
-    print("Double Tapped")
+    toGuest = guestId
+    self.guestName = guestName
+    performSegue(withIdentifier: identifier, sender: self)
+    print("Pass success!")
   }
 }
 
+
+
+//:MARK Segue
+
+extension TimelinePageViewController {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showGuest" {
+      let dvc = segue.destination as! GuestViewController
+      dvc.guestId = toGuest
+      dvc.userName = guestName
+      dvc.follow = followGuest
+    }
+  }
+  
+}
 
 
 //MARK: TableView Datasource and delegate
 extension TimelinePageViewController {
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    let cell = cell as! PostContentCell
+    cell.numberOfLikes.text =  "\(cell.converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+    cell.contentImage.image = contentImageSet[indexPath.section]
+    cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+    cell.likeBtn.setImage(unlikeImage, for: .normal)
+    cell.selectionStyle = .none
+  }
+  
+  
+  override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    let headerCell = view as! HeaderCell
+    headerCell.userId = uid[section]
+    headerCell.profileImage.image = avaImageSet[section]
+    headerCell.postTime.text =  headerCell.convertDateToString(date: self.dateArray[section])
+    headerCell.userName.text = userNameArray[section]
+    headerCell.backgroundColor = UIColor.white
+    headerCell.alpha = 1.0
+  }
+  
+  
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return dataSource.count
+    return contentImageSet.count
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -161,37 +183,108 @@ extension TimelinePageViewController {
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
-    let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
-    let doubleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
-    singleTapRecognizer.numberOfTapsRequired = 1
-    doubleTapRecognizer.numberOfTapsRequired = 2
-    singleTapRecognizer.require(toFail: doubleTapRecognizer)
-    cell.contentImage.addGestureRecognizer(singleTapRecognizer)
-    cell.contentImage.addGestureRecognizer(doubleTapRecognizer)
-    cell.configure(post: dataSource[indexPath.section], index: indexPath.section)
-    cell.selectionStyle = .none
-    cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
-    if dataSource[indexPath.section].likedByCurrentUser {
-      cell.likeBtn.setImage(likeImage, for: .normal)
-    }else {
-      cell.likeBtn.setImage(unlikeImage, for: .normal)
-    }
     return cell
   }
  
   override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerCell = tableView.dequeueReusableCell(withIdentifier: "Header") as! HeaderCell
-    let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
-    singleTapRecognizer.numberOfTapsRequired = 1
-    headerCell.addGestureRecognizer(singleTapRecognizer)
-    headerCell.configure(post: dataSource[section])
-    headerCell.backgroundColor = UIColor.white
-    headerCell.alpha = 1.0
+    headerCell.delegate = self
     return headerCell
   }
   
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return screenWidth + 44
+    return contentCellHeight
+  }
+}
+
+
+
+//:MARK Network services
+
+extension TimelinePageViewController {
+  
+  
+  
+  // load posts
+  func loadPosts() {
+    
+    let followQuery = PFQuery(className: "Follow")
+    followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+    followQuery.findObjectsInBackground { (objects, error) in
+      if error == nil {
+        
+        self.followArray.removeAll(keepingCapacity: false)
+        
+        for object in objects! {
+          self.followArray.append(object.object(forKey: "following") as! String)
+        }
+        
+        self.followArray.append(PFUser.current()!.objectId!)
+        
+        let query = PFQuery(className: "Post")
+        query.whereKey("uid", containedIn: self.followArray)
+        query.addDescendingOrder("createdAt")
+        query.findObjectsInBackground(block: { (objects, error) in
+          if error == nil {
+            
+            self.userNameArray.removeAll(keepingCapacity: false)
+            self.avaArray.removeAll(keepingCapacity: false)
+            self.dateArray.removeAll(keepingCapacity: false)
+            self.picArray.removeAll(keepingCapacity: false)
+            self.postId.removeAll(keepingCapacity: false)
+            self.likes.removeAll(keepingCapacity: false)
+            self.uid.removeAll(keepingCapacity: false)
+
+            
+//            for object in objects! {
+////              self.userNameArray.append(object.object(forKey: "username") as! String)
+////              self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+////              self.dateArray.append((object.createdAt)! as Date)
+////              self.picArray.append(object.object(forKey: "pic") as! PFFile)
+////              self.postId.append(object.objectId! as String)
+////              self.likes.append(object.object(forKey: "likes") as! Int)
+//              
+//                let post = Post(userName: object.object(forKey: "username") as! String, postTime: object.createdAt! as Date, numberOfLikes: object.object(forKey: "likes") as! Int, profileImage: object.object(forKey: "ava") as! PFFile, contentImage: object.object(forKey: "pic") as! PFFile)
+//                self.dataSource.append(post)
+//            }
+//            
+//              self.tableView.reloadData()
+            
+            
+            let count = objects?.count
+
+            self.avaImageSet = Array(repeating: nil, count: count!)
+            self.contentImageSet = Array(repeating: nil, count: count!)
+            
+            for i in 0...count! {
+              
+              let pic = objects?[i].object(forKey: "pic") as! PFFile
+              pic.getDataInBackground(block: { (data, error) in
+                self.contentImageSet[i] = (UIImage(data: data!))
+              })
+              
+              
+              let ava = objects?[i].object(forKey: "ava") as! PFFile
+              ava.getDataInBackground(block: { (data, error) in
+                self.avaImageSet[i] = (UIImage(data: data!))
+                DispatchQueue.main.async {
+                  self.tableView.reloadData()
+                }
+              })
+              self.uid.append(objects?[i].object(forKey: "uid") as! String)
+              self.dateArray.append((objects?[i].createdAt)! as Date)
+              self.userNameArray.append(objects?[i].object(forKey: "username") as! String)
+              self.postId.append((objects?[i].objectId!)! as String)
+              self.likes.append(objects?[i].object(forKey: "likes") as! Int)
+              }
+          } else {
+            print(error!.localizedDescription)
+          }
+        })
+      } else {
+        print(error!.localizedDescription)
+      }
+    }
   }
 }
 
@@ -206,3 +299,19 @@ extension TimelinePageViewController {
 //    }
 //  }
 //  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

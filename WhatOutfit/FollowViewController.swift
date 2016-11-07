@@ -72,7 +72,7 @@ class FollowViewController: UITableViewController {
         }
       }
       
-      self.follow.removeAll(keepingCapacity: false)
+      self.follow = Array.init(repeating: "", count: usernameArray.count)
 
       
       let query = PFQuery(className: "Follow")
@@ -83,12 +83,12 @@ class FollowViewController: UITableViewController {
           if count == 0 {
             cell.followBtn.tintColor = self.defaultBlue
             cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-            self.follow.append("FOLLOW")
+            self.follow[indexPath.row] = "FOLLOW"
             setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
           } else {
             cell.followBtn.tintColor = UIColor.white
             cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-            self.follow.append("FOLLOWING")
+            self.follow[indexPath.row] = "FOLLOWING"
             setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
           }
         }
@@ -116,6 +116,7 @@ extension FollowViewController {
     followQuery.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
         
+        
         // clean up
         self.followArray.removeAll(keepingCapacity: false)
         
@@ -131,6 +132,7 @@ extension FollowViewController {
         query?.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
           if error == nil {
 
+//            self.follow.removeAll(keepingCapacity: false)
             self.usernameArray.removeAll(keepingCapacity: false)
             self.avaArray.removeAll(keepingCapacity: false)
             self.objectId.removeAll(keepingCapacity: false)
@@ -245,9 +247,6 @@ extension FollowViewController {
             object?["followings"] = (object?["followings"] as! Int) + 1
             object?.saveInBackground()
           })
-
-          
-          
         } else {
           print(error?.localizedDescription)
         }
@@ -310,6 +309,8 @@ extension FollowViewController {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showGuest" {
+      print("********************************")
+      print(follow)
       let dvc = segue.destination as! GuestViewController
       dvc.guestId = objectId[(tableView.indexPathForSelectedRow?.row)!]
       dvc.userName = usernameArray[(tableView.indexPathForSelectedRow?.row)!]

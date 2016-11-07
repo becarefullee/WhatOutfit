@@ -30,6 +30,9 @@ class HeaderCollectionReusableView: UICollectionReusableView {
       profilePicture.layer.cornerRadius = 8
       profilePicture.layer.borderWidth = 1
       profilePicture.layer.masksToBounds = true
+    
+    
+    
   }
   
   

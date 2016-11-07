@@ -229,7 +229,6 @@ extension ProfilePageViewController {
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
           let count = objects?.count
-          print(count)
     
           guard count != 0 else {
           return
@@ -260,7 +259,6 @@ extension ProfilePageViewController {
                     }else{
                       self.outfitsImageSet[i] = image!
                       self.outfitId.append((objects?[i].objectId!)!)
-                      print(i)
                     }
                   
                    let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)

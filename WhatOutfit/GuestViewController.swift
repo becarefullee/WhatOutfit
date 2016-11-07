@@ -187,6 +187,7 @@ extension GuestViewController {
       assert(false, "Unexpected element kind")
     }
   }
+  
 }
 
 
@@ -267,7 +268,6 @@ extension GuestViewController {
               }else{
                 self.outfitsImageSet[i] = image!
                 self.outfitId.append((objects?[i].objectId!)!)
-                print(i)
               }
               
               let delayTime = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)

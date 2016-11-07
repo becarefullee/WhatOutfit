@@ -7,11 +7,26 @@
 //
 
 import UIKit
+import Parse
+
+
+
+protocol CellDelegate {
+  
+  func performSegue(identifier: String, guestId: String, guestName: String)
+  
+  
+}
+
+
 
 class HeaderCell: UITableViewCell {
 
-  
+  var userId: String?
   var headerInfo: Post?
+  var delegate: CellDelegate?
+  var guestName: String?
+  
   
   @IBOutlet weak var profileImage: UIImageView!
   @IBOutlet weak var postTime: UILabel!
@@ -21,20 +36,20 @@ class HeaderCell: UITableViewCell {
         super.awakeFromNib()
         profileImage.layer.cornerRadius = 16
         profileImage.clipsToBounds = true
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-      
-        // Configure the view for the selected state
+        let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
+        singleTapRecognizer.numberOfTapsRequired = 1
+        self.addGestureRecognizer(singleTapRecognizer)
     }
 
   
-  func configure(post:Post) {
- //   profileImage.image = post.profileImage
-    postTime.text = convertDateToString(date: post.postTime)
-    userName.text = post.userName
+  func handleSingleTap(_ sender: UITapGestureRecognizer) {
+    
+    if var delegate = delegate {
+      delegate.performSegue(identifier: "showGuest", guestId: userId!, guestName: userName.text!)
+    }
+    print("Single Tapped")
   }
+  
   
   
   func convertDateToString(date:Date) -> String {
