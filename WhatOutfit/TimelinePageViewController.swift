@@ -17,6 +17,14 @@ class TimelinePageViewController: UITableViewController {
   var contentImageSet: [UIImage?] = []
   var avaImageSet: [UIImage?] = []
   
+  fileprivate var detailPageUserName: String?
+  fileprivate var detailPageAva: UIImage?
+  fileprivate var detailPageDate: Date?
+  fileprivate var detailPageIsLiked: Bool?
+  fileprivate var detailPageLikes: Int?
+  fileprivate var detailPagePic: UIImage?
+  fileprivate var detailPagePid: String?
+  fileprivate var detailPageUid: String?
   
   fileprivate var followGuest: String?
   fileprivate var toGuest: String?
@@ -145,6 +153,17 @@ extension TimelinePageViewController: postCellDelegate {
       likes[index] -= 1
     }
   }
+  func performSegue(identifier: String, index: Int) {
+    detailPagePic = contentImageSet[index]
+    detailPageAva = avaImageSet[index]
+    detailPageDate = dateArray[index]
+    detailPageLikes = likes[index]
+    detailPageUserName = userNameArray[index]
+    detailPageIsLiked = likeBtn[index]
+    detailPagePid = postId[index]
+    detailPageUid = uid[index]
+    performSegue(withIdentifier: identifier, sender: self)
+  }
 }
 
 
@@ -158,8 +177,18 @@ extension TimelinePageViewController {
       dvc.userName = guestName
       dvc.follow = followGuest
     }
+    else if segue.identifier == "showDetail" {
+      let dvc = segue.destination as! OutfitDetailViewController
+      dvc.likes.append(detailPageLikes!)
+      dvc.avaImageSet.append(detailPageAva)
+      dvc.contentImageSet.append(detailPagePic)
+      dvc.dateArray.append(detailPageDate!)
+      dvc.likeBtn.append(detailPageIsLiked)
+      dvc.postId.append(detailPagePid!)
+      dvc.userNameArray.append(detailPageUserName!)
+      dvc.uid.append(detailPageUid!)
+    }
   }
-  
 }
 
 
@@ -231,9 +260,6 @@ extension TimelinePageViewController {
 //:MARK Network services
 
 extension TimelinePageViewController {
-  
-  
-  
   // load posts
   func loadPosts(from: String) {
     

@@ -19,10 +19,11 @@
 		18316E771DCA5F940073C06C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E761DCA5F940073C06C /* AudioToolbox.framework */; };
 		18316E7A1DCA5FDD0073C06C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E781DCA5FDD0073C06C /* Bolts.framework */; };
 		18316E7B1DCA5FDD0073C06C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E791DCA5FDD0073C06C /* Parse.framework */; };
-		18316E7F1DCA654F0073C06C /* signInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18316E7E1DCA654F0073C06C /* signInViewController.swift */; };
+		18316E7F1DCA654F0073C06C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18316E7E1DCA654F0073C06C /* SignInViewController.swift */; };
 		18316E811DCA695D0073C06C /* Pacifico.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18316E801DCA695D0073C06C /* Pacifico.ttf */; };
 		18316E831DCA9D870073C06C /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18316E821DCA9D870073C06C /* FollowViewController.swift */; };
 		18316E851DCA9D9E0073C06C /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18316E841DCA9D9E0073C06C /* FollowCell.swift */; };
+		184456F31DD2250E0062F70B /* OutfitDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184456F21DD2250E0062F70B /* OutfitDetailViewController.swift */; };
 		1895E5D71DC67F830060F7E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5CE1DC67F830060F7E8 /* AppDelegate.swift */; };
 		1895E5D81DC67F830060F7E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1895E5CF1DC67F830060F7E8 /* Main.storyboard */; };
 		1895E5D91DC67F830060F7E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1895E5D01DC67F830060F7E8 /* Assets.xcassets */; };
@@ -57,10 +58,11 @@
 		18316E761DCA5F940073C06C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		18316E781DCA5FDD0073C06C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		18316E791DCA5FDD0073C06C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		18316E7E1DCA654F0073C06C /* signInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signInViewController.swift; sourceTree = "<group>"; };
+		18316E7E1DCA654F0073C06C /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		18316E801DCA695D0073C06C /* Pacifico.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pacifico.ttf; sourceTree = "<group>"; };
 		18316E821DCA9D870073C06C /* FollowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
 		18316E841DCA9D9E0073C06C /* FollowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowCell.swift; sourceTree = "<group>"; };
+		184456F21DD2250E0062F70B /* OutfitDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutfitDetailViewController.swift; sourceTree = "<group>"; };
 		1895E5B91DC67F480060F7E8 /* WhatOutfit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatOutfit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1895E5CE1DC67F830060F7E8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1895E5CF1DC67F830060F7E8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -170,13 +172,14 @@
 		18F13A911DC7E5410084F547 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				18316E7E1DCA654F0073C06C /* signInViewController.swift */,
+				18316E7E1DCA654F0073C06C /* SignInViewController.swift */,
 				18F13A791DC6D6A00084F547 /* TabBarViewController.swift */,
 				18316E821DCA9D870073C06C /* FollowViewController.swift */,
 				18CA5D3C1DCC124400E674AC /* GuestViewController.swift */,
 				18F13A731DC6AF300084F547 /* ProfilePageViewController.swift */,
 				1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */,
 				18F13A7B1DC6E3160084F547 /* AddNewOutfitViewController.swift */,
+				184456F21DD2250E0062F70B /* OutfitDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				1895E5DE1DC67F830060F7E8 /* HeaderCell.swift in Sources */,
 				18F13A7A1DC6D6A00084F547 /* TabBarViewController.swift in Sources */,
 				18F13A771DC6AF300084F547 /* ImageCell.swift in Sources */,
+				184456F31DD2250E0062F70B /* OutfitDetailViewController.swift in Sources */,
 				1895E5D71DC67F830060F7E8 /* AppDelegate.swift in Sources */,
 				18CA5D3D1DCC124400E674AC /* GuestViewController.swift in Sources */,
 				18316E831DCA9D870073C06C /* FollowViewController.swift in Sources */,
@@ -311,7 +315,7 @@
 				18F13A8C1DC6FEBB0084F547 /* FloatingActionGroup.swift in Sources */,
 				18F13A781DC6AF300084F547 /* ProfilePageViewController.swift in Sources */,
 				1895E5DC1DC67F830060F7E8 /* PostContentCell.swift in Sources */,
-				18316E7F1DCA654F0073C06C /* signInViewController.swift in Sources */,
+				18316E7F1DCA654F0073C06C /* SignInViewController.swift in Sources */,
 				1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */,
 				1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */,
 				18F13A8B1DC6FEBB0084F547 /* FloatingAction.swift in Sources */,

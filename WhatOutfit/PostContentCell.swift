@@ -11,6 +11,8 @@ import Parse
 
 protocol postCellDelegate {
   func updateLikeBtn(index: Int, isliked: Bool)
+  func performSegue(identifier: String, index: Int)
+  
 }
 
 enum operation {
@@ -78,9 +80,10 @@ class PostContentCell: UITableViewCell {
   }
   
   func handleSingleTap(_ sender: UITapGestureRecognizer) {
-    //    performSegue(withIdentifier: "showDetail", sender: sender)
+    delegate?.performSegue(identifier: "showDetail", index: index)
     print("Single Tapped")
   }
+  
   func handleDoubleTap(_ sender: UITapGestureRecognizer) {
     if let isLiked = isLiked {
       if isLiked {

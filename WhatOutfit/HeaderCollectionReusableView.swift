@@ -30,9 +30,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
       profilePicture.layer.cornerRadius = 8
       profilePicture.layer.borderWidth = 1
       profilePicture.layer.masksToBounds = true
-    
-    
-    
   }
   
   
@@ -44,7 +41,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     numberOfFollowers.setTitle("\(userInfo.numberOfFollowers)", for: .normal)
     numberOfPosts.setTitle("\(userInfo.numberOfPosts)", for: .normal)
     numberOfLikes.setTitle("\(userInfo.numberOfLikes)", for: .normal)
-    
   }
   
   

@@ -376,6 +376,15 @@ extension ProfilePageViewController {
       dvc.userId = PFUser.current()?.objectId!
       dvc.userName = PFUser.current()?.username!
     }
+    else if segue.identifier == "showDetail" {
+      let index = collectionView?.indexPathsForSelectedItems?.first?.row
+      let dvc = segue.destination as! OutfitDetailViewController
+      if likesSelected {
+        dvc.postId.append(likesId[index!]!)
+      }else {
+        dvc.postId.append(outfitId[index!]!)
+      }
+    }
   }
 }
 

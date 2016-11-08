@@ -147,7 +147,6 @@ extension GuestViewController {
       }
 
       let query = PFUser.query()
-//      let object = try! query?.getObjectWithId(guestId!)
       query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
     
         let query = PFQuery(className: "UserInfo")

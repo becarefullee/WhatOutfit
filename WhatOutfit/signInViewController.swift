@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 
-class signInViewController: UIViewController {
+class SignInViewController: UIViewController {
     
     // textfield
     @IBOutlet weak var label: UILabel!
@@ -85,10 +85,36 @@ class signInViewController: UIViewController {
     let user = PFUser()
     user.username = usernameTxt.text?.lowercased()
     user.password = passwordTxt.text
+    user["likes"] = 0
+    user["posts"] = 0
+    user["nickname"] = usernameTxt.text?.lowercased()
+    user["bio"] = "bio"
+    
+    let imageData = UIImageJPEGRepresentation(UIImage(named: "ava")!, 0.5)
+    let imageFile = PFFile(name: "ava", data: imageData!)
+    user["ava"] = imageFile
+    
     // save data in server
     user.signUpInBackground { (success, error) in
       if success {
         print("registered")
+        print(PFUser.current()?.objectId)
+        let userInfo = PFObject(className: "UserInfo")
+        userInfo["uid"] = PFUser.current()?.objectId!
+        userInfo["followings"] = 1
+        userInfo["followers"] = 0
+        userInfo.saveInBackground()
+        
+        let follow = PFObject(className: "Follow")
+        follow["follower"] = PFUser.current()?.objectId!
+        follow["following"] = "KXrDGusn5N"
+        follow.saveInBackground()
+        
+        let query = PFQuery(className: "UserInfo")
+        query.getObjectInBackground(withId: "uTd66kWyVC", block: { (object, error) in
+          object?.incrementKey("followers")
+          object?.saveInBackground()
+        })
         
         // remember looged user
         UserDefaults.standard.set(user.username, forKey: "username")
