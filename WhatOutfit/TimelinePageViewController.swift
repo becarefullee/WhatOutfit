@@ -2,8 +2,8 @@
 //  TimelinePageViewController.swift
 //  WhatOutfitTimelinePage
 //
-//  Created by Becarefullee on 16/10/26.
-//  Copyright © 2016年 Becarefullee. All rights reserved.
+//  Created by Qinyuan Li on 16/10/26.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit
@@ -17,8 +17,6 @@ class TimelinePageViewController: UITableViewController {
   var contentImageSet: [UIImage?] = []
   var avaImageSet: [UIImage?] = []
   
-  fileprivate let likeImage = UIImage(named:"praised")
-  fileprivate let unlikeImage = UIImage(named:"praise")
   
   fileprivate var followGuest: String?
   fileprivate var toGuest: String?
@@ -41,7 +39,12 @@ class TimelinePageViewController: UITableViewController {
     super.viewDidLoad()
     setUpForNavigationBar()
     setUpRefreshControl()
-    loadPosts()
+    loadPosts(from: "Local")
+    
+    let delayTime = DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.global().asyncAfter(deadline: delayTime) {
+        self.loadPosts(from: "Network")
+    }
   }
   
   
@@ -51,6 +54,7 @@ class TimelinePageViewController: UITableViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    //loadPosts(from: "Network")
     let statusView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 20))
     statusView.backgroundColor = UIColor.white
     UIApplication.shared.keyWindow?.addSubview(statusView)
@@ -59,7 +63,7 @@ class TimelinePageViewController: UITableViewController {
   
   
   func refresh(_ sender: AnyObject?) {
-    loadPosts()
+    loadPosts(from: "Network")
     if #available(iOS 10.0, *) {
       self.tableView.refreshControl?.endRefreshing()
     } else {
@@ -69,9 +73,18 @@ class TimelinePageViewController: UITableViewController {
   
   
   @IBAction func likeBtnPressed(_ sender: UIButton) {
+    let id: Int = Int(sender.title(for: .normal)!)!
+//    let indexPath = IndexPath.init(row: 0, section: id)
+    let cell = sender.superview?.superview?.superview as! PostContentCell
+    if likeBtn[id]! {
+      updateLikeRelation(operation: .delete, cell: cell)
+      likes[id] -= 1
+    }else {
+      updateLikeRelation(operation: .add, cell: cell)
+      likes[id] += 1
+    }
+    likeBtn[id] = !likeBtn[id]!
   }
-  
-  
 }
 
 //:MARK Initialization
@@ -222,7 +235,7 @@ extension TimelinePageViewController {
   
   
   // load posts
-  func loadPosts() {
+  func loadPosts(from: String) {
     
     let followQuery = PFQuery(className: "Follow")
     followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId!)
@@ -238,6 +251,11 @@ extension TimelinePageViewController {
         self.followArray.append(PFUser.current()!.objectId!)
         
         let query = PFQuery(className: "Post")
+        
+        if from == "Local" {
+          query.fromLocalDatastore()
+        }
+        
         query.whereKey("uid", containedIn: self.followArray)
         query.addDescendingOrder("createdAt")
         query.findObjectsInBackground(block: { (objects, error) in
@@ -257,44 +275,58 @@ extension TimelinePageViewController {
             self.contentImageSet = Array(repeating: nil, count: count!)
             self.likeBtn = Array(repeating: nil, count: count!)
             
-            for i in 0...count! {
-              
-              
-              //Query whether current user has liked a item
-              let query = PFQuery(className: "Like")
-              query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
-              query.whereKey("pid", equalTo: objects?[i].objectId!)
-              query.findObjectsInBackground(block: { (objects, error) in
-                guard error == nil else {
-                  print(error)
-                  return
+            if count! > 0 {
+              for i in 0...count!-1 {
+                // Local stroage
+                if from == "Network" {
+                  objects?[i].pinInBackground()
                 }
-                if objects?.count == 0 {
-                  self.likeBtn[i] = false
-                }else if (objects?.count)! > 0 {
-                  self.likeBtn[i] = true
-                }
-              })
-              
-              
-              let pic = objects?[i].object(forKey: "pic") as! PFFile
-              pic.getDataInBackground(block: { (data, error) in
-                self.contentImageSet[i] = (UIImage(data: data!))
-              })
-              
-              
-              let ava = objects?[i].object(forKey: "ava") as! PFFile
-              ava.getDataInBackground(block: { (data, error) in
-                self.avaImageSet[i] = (UIImage(data: data!))
-                DispatchQueue.main.async {
-                  self.tableView.reloadData()
-                }
-              })
-              self.uid.append(objects?[i].object(forKey: "uid") as! String)
-              self.dateArray.append((objects?[i].createdAt)! as Date)
-              self.userNameArray.append(objects?[i].object(forKey: "username") as! String)
-              self.postId.append((objects?[i].objectId!)! as String)
-              self.likes.append(objects?[i].object(forKey: "likes") as! Int)
+                
+                //Query whether current user has liked a item
+                let query = PFQuery(className: "Like")
+                query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+                query.whereKey("pid", equalTo: objects?[i].objectId!)
+                query.findObjectsInBackground(block: { (objects, error) in
+                  
+                  // Local stroage
+                  if from == "Network" {
+                    PFObject.pinAll(inBackground: objects)
+                  }
+                  
+                  guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                  }
+                  if objects?.count == 0 {
+                    self.likeBtn[i] = false
+                    self.tableView.reloadData()
+                  }else if (objects?.count)! > 0 {
+                    self.likeBtn[i] = true
+                    self.tableView.reloadData()
+                  }
+                })
+                
+                
+                let pic = objects?[i].object(forKey: "pic") as! PFFile
+                pic.getDataInBackground(block: { (data, error) in
+                  self.contentImageSet[i] = (UIImage(data: data!))
+                })
+                
+                
+                let ava = objects?[i].object(forKey: "ava") as! PFFile
+                ava.getDataInBackground(block: { (data, error) in
+                  self.avaImageSet[i] = (UIImage(data: data!))
+                  DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                  }
+                })
+                self.uid.append(objects?[i].object(forKey: "uid") as! String)
+                self.dateArray.append((objects?[i].createdAt)! as Date)
+                self.userNameArray.append(objects?[i].object(forKey: "username") as! String)
+                self.postId.append((objects?[i].objectId!)! as String)
+                self.likes.append(objects?[i].object(forKey: "likes") as! Int)
+              }
+
             }
           } else {
             print(error!.localizedDescription)

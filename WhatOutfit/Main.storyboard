@@ -666,7 +666,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pbg" translatesAutoresizingMaskIntoConstraints="NO" id="X8B-fw-fol">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X8B-fw-fol">
                                             <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                         </imageView>
                                     </subviews>
@@ -1040,9 +1040,9 @@
         <image name="相机" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="q9G-Hc-3Es"/>
         <segue reference="sUC-rH-i84"/>
         <segue reference="ZWT-gO-yK0"/>
+        <segue reference="q9G-Hc-3Es"/>
         <segue reference="7gy-fI-ML2"/>
     </inferredMetricsTieBreakers>
 </document>

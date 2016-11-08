@@ -1,9 +1,9 @@
 //
-//  signInVC.swift
-//  Instragram
+//  signInViewController.swift
+//  WhatOutfit
 //
-//  Created by Ahmad Idigov on 07.12.15.
-//  Copyright © 2015 Akhmed Idigov. All rights reserved.
+//  Created by Qinyuan Li on 16/10/26.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit

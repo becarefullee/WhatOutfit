@@ -2,8 +2,8 @@
 //  HeaderCell.swift
 //  WhatOutfitTimelinePage
 //
-//  Created by Becarefullee on 16/10/26.
-//  Copyright © 2016年 Becarefullee. All rights reserved.
+//  Created by Qinyuan Li on 16/10/26.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit
@@ -44,7 +44,7 @@ class HeaderCell: UITableViewCell {
   
   func handleSingleTap(_ sender: UITapGestureRecognizer) {
     
-    if var delegate = delegate {
+    if let delegate = delegate {
       delegate.performSegue(identifier: "showGuest", guestId: userId!, guestName: userName.text!)
     }
     print("Single Tapped")

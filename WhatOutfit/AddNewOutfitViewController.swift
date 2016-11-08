@@ -2,8 +2,8 @@
 //  AddNewOutfit.swift
 //  WhatOutfit
 //
-//  Created by Becarefullee on 16/10/30.
-//  Copyright © 2016年 Becarefullee. All rights reserved.
+//  Created by Qinyuan Li on 16/10/30.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit

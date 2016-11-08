@@ -2,8 +2,8 @@
 //  GuestViewController.swift
 //  WhatOutfit
 //
-//  Created by Becarefullee on 16/11/3.
-//  Copyright © 2016年 Becarefullee. All rights reserved.
+//  Created by Qinyuan Li on 16/11/3.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit
@@ -21,13 +21,13 @@ class GuestViewController: UICollectionViewController {
   
   fileprivate var outfitsImageSet: [UIImage?] = []
   fileprivate var likesImageSet: [UIImage?] = []
+  fileprivate var likesId: [String?] = []
+  fileprivate var outfitId: [String?] = []
 
   
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
   fileprivate var numberOfPosts: Int = 0
-  fileprivate var likesId: [String] = []
-  fileprivate var outfitId: [String] = []
   fileprivate var page : Int = 9
   fileprivate var likesSelected: Bool = false
   fileprivate var header: HeaderCollectionReusableView?
@@ -45,6 +45,7 @@ class GuestViewController: UICollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     loadPosts(from: network)
+    loadLikes(from: network)
     setUpForNavigationBar()
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
@@ -72,6 +73,7 @@ class GuestViewController: UICollectionViewController {
   
   func refresh(_ sender: AnyObject?) {
     loadPosts(from: network)
+    loadLikes(from: network)
     if #available(iOS 10.0, *) {
       self.collectionView?.refreshControl?.endRefreshing()
     } else {
@@ -222,12 +224,55 @@ extension GuestViewController {
 
 extension GuestViewController {
   
+  // Load Likes
+  func loadLikes(from: String) {
+    let query = PFQuery(className: "Like")
+    if from == local {
+      query.fromLocalDatastore()
+    }
+    query.whereKey("uid", equalTo: guestId!)
+    query.addDescendingOrder("createdAt")
+    query.findObjectsInBackground { (objects, error) in
+      let count = objects?.count
+      self.likesImageSet.removeAll(keepingCapacity: false)
+      self.likesId.removeAll(keepingCapacity: false)
+      
+      self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+      self.likesId = Array(repeating: nil, count: count!) as [String?]
+    
+      if count! > 0 {
+        for i in 0...count!-1 {
+          if from == self.network {
+            objects?[i].pinInBackground(block: { (success, error) in
+            })
+          }
+          
+          let query = PFQuery(className: "Post")
+          query.getObjectInBackground(withId: objects?[i].value(forKey: "pid") as! String, block: { (object, error) in
+            guard object != nil else {
+              return
+            }
+            let contentImage = object?["pic"] as! PFFile
+            contentImage.getDataInBackground(block: { (data, error) in
+              if error == nil {
+                let image = UIImage(data: data!)
+                self.likesImageSet[i] = image!
+                self.likesId[i] = (object?.objectId!)!
+                self.collectionView?.reloadData()
+              }
+              else {
+                print(error!.localizedDescription)
+              }
+            })
+          })
+        }
+      }
+    }
+  }
+  
   // Load Outfit
   func loadPosts(from: String) {
     var query = PFQuery(className: "Post")
-    if likesSelected {
-      query = PFQuery(className: "Like")
-    }
     if from == local {
       query.fromLocalDatastore()
     }
@@ -237,38 +282,24 @@ extension GuestViewController {
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
       let count = objects?.count
-      print(count)
       
       guard count != 0 else {
         return
       }
       self.outfitId.removeAll(keepingCapacity: false)
-      self.likesImageSet.removeAll(keepingCapacity: false)
       self.outfitsImageSet.removeAll(keepingCapacity: false)
       if error == nil {
-        if self.likesSelected {
-          self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
-        }else{
-          self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
-        }
-        
+
+        self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+        self.outfitId = Array(repeating: nil, count: count!) as [String?]
         
         for i in 0...count!-1{
-//          if from == self.network {
-//            objects?[i].pinInBackground(block: { (success, error) in
-//            })
-//          }
           let contentImage = objects?[i].value(forKey: "pic") as! PFFile
           contentImage.getDataInBackground(block: { (data, error) in
             if error == nil{
               let image = UIImage(data:data!)
-              if self.likesSelected {
-                self.likesImageSet[i] = image!
-                self.likesId.append((objects?[i].objectId!)!)
-              }else{
                 self.outfitsImageSet[i] = image!
                 self.outfitId.append((objects?[i].objectId!)!)
-              }
               
               let delayTime = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
               if i == count!-1{

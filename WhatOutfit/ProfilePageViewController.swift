@@ -2,8 +2,8 @@
 //  ProfilePageViewController.swift
 //  UserProfilePage
 //
-//  Created by Becarefullee on 16/10/25.
-//  Copyright © 2016年 Becarefullee. All rights reserved.
+//  Created by Qinyuan Li on 16/10/25.
+//  Copyright © 2016年 Qinyuan Li. All rights reserved.
 //
 
 import UIKit
@@ -15,12 +15,12 @@ class ProfilePageViewController: UICollectionViewController {
 
   fileprivate var outfitsImageSet: [UIImage?] = []
   fileprivate var likesImageSet: [UIImage?] = []
+  fileprivate var likesId: [String?] = []
+  fileprivate var outfitId: [String?] = []
 
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
   fileprivate var numberOfPosts: Int = 0
-  fileprivate var likesId: [String] = []
-  fileprivate var outfitId: [String] = []
   fileprivate var page : Int = 9
   fileprivate var likesSelected: Bool = false
   fileprivate var header: HeaderCollectionReusableView?
@@ -72,6 +72,7 @@ class ProfilePageViewController: UICollectionViewController {
   
   func refresh(_ sender: AnyObject?) {
     loadPosts(from: network)
+    loadLikes(from: network)
     if #available(iOS 10.0, *) {
       self.collectionView?.refreshControl?.endRefreshing()
     } else {
@@ -82,6 +83,7 @@ class ProfilePageViewController: UICollectionViewController {
   func setUpDataSource() {
     loadPosts(from: local)
     loadPosts(from: network)
+    loadLikes(from: network)
   }
 }
 
@@ -99,6 +101,7 @@ extension ProfilePageViewController {
     header?.likesBtn.setTitleColor(defaultBlue, for: .normal)
     header?.outfitsBtn.setTitleColor(greyColor, for: .normal)
     likesSelected = true
+//    loadLikes(from: network)
     collectionView?.reloadData()
   }
 }
@@ -209,12 +212,88 @@ extension ProfilePageViewController {
 
 extension ProfilePageViewController {
   
+  // Load Likes
+  func loadLikes(from: String) {
+    var pid: [String] = []
+    let query = PFQuery(className: "Like")
+    if from == local {
+      query.fromLocalDatastore()
+    }
+    query.whereKey("uid", equalTo: PFUser.current()!.objectId!)
+    query.addDescendingOrder("createdAt")
+    query.findObjectsInBackground { (objects, error) in
+      let count = objects?.count
+      self.likesImageSet.removeAll(keepingCapacity: false)
+      self.likesId.removeAll(keepingCapacity: false)
+      
+      self.likesImageSet = Array(repeating: nil, count: count!) as [UIImage?]
+      self.likesId = Array(repeating: nil, count: count!) as [String?]
+      
+      if count! > 0 {
+        for i in 0...count!-1 {
+          if from == self.network {
+            objects?[i].pinInBackground(block: { (success, error) in
+            })
+          }
+          
+          let query = PFQuery(className: "Post")
+          query.getObjectInBackground(withId: objects?[i].value(forKey: "pid") as! String, block: { (object, error) in
+            guard object != nil else {
+              return
+            }
+            object?.pinInBackground()
+            let contentImage = object?["pic"] as! PFFile
+            contentImage.getDataInBackground(block: { (data, error) in
+              if error == nil {
+                let image = UIImage(data: data!)
+                self.likesImageSet[i] = image!
+                self.likesId.append((object?.objectId!)!)
+                self.collectionView?.reloadData()
+              }
+              else {
+                print(error!.localizedDescription)
+              }
+            })
+          })
+          
+//    Alternatvie way to load like data
+//          if i == count!-1 {
+//            self.collectionView?.reloadData()
+//          }
+//          pid.append(objects?[i].value(forKey: "pid") as! String)
+        }
+        
+        
+//    Alternatvie way to load like data
+//        let query = PFQuery(className: "Post")
+//        query.whereKey("objectId", containedIn: pid)
+//        query.findObjectsInBackground(block: { (objects, error) in
+//          
+//          for i in 0...(objects?.count)!-1 {
+//            objects?[i].pinInBackground()
+//            let contentImage = objects?[i].value(forKey: "pic") as! PFFile
+//            contentImage.getDataInBackground(block: { (data, error) in
+//              if error == nil {
+//                let image = UIImage(data: data!)
+//                self.likesImageSet[i] = image!
+//                self.likesId.append((objects?[i].objectId!)!)
+//              
+//                if i == count!-1 {
+//                    self.collectionView?.reloadData()
+//                }
+//              }else{
+//                print("Getdatafailed")
+//              }
+//            })
+//          }
+//        })
+      }
+    }
+  }
+  
   // Load Outfit
   func loadPosts(from: String) {
-    var query = PFQuery(className: "Post")
-    if likesSelected {
-      query = PFQuery(className: "Like")
-    }
+    let query = PFQuery(className: "Post")
     if from == local {
       query.fromLocalDatastore()
     }
@@ -229,49 +308,40 @@ extension ProfilePageViewController {
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
           let count = objects?.count
-    
-          guard count != 0 else {
-          return
-          }
           self.outfitId.removeAll(keepingCapacity: false)
-          self.likesImageSet.removeAll(keepingCapacity: false)
           self.outfitsImageSet.removeAll(keepingCapacity: false)
           if error == nil {
-            if self.likesSelected {
-              self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
-            }else{
-              self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
-            }
-  
-    
-            for i in 0...count!-1{
-              if from == self.network {
-                objects?[i].pinInBackground(block: { (success, error) in
-                })
-              }
-              let contentImage = objects?[i].value(forKey: "pic") as! PFFile
-              contentImage.getDataInBackground(block: { (data, error) in
-                if error == nil{
-                  let image = UIImage(data:data!)
-                    if self.likesSelected {
-                      self.likesImageSet[i] = image!
-                      self.likesId.append((objects?[i].objectId!)!)
-                    }else{
+            
+            self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+            self.outfitId = Array(repeating: nil, count: count!) as [String?]
+            
+            if count! > 0 {
+              for i in 0...count!-1{
+                if from == self.network {
+                  objects?[i].pinInBackground(block: { (success, error) in
+                  })
+                }
+                let contentImage = objects?[i].value(forKey: "pic") as! PFFile
+                contentImage.getDataInBackground(block: { (data, error) in
+                  if error == nil{
+                    let image = UIImage(data:data!)
                       self.outfitsImageSet[i] = image!
                       self.outfitId.append((objects?[i].objectId!)!)
+                    
+                    let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                    if i == count!-1{
+                      DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
+                        self.collectionView?.reloadData()
+                      })
                     }
-                  
-                   let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                  if i == count!-1{
-                    DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
-                      self.collectionView?.reloadData()
-                    })
+                  }else{
+                    print("Getdatafailed")
                   }
-                }else{
-                  print("Getdatafailed")
-                }
-              })
+                })
+              }
+
             }
+            
           } else {
         print(error!.localizedDescription)
       }
