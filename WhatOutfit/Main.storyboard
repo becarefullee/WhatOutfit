@@ -272,7 +272,7 @@
         <!--Title-->
         <scene sceneID="a89-HP-rPw">
             <objects>
-                <tableViewController id="CbC-5N-LTg" customClass="FollowViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="CbC-5N-LTg" customClass="FollowViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" id="70Y-IZ-4Yj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -349,6 +349,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Title" id="AOp-C6-HEF"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ggc-5F-iqT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,7 +638,7 @@
             <objects>
                 <collectionViewController id="ikn-uM-4QM" customClass="GuestViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9ld-cx-81l">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="yJq-V2-Y2f">
@@ -1170,8 +1171,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sUC-rH-i84"/>
-        <segue reference="yxX-Qe-g49"/>
+        <segue reference="eVk-bx-4wf"/>
         <segue reference="fVH-3I-80n"/>
-        <segue reference="7gy-fI-ML2"/>
+        <segue reference="yxX-Qe-g49"/>
     </inferredMetricsTieBreakers>
 </document>
