@@ -39,6 +39,7 @@ class FollowViewController: UITableViewController {
         } else {
           loadFollowings()
         }
+        tableView.tableFooterView = UIView()
     }
   
   override func viewWillAppear(_ animated: Bool) {

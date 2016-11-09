@@ -196,7 +196,19 @@ extension ProfilePageViewController {
 //    }
 //  }
   
+  @IBAction func likeBtnPressed(_ sender: UIButton) {
+    header?.likesBtn.setTitleColor(defaultBlue, for: .normal)
+    header?.outfitsBtn.setTitleColor(greyColor, for: .normal)
+    likesSelected = true
+    collectionView?.reloadData()
+    scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+  }
+  
   @IBAction func postBtnPressed(_ sender: UIButton) {
+    header?.likesBtn.setTitleColor(greyColor, for: .normal)
+    header?.outfitsBtn.setTitleColor(defaultBlue, for: .normal)
+    likesSelected = false
+    collectionView?.reloadData()
     scrollToCertainPoint(scrollView: collectionView!, point: anchor)
   }
   
