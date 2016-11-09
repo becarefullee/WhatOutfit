@@ -18,10 +18,12 @@ class FollowViewController: UITableViewController {
   var userId: String?
   var userName: String?
   
+  var delay: TimeInterval = -0.1
+  var animateCell: Bool = true
+  
   fileprivate var filterUserNameArray = [String]()
   fileprivate var filterAvaArray = [PFFile]()
   fileprivate var filterNickName = [String]()
-  fileprivate var filterFollow = [String]()
   fileprivate var filterObjectId = [String]()
 
   fileprivate var usernameArray = [String]()
@@ -61,76 +63,11 @@ class FollowViewController: UITableViewController {
    // tableView.reloadData()
   }
   
-    // MARK: - Table view data source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      if searchController.isActive && searchController.searchBar.text != "" {
-        return filterUserNameArray.count
-      }
-        return usernameArray.count
-    }
-
   
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! FollowCell
-      cell.index = indexPath.row
-      cell.selectionStyle = .none
-      
-      if searchController.isActive && searchController.searchBar.text != "" {
-        cell.nickNameLabel.text = filterNickName[indexPath.row]
-        cell.userNameLabel.text = filterUserNameArray[indexPath.row]
-        filterAvaArray[(indexPath as NSIndexPath).row].getDataInBackground { (data:Data?, error) -> Void in
-          if error == nil {
-            cell.avaImageView.image = UIImage(data: data!)
-          } else {
-            print(error!.localizedDescription)
-          }
-        }
-      }else{
-        cell.nickNameLabel.text = nickName[indexPath.row]
-        cell.userNameLabel.text = usernameArray[indexPath.row]
-        avaArray[(indexPath as NSIndexPath).row].getDataInBackground { (data:Data?, error) -> Void in
-          if error == nil {
-            cell.avaImageView.image = UIImage(data: data!)
-          } else {
-            print(error!.localizedDescription)
-          }
-        }
-      }
-
-      self.follow = Array.init(repeating: "", count: usernameArray.count)
-
-      let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
-      
-      if searchController.isActive && searchController.searchBar.text != "" {
-        query.whereKey("following", equalTo: filterObjectId[indexPath.row])
-      }else{
-        query.whereKey("following", equalTo: objectId[indexPath.row])
-      }
-      
-      
-      query.findObjectsInBackground { (objects, error) in
-        if (objects?.count)! > 0 {
-          cell.followBtn.tintColor = UIColor.white
-          cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-          self.follow[indexPath.row] = "FOLLOWING"
-          setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
-        }else if objects?.count == 0{
-          cell.followBtn.tintColor = self.defaultBlue
-          cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-          self.follow[indexPath.row] = "FOLLOW"
-          setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
-        }
-      }
-      
-      if cell.userNameLabel.text == PFUser.current()?.username! {
-        cell.followBtn.isHidden = true
-      }
-      
-      return cell
-    }
- 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    animateCell = false
+  }
   
   func setUpSearchBar() {
     searchController.searchResultsUpdater = self
@@ -162,6 +99,90 @@ class FollowViewController: UITableViewController {
   }
 }
 
+// MARK: - Table view data source and delegate
+
+
+extension FollowViewController {
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if searchController.isActive && searchController.searchBar.text != "" {
+      return filterUserNameArray.count
+    }
+    return usernameArray.count
+  }
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! FollowCell
+    cell.index = indexPath.row
+    cell.selectionStyle = .none
+    
+    if searchController.isActive && searchController.searchBar.text != "" {
+      cell.nickNameLabel.text = filterNickName[indexPath.row]
+      cell.userNameLabel.text = filterUserNameArray[indexPath.row]
+      filterAvaArray[(indexPath as NSIndexPath).row].getDataInBackground { (data:Data?, error) -> Void in
+        if error == nil {
+          cell.avaImageView.image = UIImage(data: data!)
+        } else {
+          print(error!.localizedDescription)
+        }
+      }
+    }else{
+      cell.nickNameLabel.text = nickName[indexPath.row]
+      cell.userNameLabel.text = usernameArray[indexPath.row]
+      avaArray[(indexPath as NSIndexPath).row].getDataInBackground { (data:Data?, error) -> Void in
+        if error == nil {
+          cell.avaImageView.image = UIImage(data: data!)
+        } else {
+          print(error!.localizedDescription)
+        }
+      }
+    }
+    
+    self.follow = Array.init(repeating: "", count: usernameArray.count)
+    
+    let query = PFQuery(className: "Follow")
+    query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+    
+    if searchController.isActive && searchController.searchBar.text != "" {
+      query.whereKey("following", equalTo: filterObjectId[indexPath.row])
+    }else{
+      query.whereKey("following", equalTo: objectId[indexPath.row])
+    }
+    
+    
+    query.findObjectsInBackground { (objects, error) in
+      if (objects?.count)! > 0 {
+        cell.followBtn.tintColor = UIColor.white
+        cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
+        self.follow[indexPath.row] = "FOLLOWING"
+        setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
+      }else if objects?.count == 0{
+        cell.followBtn.tintColor = self.defaultBlue
+        cell.followBtn.setTitle("FOLLOW", for: UIControlState())
+        self.follow[indexPath.row] = "FOLLOW"
+        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
+      }
+    }
+    
+    if cell.userNameLabel.text == PFUser.current()?.username! {
+      cell.followBtn.isHidden = true
+    }
+    
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if animateCell {
+        cell.center.x -= 500
+        delay += 0.1
+        UIView.animate(withDuration: 0.3, delay: delay, options: [.curveEaseIn], animations: {
+          cell.center.x += 500
+        }, completion: nil)
+      }
+    }
+}
+
+//MARK: SearchControl Delegate
 
 extension FollowViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
@@ -170,6 +191,8 @@ extension FollowViewController: UISearchResultsUpdating {
 }
 
 
+
+//:MARK: Load followers/followings
 extension FollowViewController {
   
   
@@ -272,6 +295,8 @@ extension FollowViewController {
 }
 
 
+
+//MARK: Handle btn event
 extension FollowViewController {
   @IBAction func followBtnPressed(_ sender: UIButton) {
     
@@ -394,7 +419,7 @@ extension FollowViewController {
   }
 }
 
-
+//MARK: Segue
 
 extension FollowViewController {
   
