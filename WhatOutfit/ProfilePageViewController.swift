@@ -57,7 +57,7 @@ class ProfilePageViewController: UICollectionViewController {
       UserDefaults.standard.synchronize()
     }
     collectionView?.reloadData()
-    loadPosts(from: network)
+    //loadPosts(from: network)
   }
   
   

@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import Parse
 
+public let greenColor: UIColor = UIColor(red: 71/255, green: 216/255, blue: 14/255, alpha: 1)
+public let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
+
 
 public let likeImage = UIImage(named:"praised")
 public let unlikeImage = UIImage(named:"praise")

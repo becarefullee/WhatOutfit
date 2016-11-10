@@ -34,9 +34,7 @@ class FollowViewController: UITableViewController {
   fileprivate var follow = [String]()
   
 
-  fileprivate let greenColor: UIColor = UIColor(red: 71/255, green: 216/255, blue: 14/255, alpha: 1)
-  fileprivate let defaultBlue: UIColor = UIColor(red: 14/255, green: 122/255, blue: 254/255, alpha: 1)
-
+  
   
   let searchController = UISearchController(searchResultsController: nil)
  
@@ -83,7 +81,6 @@ class FollowViewController: UITableViewController {
     filterUserNameArray.removeAll(keepingCapacity: false)
     filterNickName.removeAll(keepingCapacity: false)
     filterObjectId.removeAll(keepingCapacity: false)
-    
     guard usernameArray.count > 0 else {
       return
     }
@@ -155,12 +152,12 @@ extension FollowViewController {
         cell.followBtn.tintColor = UIColor.white
         cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
         self.follow[indexPath.row] = "FOLLOWING"
-        setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
+        setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
       }else if objects?.count == 0{
-        cell.followBtn.tintColor = self.defaultBlue
+        cell.followBtn.tintColor = defaultBlue
         cell.followBtn.setTitle("FOLLOW", for: UIControlState())
         self.follow[indexPath.row] = "FOLLOW"
-        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
+        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
       }
     }
     
@@ -171,15 +168,15 @@ extension FollowViewController {
     return cell
   }
   
-  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if animateCell {
-        cell.center.x -= 500
-        delay += 0.1
-        UIView.animate(withDuration: 0.3, delay: delay, options: [.curveEaseIn], animations: {
-          cell.center.x += 500
-        }, completion: nil)
-      }
-    }
+//  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//    if animateCell {
+//        cell.center.x -= 500
+//        delay += 0.1
+//        UIView.animate(withDuration: 0.3, delay: delay, options: [.curveEaseIn], animations: {
+//          cell.center.x += 500
+//        }, completion: nil)
+//      }
+//    }
 }
 
 //MARK: SearchControl Delegate
@@ -322,7 +319,7 @@ extension FollowViewController {
           
           cell.followBtn.tintColor = UIColor.white
           cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-          setBtnStyleToColor(sender: cell.followBtn, color: self.greenColor, borderColor: self.greenColor)
+          setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
           
           self.follow[cell.index!] = "FOLLOWING"
           
@@ -376,9 +373,9 @@ extension FollowViewController {
                 
                 print("\(PFUser.current()?.username) unfollow \(self.usernameArray[cell.index!])")
 
-                cell.followBtn.tintColor = self.defaultBlue
+                cell.followBtn.tintColor = defaultBlue
                 cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-                setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: self.defaultBlue)
+                setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
                 
                   self.follow[cell.index!] = "FOLLOW"
                 
@@ -439,5 +436,4 @@ extension FollowViewController {
       dvc.follow = follow[(tableView.indexPathForSelectedRow?.row)!]
     }
   }
-  
 }

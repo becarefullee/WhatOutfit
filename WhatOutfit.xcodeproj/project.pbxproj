@@ -32,6 +32,7 @@
 		1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */; };
 		1895E5DE1DC67F830060F7E8 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D51DC67F830060F7E8 /* HeaderCell.swift */; };
 		1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D61DC67F830060F7E8 /* Post.swift */; };
+		18A158DB1DD3D04A00642483 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A158DA1DD3D04A00642483 /* SearchViewController.swift */; };
 		18CA5D3D1DCC124400E674AC /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CA5D3C1DCC124400E674AC /* GuestViewController.swift */; };
 		18F13A741DC6AF300084F547 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F13A6F1DC6AF300084F547 /* Utility.swift */; };
 		18F13A751DC6AF300084F547 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F13A701DC6AF300084F547 /* User.swift */; };
@@ -73,6 +74,7 @@
 		1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePageViewController.swift; sourceTree = "<group>"; };
 		1895E5D51DC67F830060F7E8 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		1895E5D61DC67F830060F7E8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		18A158DA1DD3D04A00642483 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		18CA5D3C1DCC124400E674AC /* GuestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestViewController.swift; sourceTree = "<group>"; };
 		18F13A6F1DC6AF300084F547 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18F13A701DC6AF300084F547 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				18316E7E1DCA654F0073C06C /* SignInViewController.swift */,
 				18F13A791DC6D6A00084F547 /* TabBarViewController.swift */,
 				18316E821DCA9D870073C06C /* FollowViewController.swift */,
+				18A158DA1DD3D04A00642483 /* SearchViewController.swift */,
 				18CA5D3C1DCC124400E674AC /* GuestViewController.swift */,
 				18F13A731DC6AF300084F547 /* ProfilePageViewController.swift */,
 				1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */,
@@ -317,6 +320,7 @@
 				1895E5DC1DC67F830060F7E8 /* PostContentCell.swift in Sources */,
 				18316E7F1DCA654F0073C06C /* SignInViewController.swift in Sources */,
 				1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */,
+				18A158DB1DD3D04A00642483 /* SearchViewController.swift in Sources */,
 				1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */,
 				18F13A8B1DC6FEBB0084F547 /* FloatingAction.swift in Sources */,
 				18F13A751DC6AF300084F547 /* User.swift in Sources */,
