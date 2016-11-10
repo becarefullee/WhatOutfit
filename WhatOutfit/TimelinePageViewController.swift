@@ -215,8 +215,6 @@ extension TimelinePageViewController {
         cell.likeBtn.setImage(unlikeImage, for: .normal)
       }
     }
-    
-    
   }
   
   
@@ -262,10 +260,17 @@ extension TimelinePageViewController {
 extension TimelinePageViewController {
   // load posts
   func loadPosts(from: String) {
-    
     let followQuery = PFQuery(className: "Follow")
+    
+    if from == "Local" {
+      followQuery.fromLocalDatastore()
+    }
+    
     followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId!)
     followQuery.findObjectsInBackground { (objects, error) in
+      if from == "Network" {
+        PFObject.pinAll(inBackground: objects)
+      }
       if error == nil {
         
         self.followArray.removeAll(keepingCapacity: false)
@@ -277,11 +282,9 @@ extension TimelinePageViewController {
         self.followArray.append(PFUser.current()!.objectId!)
         
         let query = PFQuery(className: "Post")
-        
         if from == "Local" {
           query.fromLocalDatastore()
         }
-        
         query.whereKey("uid", containedIn: self.followArray)
         query.addDescendingOrder("createdAt")
         query.findObjectsInBackground(block: { (objects, error) in
@@ -295,8 +298,8 @@ extension TimelinePageViewController {
             self.likes.removeAll(keepingCapacity: false)
             self.uid.removeAll(keepingCapacity: false)
             
-            let count = objects?.count
             
+            let count = objects?.count
             self.avaImageSet = Array(repeating: nil, count: count!)
             self.contentImageSet = Array(repeating: nil, count: count!)
             self.likeBtn = Array(repeating: nil, count: count!)
@@ -310,25 +313,25 @@ extension TimelinePageViewController {
                 
                 //Query whether current user has liked a item
                 let query = PFQuery(className: "Like")
+                if from == "Local" {
+                  query.fromLocalDatastore()
+                }
+
                 query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
                 query.whereKey("pid", equalTo: objects?[i].objectId!)
                 query.findObjectsInBackground(block: { (objects, error) in
-                  
-                  // Local stroage
-                  if from == "Network" {
-                    PFObject.pinAll(inBackground: objects)
-                  }
-                  
-                  guard error == nil else {
-                    print(error!.localizedDescription)
-                    return
-                  }
                   if objects?.count == 0 {
                     self.likeBtn[i] = false
                     self.tableView.reloadData()
                   }else if (objects?.count)! > 0 {
                     self.likeBtn[i] = true
                     self.tableView.reloadData()
+                  }
+
+                  // Local stroage
+                  if from == "Network" {
+//                    PFObject.pinAll(inBackground: objects)
+                    objects?[i].pinInBackground()
                   }
                 })
                 
