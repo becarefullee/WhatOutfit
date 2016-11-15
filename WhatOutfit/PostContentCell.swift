@@ -12,7 +12,6 @@ import Parse
 protocol postCellDelegate {
   func updateLikeBtn(index: Int, isliked: Bool)
   func performSegue(identifier: String, index: Int)
-  
 }
 
 enum operation {
@@ -29,9 +28,6 @@ class PostContentCell: UITableViewCell {
   var likes: Int?
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
-//  fileprivate let likeImage = UIImage(named:"praised")
-//  fileprivate let unlikeImage = UIImage(named:"praise")
-//  
   
   @IBOutlet weak var contentImage: UIImageView!
   @IBOutlet weak var likeBtn: UIButton!
@@ -118,92 +114,6 @@ class PostContentCell: UITableViewCell {
       })
     }
   }
-  
-  
-  
-//  func updateLikeRelation(operation: operation, cell: PostContentCell) {
-//    switch operation {
-//    case .add:
-//      //Add a like relation
-//      let object = PFObject(className: "Like")
-//      object["uid"] = PFUser.current()?.objectId!
-//      object["pid"] = pid!
-//      object.saveInBackground { (success, error) in
-//        if success {
-//          cell.likeBtn.setImage(cell.likeImage, for: .normal)
-//          cell.likes = cell.likes! + 1
-//          cell.numberOfLikes.text = "\(cell.converLikesToString(numberOfLikes: cell.likes!)) likes"
-//          cell.isLiked = !cell.isLiked!
-//          
-//          print("Update Sucess")
-//          
-//          //CurrentUser's Likes plus one
-//          PFUser.current()?.incrementKey("likes")
-//          PFUser.current()?.saveInBackground(block: { (success, error) in
-//            if success {
-//              print("User likes update")
-//            }
-//          })
-//          //Post's like plus one
-//          let query = PFQuery(className: "Post")
-//          query.getObjectInBackground(withId: cell.pid!, block: { (object, error) in
-//            object?.incrementKey("likes")
-//            object?.saveInBackground(block: { (success, error) in
-//              if success {
-//                print("Likes updated")
-//              }else {
-//                print(error!.localizedDescription)
-//              }
-//            })
-//          })
-//          
-//        }else {
-//          print(error!.localizedDescription)
-//        }
-//      }
-//      
-//    case .delete:
-//      //Delete a like relation
-//      let query = PFQuery(className: "Like")
-//      query.whereKey("pid", equalTo: pid)
-//      query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
-//      query.findObjectsInBackground { (objects, error) in
-//        if (objects?.count)! > 0 {
-//          objects?.first?.deleteInBackground(block: { (success, error) in
-//            if success {
-//              cell.likeBtn.setImage(cell.unlikeImage, for: .normal)
-//              cell.likes = cell.likes! - 1
-//              cell.numberOfLikes.text = "\(cell.converLikesToString(numberOfLikes: cell.likes!)) likes"
-//              cell.isLiked = !cell.isLiked!
-//              print("Delete Success")
-//              
-//              //CurrentUser's Likes minus one
-//              PFUser.current()?.incrementKey("likes", byAmount: -1)
-//              PFUser.current()?.saveInBackground(block: { (success, error) in
-//                if success {
-//                  print("User likes update")
-//                }
-//              })
-//              //Post's like minus one
-//              let query = PFQuery(className: "Post")
-//              query.getObjectInBackground(withId: cell.pid!, block: { (object, error) in
-//                object?.incrementKey("likes", byAmount: -1)
-//                object?.saveInBackground(block: { (success, error) in
-//                  if success {
-//                    print("Likes updated")
-//                  }else {
-//                    print(error!.localizedDescription)
-//                  }
-//                })
-//              })
-//            }else {
-//              print(error!.localizedDescription)
-//            }
-//          })
-//        }
-//      }
-//    }
-//  }
 }
 
 

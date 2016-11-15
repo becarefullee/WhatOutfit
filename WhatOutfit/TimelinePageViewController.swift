@@ -25,6 +25,7 @@ class TimelinePageViewController: UITableViewController {
   fileprivate var detailPagePic: UIImage?
   fileprivate var detailPagePid: String?
   fileprivate var detailPageUid: String?
+  fileprivate var detailPageIndex: Int?
   
   fileprivate var followGuest: String?
   fileprivate var toGuest: String?
@@ -152,7 +153,11 @@ extension TimelinePageViewController: postCellDelegate {
     }else {
       likes[index] -= 1
     }
+    let indexPath = IndexPath.init(row: 0, section: index)
+    tableView.reloadRows(at: [indexPath], with: .none)
   }
+  
+  
   func performSegue(identifier: String, index: Int) {
     detailPagePic = contentImageSet[index]
     detailPageAva = avaImageSet[index]
@@ -162,6 +167,7 @@ extension TimelinePageViewController: postCellDelegate {
     detailPageIsLiked = likeBtn[index]
     detailPagePid = postId[index]
     detailPageUid = uid[index]
+    detailPageIndex = index
     performSegue(withIdentifier: identifier, sender: self)
   }
 }
@@ -179,14 +185,15 @@ extension TimelinePageViewController {
     }
     else if segue.identifier == "showDetail" {
       let dvc = segue.destination as! OutfitDetailViewController
-      dvc.likes.append(detailPageLikes!)
+      dvc.likes = detailPageLikes
       dvc.avaImageSet.append(detailPageAva)
-      dvc.contentImageSet.append(detailPagePic)
       dvc.dateArray.append(detailPageDate!)
-      dvc.likeBtn.append(detailPageIsLiked)
+      dvc.isLiked = detailPageIsLiked
       dvc.postId.append(detailPagePid!)
       dvc.userNameArray.append(detailPageUserName!)
       dvc.uid.append(detailPageUid!)
+      dvc.index = detailPageIndex
+      dvc.delegate = self
     }
   }
 }

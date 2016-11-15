@@ -552,7 +552,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/GuestViewController.swift"
@@ -668,11 +668,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/HeaderCell.swift"
-            timestampString = "500168066.50876"
+            timestampString = "500880742.108147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "handleSingleTap(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -683,108 +683,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WhatOutfit/PostContentCell.swift"
-            timestampString = "500265182.335015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "PostContentCell"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WhatOutfit/PostContentCell.swift"
-            timestampString = "500265182.335015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "PostContentCell"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WhatOutfit/PostContentCell.swift"
-            timestampString = "500265182.335015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "PostContentCell"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WhatOutfit.PostContentCell.(updateLikeRelation (operation : WhatOutfit.PostContentCell.operation) -&gt; ()).(closure #1).(closure #2)"
-                  moduleName = "WhatOutfit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Desktop/WhatOutfit/WhatOutfit/PostContentCell.swift"
-                  timestampString = "500253281.833725"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "145"
-                  endingLineNumber = "145"
-                  offsetFromSymbolStart = "144">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WhatOutfit.PostContentCell.(updateLikeRelation (operation : WhatOutfit.PostContentCell.operation) -&gt; ()).(closure #1).(closure #2).(closure #1)"
-                  moduleName = "WhatOutfit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Desktop/WhatOutfit/WhatOutfit/PostContentCell.swift"
-                  timestampString = "500253281.835613"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "146"
-                  endingLineNumber = "146"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WhatOutfit/PostContentCell.swift"
-            timestampString = "500265182.335015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "PostContentCell"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500265467.000789"
+            timestampString = "500880109.881942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "TimelinePageViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -796,11 +700,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500265467.000789"
+            timestampString = "500880109.881942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -812,11 +716,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500446097.139284"
+            timestampString = "500880448.684855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "loadPosts(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -828,11 +732,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500265467.000789"
+            timestampString = "500880109.881942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -860,11 +764,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500267271.863974"
+            timestampString = "500880109.881942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "performSegue(identifier:guestId:guestName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1002,11 +906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500447142.952306"
+            timestampString = "500880448.684855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "loadPosts(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,11 +922,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500447471.341457"
+            timestampString = "500880448.684855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "tableView(_:willDisplay:forRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,11 +938,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500447674.523911"
+            timestampString = "500880448.684855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "loadPosts(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1050,12 +954,140 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WhatOutfit/TimelinePageViewController.swift"
-            timestampString = "500447674.523911"
+            timestampString = "500880448.684855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "loadPosts(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/OutfitDetailViewController.swift"
+            timestampString = "500880109.881942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "OutfitDetailViewController"
+            landmarkType = "4">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/OutfitDetailViewController.swift"
+            timestampString = "500880109.881942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "numberOfItems(in:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/OutfitDetailViewController.swift"
+            timestampString = "500880109.881942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "OutfitDetailViewController"
+            landmarkType = "4">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/OutfitDetailViewController.swift"
+            timestampString = "500880109.881942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "carousel(_:viewForItemAt:reusing:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/TimelinePageViewController.swift"
+            timestampString = "500880328.103942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "updateLikeBtn(index:isliked:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/TimelinePageViewController.swift"
+            timestampString = "500880329.915806"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "updateLikeBtn(index:isliked:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/OutfitDetailViewController.swift"
+            timestampString = "500880337.352301"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "OutfitDetailViewController"
+            landmarkType = "4">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WhatOutfit/TimelinePageViewController.swift"
+            timestampString = "500880424.799025"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "updateLikeBtn(index:isliked:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

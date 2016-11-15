@@ -15,7 +15,6 @@ protocol CellDelegate {
   
   func performSegue(identifier: String, guestId: String, guestName: String)
   
-  
 }
 
 
