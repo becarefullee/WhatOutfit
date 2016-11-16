@@ -114,7 +114,7 @@ extension AddNewOutfitViewController: UIImagePickerControllerDelegate, UINavigat
     }
     imagePicker.dismiss(animated: true, completion: { _ in
       if self.imageSet.count == 5 {
-        self.imageSet.removeLast()
+//        self.imageSet.removeLast()
         self.ableToAddMore = false
       }
       
@@ -125,13 +125,15 @@ extension AddNewOutfitViewController: UIImagePickerControllerDelegate, UINavigat
 }
 
 
-
-
-
 extension AddNewOutfitViewController: UICollectionViewDataSource, UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return imageSet.count
+    
+    if imageSet.count > 4 {
+      return 4
+    } else {
+      return imageSet.count
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
