@@ -235,7 +235,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7NP-Iw-fUM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7NP-Iw-fUM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -390,6 +390,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="BKW-YT-i9u" id="pyx-sL-izd"/>
+                                    <segue destination="TVY-vy-mGD" kind="show" identifier="showDetail" id="VWX-hx-BFC"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -629,7 +630,6 @@
                     </navigationItem>
                     <connections>
                         <segue destination="CbC-5N-LTg" kind="show" identifier="showFollowers" id="eVk-bx-4wf"/>
-                        <segue destination="TVY-vy-mGD" kind="show" identifier="showDetail" id="a7R-no-VeA"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKr-PX-H7z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -641,7 +641,7 @@
             <objects>
                 <collectionViewController id="ikn-uM-4QM" customClass="GuestViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9ld-cx-81l">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="yJq-V2-Y2f">
@@ -914,7 +914,7 @@
                         <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="5fk-er-rsX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5fk-er-rsX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -935,7 +935,7 @@
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-7"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dpF-hw-tBk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dpF-hw-tBk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1033,11 +1033,11 @@
             <objects>
                 <tableViewController id="TVY-vy-mGD" customClass="OutfitDetailViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="55" sectionFooterHeight="1" id="0w9-Lj-iae">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="DY9-g1-LEk" userLabel="Content">
-                            <rect key="frame" x="0.0" y="103" width="414" height="528"/>
+                            <rect key="frame" x="0.0" y="167" width="414" height="528"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-Z9-hOT" userLabel="Bottom">
@@ -1464,8 +1464,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sUC-rH-i84"/>
-        <segue reference="7gy-fI-ML2"/>
+        <segue reference="eVk-bx-4wf"/>
+        <segue reference="VWX-hx-BFC"/>
         <segue reference="nnz-Kt-WBP"/>
-        <segue reference="HzB-0O-n8F"/>
     </inferredMetricsTieBreakers>
 </document>

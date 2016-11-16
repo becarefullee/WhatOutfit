@@ -34,15 +34,17 @@ class TimelinePageViewController: UITableViewController {
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   fileprivate let contentCellHeight: CGFloat = UIScreen.main.bounds.width + 44
   
+  fileprivate var likes: [Int] = []
   fileprivate var likeBtn: [Bool?] = []
   fileprivate var userNameArray: [String] = []
-  fileprivate var avaArray: [PFFile] = []
+  fileprivate var dateArray: [Date] = []
+  
   fileprivate var postId: [String] = []
   fileprivate var uid: [String] = []
   fileprivate var followArray: [String] = []
-  fileprivate var dateArray: [Date] = []
   fileprivate var picArray: [PFFile] = []
-  fileprivate var likes: [Int] = []
+  fileprivate var avaArray: [PFFile] = []
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -86,10 +88,10 @@ class TimelinePageViewController: UITableViewController {
 //    let indexPath = IndexPath.init(row: 0, section: id)
     let cell = sender.superview?.superview?.superview as! PostContentCell
     if likeBtn[id]! {
-      updateLikeRelation(operation: .delete, cell: cell)
+      cell.updateLikeRelation(operation: .delete)
       likes[id] -= 1
     }else {
-      updateLikeRelation(operation: .add, cell: cell)
+      cell.updateLikeRelation(operation: .add)
       likes[id] += 1
     }
     likeBtn[id] = !likeBtn[id]!
@@ -145,16 +147,19 @@ extension TimelinePageViewController: CellDelegate {
 }
 
 
-extension TimelinePageViewController: postCellDelegate {
-  func updateLikeBtn(index: Int, isliked: Bool) {
+extension TimelinePageViewController: UpdateLike {
+  func updateLikeBtn(index: Int, isliked: Bool, needReload: Bool) {
     likeBtn[index] = isliked
     if isliked {
       likes[index] += 1
     }else {
       likes[index] -= 1
     }
-    let indexPath = IndexPath.init(row: 0, section: index)
-    tableView.reloadRows(at: [indexPath], with: .none)
+    // reloaddata makes animation stop working
+    if needReload {
+      let indexPath = IndexPath.init(row: 0, section: index)
+      tableView.reloadRows(at: [indexPath], with: .none)
+    }
   }
   
   
@@ -186,13 +191,13 @@ extension TimelinePageViewController {
     else if segue.identifier == "showDetail" {
       let dvc = segue.destination as! OutfitDetailViewController
       dvc.likes = detailPageLikes
-      dvc.avaImageSet.append(detailPageAva)
-      dvc.dateArray.append(detailPageDate!)
+      dvc.date = detailPageDate
       dvc.isLiked = detailPageIsLiked
+      dvc.index = detailPageIndex
       dvc.postId.append(detailPagePid!)
       dvc.userNameArray.append(detailPageUserName!)
       dvc.uid.append(detailPageUid!)
-      dvc.index = detailPageIndex
+      dvc.ava = detailPageAva
       dvc.delegate = self
     }
   }
@@ -297,12 +302,12 @@ extension TimelinePageViewController {
         query.findObjectsInBackground(block: { (objects, error) in
           if error == nil {
             
+            self.likes.removeAll(keepingCapacity: false)
             self.userNameArray.removeAll(keepingCapacity: false)
             self.avaArray.removeAll(keepingCapacity: false)
             self.dateArray.removeAll(keepingCapacity: false)
             self.picArray.removeAll(keepingCapacity: false)
             self.postId.removeAll(keepingCapacity: false)
-            self.likes.removeAll(keepingCapacity: false)
             self.uid.removeAll(keepingCapacity: false)
             
             
@@ -357,10 +362,11 @@ extension TimelinePageViewController {
                   }
                 })
                 self.uid.append(objects?[i].object(forKey: "uid") as! String)
-                self.dateArray.append((objects?[i].createdAt)! as Date)
                 self.userNameArray.append(objects?[i].object(forKey: "username") as! String)
                 self.postId.append((objects?[i].objectId!)! as String)
                 self.likes.append(objects?[i].object(forKey: "likes") as! Int)
+                self.dateArray.append((objects?[i].createdAt)! as Date)
+
               }
 
             }

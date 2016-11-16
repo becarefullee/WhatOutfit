@@ -9,16 +9,6 @@
 import UIKit
 import Parse
 
-
-
-protocol CellDelegate {
-  
-  func performSegue(identifier: String, guestId: String, guestName: String)
-  
-}
-
-
-
 class HeaderCell: UITableViewCell {
 
   var userId: String?

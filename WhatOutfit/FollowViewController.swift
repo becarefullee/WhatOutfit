@@ -183,7 +183,7 @@ extension FollowViewController {
 
 extension FollowViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
-    filter(serchText: searchController.searchBar.text!)
+    filter(serchText: (searchController.searchBar.text?.lowercased())!)
   }
 }
 

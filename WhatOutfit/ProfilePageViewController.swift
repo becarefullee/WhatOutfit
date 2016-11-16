@@ -17,6 +17,18 @@ class ProfilePageViewController: UICollectionViewController {
   fileprivate var likesImageSet: [UIImage?] = []
   fileprivate var likesId: [String?] = []
   fileprivate var outfitId: [String?] = []
+  
+  fileprivate var likesLikes: [Int] = []
+  fileprivate var likesLikeBtn: [Bool?] = []
+  fileprivate var likesDateArray: [Date] = []
+  fileprivate var likesAva: [UIImage?] = []
+  fileprivate var likesUsername: [String] = []
+  fileprivate var likesUid: [String] = []
+ 
+  fileprivate var outfitLikes: [Int] = []
+  fileprivate var outfitLikeBtn: [Bool?] = []
+  fileprivate var outfitDateArray: [Date] = []
+  fileprivate var ava: UIImage?
 
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
@@ -71,8 +83,11 @@ class ProfilePageViewController: UICollectionViewController {
 
   
   func refresh(_ sender: AnyObject?) {
-    loadPosts(from: network)
-    loadLikes(from: network)
+    if likesSelected {
+      loadLikes(from: network)
+    }else{
+      loadPosts(from: network)
+    }
     if #available(iOS 10.0, *) {
       self.collectionView?.refreshControl?.endRefreshing()
     } else {
@@ -112,6 +127,17 @@ extension ProfilePageViewController {
 
 extension ProfilePageViewController {
   
+  
+  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    let cell = cell as! ImageCell
+    if likesSelected {
+      cell.imageView.image = likesImageSet[indexPath.row]
+    }else {
+      cell.imageView.image = outfitsImageSet[indexPath.row]
+    }
+  }
+  
+  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if likesSelected {
       return likesImageSet.count
@@ -121,11 +147,6 @@ extension ProfilePageViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCell
-    if likesSelected {
-      cell.imageView.image = likesImageSet[indexPath.row]
-    }else {
-      cell.imageView.image = outfitsImageSet[indexPath.row]
-    }
     return cell
   }
 
@@ -168,6 +189,7 @@ extension ProfilePageViewController {
       if let profilePciture = PFUser.current()!.object(forKey: "ava") as? PFFile {
         profilePciture.getDataInBackground(block: { (data, error) in
           headerView.profilePicture.image = UIImage(data: data!)
+          self.ava = UIImage(data: data!)
         })
       }
     return headerView
@@ -226,7 +248,6 @@ extension ProfilePageViewController {
   
   // Load Likes
   func loadLikes(from: String) {
-    var pid: [String] = []
     let query = PFQuery(className: "Like")
     if from == local {
       query.fromLocalDatastore()
@@ -235,11 +256,19 @@ extension ProfilePageViewController {
     query.addDescendingOrder("createdAt")
     query.findObjectsInBackground { (objects, error) in
       let count = objects?.count
+      
       self.likesImageSet.removeAll(keepingCapacity: false)
       self.likesId.removeAll(keepingCapacity: false)
-      
+      self.likesLikes.removeAll(keepingCapacity: false)
+      self.likesDateArray.removeAll(keepingCapacity: false)
+      self.likesUsername.removeAll(keepingCapacity: false)
+      self.likesUid.removeAll(keepingCapacity: false)
+
+      self.likesAva = Array(repeating: nil, count: count!) as [UIImage?]
       self.likesImageSet = Array(repeating: nil, count: count!) as [UIImage?]
       self.likesId = Array(repeating: nil, count: count!) as [String?]
+      self.likesLikeBtn = Array(repeating: false, count: count!)
+      
       
       if count! > 0 {
         for i in 0...count!-1 {
@@ -259,13 +288,24 @@ extension ProfilePageViewController {
               if error == nil {
                 let image = UIImage(data: data!)
                 self.likesImageSet[i] = image!
-                self.likesId.append((object?.objectId!)!)
+                self.likesId[i] = object?.objectId!
                 self.collectionView?.reloadData()
               }
               else {
                 print(error!.localizedDescription)
               }
             })
+            
+            let avaImage = object?["ava"] as! PFFile
+            avaImage.getDataInBackground(block: { (data, error) in
+              let image = UIImage(data: data!)
+              self.likesAva[i] = image!
+            })
+            
+            self.likesUsername.append(object?["username"] as! String)
+            self.likesLikes.append(object?["likes"] as! Int)
+            self.likesDateArray.append((object?.createdAt)! as Date)
+            self.likesUid.append(object?["uid"] as! String)
           })
           
 //    Alternatvie way to load like data
@@ -320,25 +360,53 @@ extension ProfilePageViewController {
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
           let count = objects?.count
+      
           self.outfitId.removeAll(keepingCapacity: false)
           self.outfitsImageSet.removeAll(keepingCapacity: false)
+          self.outfitLikes.removeAll(keepingCapacity: false)
+          self.outfitDateArray.removeAll(keepingCapacity: false)
+      
+      
           if error == nil {
-            
             self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
             self.outfitId = Array(repeating: nil, count: count!) as [String?]
+            self.outfitLikeBtn = Array(repeating: false, count: count!)
             
             if count! > 0 {
               for i in 0...count!-1{
+                
                 if from == self.network {
                   objects?[i].pinInBackground(block: { (success, error) in
                   })
                 }
+                
+                //Query whether current user has liked a item
+                let query = PFQuery(className: "Like")
+                if from == "Local" {
+                  query.fromLocalDatastore()
+                }
+                
+                query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+                query.whereKey("pid", equalTo: objects?[i].objectId!)
+                query.findObjectsInBackground(block: { (objects, error) in
+                  if objects?.count == 0 {
+                    self.outfitLikeBtn[i] = false
+                  }else if (objects?.count)! > 0 {
+                    self.outfitLikeBtn[i] = true
+                  }
+                  
+                  // Local stroage
+                  if from == "Network" {
+                    objects?[i].pinInBackground()
+                  }
+                })
+
                 let contentImage = objects?[i].value(forKey: "pic") as! PFFile
                 contentImage.getDataInBackground(block: { (data, error) in
                   if error == nil{
                     let image = UIImage(data:data!)
                       self.outfitsImageSet[i] = image!
-                      self.outfitId.append((objects?[i].objectId!)!)
+                      self.outfitId[i] = objects?[i].objectId!
                     
                     let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
                     if i == count!-1{
@@ -350,6 +418,8 @@ extension ProfilePageViewController {
                     print("Getdatafailed")
                   }
                 })
+                self.outfitLikes.append(objects?[i].object(forKey: "likes") as! Int)
+                self.outfitDateArray.append((objects?[i].createdAt)! as Date)
               }
 
             }
@@ -393,8 +463,20 @@ extension ProfilePageViewController {
       let dvc = segue.destination as! OutfitDetailViewController
       if likesSelected {
         dvc.postId.append(likesId[index!]!)
+        dvc.likes = likesLikes[index!]
+        dvc.date = likesDateArray[index!]
+        dvc.userNameArray.append(likesUsername[index!])
+        dvc.uid.append(likesUid[index!])
+        dvc.isLiked = true
+        dvc.ava = likesAva[index!]
       }else {
         dvc.postId.append(outfitId[index!]!)
+        dvc.likes = outfitLikes[index!]
+        dvc.date = outfitDateArray[index!]
+        dvc.isLiked = outfitLikeBtn[index!]
+        dvc.userNameArray.append((PFUser.current()?.username)!)
+        dvc.uid.append((PFUser.current()?.objectId!)!)
+        dvc.ava = ava
       }
     }
   }

@@ -134,7 +134,7 @@ extension SearchViewController {
     
     // find by username
     let usernameQuery = PFUser.query()
-    usernameQuery?.whereKey("username", matchesRegex: "(?i)" + username)
+    usernameQuery?.whereKey("username", matchesRegex: "(?i)" + username.lowercased())
     usernameQuery?.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
         

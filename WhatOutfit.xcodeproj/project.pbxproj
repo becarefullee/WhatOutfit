@@ -32,6 +32,7 @@
 		1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */; };
 		1895E5DE1DC67F830060F7E8 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D51DC67F830060F7E8 /* HeaderCell.swift */; };
 		1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895E5D61DC67F830060F7E8 /* Post.swift */; };
+		1897A93D1DDBF049009C2196 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1897A93C1DDBF049009C2196 /* Protocols.swift */; };
 		18A158DB1DD3D04A00642483 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A158DA1DD3D04A00642483 /* SearchViewController.swift */; };
 		18AF2C2D1DDA68790086F3DD /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF2C2C1DDA68790086F3DD /* iCarousel.m */; };
 		18CA5D3D1DCC124400E674AC /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CA5D3C1DCC124400E674AC /* GuestViewController.swift */; };
@@ -75,6 +76,7 @@
 		1895E5D41DC67F830060F7E8 /* TimelinePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePageViewController.swift; sourceTree = "<group>"; };
 		1895E5D51DC67F830060F7E8 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		1895E5D61DC67F830060F7E8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		1897A93C1DDBF049009C2196 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		18A158DA1DD3D04A00642483 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		18AF2C2A1DDA68780086F3DD /* WhatOutfit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhatOutfit-Bridging-Header.h"; sourceTree = "<group>"; };
 		18AF2C2B1DDA68790086F3DD /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -238,8 +240,9 @@
 		18F13A951DC7E8770084F547 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				18AF2C201DDA5B680086F3DD /* iCarousel */,
+				1897A93C1DDBF049009C2196 /* Protocols.swift */,
 				18F13A6F1DC6AF300084F547 /* Utility.swift */,
+				18AF2C201DDA5B680086F3DD /* iCarousel */,
 				18F13A851DC6FEBB0084F547 /* FloatingActionSheetController */,
 			);
 			name = Utilities;
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F13A761DC6AF300084F547 /* HeaderCollectionReusableView.swift in Sources */,
+				1897A93D1DDBF049009C2196 /* Protocols.swift in Sources */,
 				1895E5DE1DC67F830060F7E8 /* HeaderCell.swift in Sources */,
 				18F13A7A1DC6D6A00084F547 /* TabBarViewController.swift in Sources */,
 				18F13A771DC6AF300084F547 /* ImageCell.swift in Sources */,

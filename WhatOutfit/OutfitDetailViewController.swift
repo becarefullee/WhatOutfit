@@ -7,15 +7,8 @@
 //
 
 
-// 1.Show the collection of the outfit
-// 2.Be able to like the post
-// 3.If the post belongs to current user, there should be a edit btn on the navigation bar
-// 4.
-
 import UIKit
 import Parse
-
-
 
 class OutfitDetailViewController: UITableViewController {
 
@@ -26,25 +19,29 @@ class OutfitDetailViewController: UITableViewController {
   @IBAction func likeBtnPressed(_ sender: UIButton) {
     if isLiked! {
       updateLikeRelation(operation: .delete)
-      delegate?.updateLikeBtn(index: index!, isliked: false)
+      if let index = index {
+        delegate?.updateLikeBtn(index: index, isliked: false, needReload: true)
+      }
     }else{
       updateLikeRelation(operation: .add)
-      delegate?.updateLikeBtn(index: index!, isliked: true)
+      if let index = index {
+        delegate?.updateLikeBtn(index: index, isliked: true, needReload: true)
+      }
     }
   }
   
-    var delegate: postCellDelegate?
+    var delegate: UpdateLike?
   
     var index: Int?
     var count: Int = 0
     var contentImageSet: [UIImage?] = []
-    var avaImageSet: [UIImage?] = []
+    var ava :UIImage?
     var likes: Int?
     var postId: [String] = []
     var isLiked: Bool?
     var userNameArray: [String] = []
     var uid: [String] = []
-    var dateArray: [Date] = []
+    var date: Date?
 
     fileprivate var followGuest: String?
     fileprivate var toGuest: String?
@@ -79,8 +76,8 @@ extension OutfitDetailViewController {
   override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
     let headerCell = view as! HeaderCell
     headerCell.userId = uid[0]
-    headerCell.profileImage.image = avaImageSet[0]
-    headerCell.postTime.text =  headerCell.convertDateToString(date: self.dateArray[0])
+    headerCell.profileImage.image = ava!
+    headerCell.postTime.text =  headerCell.convertDateToString(date: self.date!)
     headerCell.userName.text = userNameArray[0]
     headerCell.backgroundColor = UIColor.white
     headerCell.alpha = 1.0

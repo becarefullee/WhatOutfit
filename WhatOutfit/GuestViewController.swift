@@ -107,6 +107,16 @@ extension GuestViewController {
 
 extension GuestViewController {
   
+  
+  override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    let cell = cell as! ImageCell
+    if likesSelected {
+      cell.imageView.image = likesImageSet[indexPath.row]
+    }else {
+      cell.imageView.image = outfitsImageSet[indexPath.row]
+    }
+  }
+  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if likesSelected {
       return likesImageSet.count
@@ -116,11 +126,6 @@ extension GuestViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCell
-    if likesSelected {
-      cell.imageView.image = likesImageSet[indexPath.row]
-    }else {
-      cell.imageView.image = outfitsImageSet[indexPath.row]
-    }
     return cell
   }
   
