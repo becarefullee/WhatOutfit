@@ -79,11 +79,9 @@ class AddNewOutfitViewController: UIViewController {
   object.saveInBackground (block: { (success:Bool, error) -> Void in
     if error == nil {
       print("Saved successfully!")
-      UserDefaults.standard.set(true, forKey: "hasUpload")
-      UserDefaults.standard.synchronize()
-    }
-  })
-    self.dismiss(animated: true, completion: nil)
+      self.dismiss(animated: true, completion: nil)
+      }
+    })
   }
 }
 

@@ -23,7 +23,18 @@ class GuestViewController: UICollectionViewController {
   fileprivate var likesImageSet: [UIImage?] = []
   fileprivate var likesId: [String?] = []
   fileprivate var outfitId: [String?] = []
-
+  
+  fileprivate var likesLikes: [Int] = []
+  fileprivate var likesLikeBtn: [Bool?] = []
+  fileprivate var likesDateArray: [Date] = []
+  fileprivate var likesAva: [UIImage?] = []
+  fileprivate var likesUsername: [String] = []
+  fileprivate var likesUid: [String] = []
+  
+  fileprivate var outfitLikes: [Int] = []
+  fileprivate var outfitLikeBtn: [Bool?] = []
+  fileprivate var outfitDateArray: [Date] = []
+  fileprivate var ava: UIImage?
   
   fileprivate let network: String = "Network"
   fileprivate let local: String = "Local"
@@ -40,7 +51,7 @@ class GuestViewController: UICollectionViewController {
   fileprivate var cellWidth: CGFloat {
     return (screenWidth - 12) / 3
   }
-  fileprivate let anchor: CGPoint = CGPoint(x:0, y:240)
+  fileprivate let anchor: CGPoint = CGPoint(x: 0, y: 240)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -138,7 +149,7 @@ extension GuestViewController {
       header = headerView
       
       
-      if userName == "Unknown user" {
+      if userName == "Unknown" {
         // call alert
         let alert = UIAlertController(title: "Couldn't", message: "find user.", preferredStyle: UIAlertControllerStyle.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
@@ -216,6 +227,7 @@ extension GuestViewController {
           let image = object?["ava"] as! PFFile
           image.getDataInBackground(block: { (data, error) in
             headerView.profilePicture.image = UIImage(data: data!)
+            self.ava = UIImage(data: data!)
           })
         })
 
@@ -284,11 +296,18 @@ extension GuestViewController {
     query.addDescendingOrder("createdAt")
     query.findObjectsInBackground { (objects, error) in
       let count = objects?.count
+      
       self.likesImageSet.removeAll(keepingCapacity: false)
       self.likesId.removeAll(keepingCapacity: false)
+      self.likesLikes.removeAll(keepingCapacity: false)
+      self.likesDateArray.removeAll(keepingCapacity: false)
+      self.likesUsername.removeAll(keepingCapacity: false)
+      self.likesUid.removeAll(keepingCapacity: false)
       
-      self.likesImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
+      self.likesAva = Array(repeating: nil, count: count!) as [UIImage?]
+      self.likesImageSet = Array(repeating: nil, count: count!) as [UIImage?]
       self.likesId = Array(repeating: nil, count: count!) as [String?]
+      self.likesLikeBtn = Array(repeating: false, count: count!)
     
       if count! > 0 {
         for i in 0...count!-1 {
@@ -302,6 +321,29 @@ extension GuestViewController {
             guard object != nil else {
               return
             }
+            
+            
+            //Query whether current user has liked a item
+            let query = PFQuery(className: "Like")
+            if from == "Local" {
+              query.fromLocalDatastore()
+            }
+            query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+            query.whereKey("pid", equalTo: objects?[i].value(forKey: "pid") as! String)
+            query.findObjectsInBackground(block: { (likes, error) in
+              if likes?.count == 0 {
+                self.outfitLikeBtn[i] = false
+              }else if (likes?.count)! > 0 {
+                self.outfitLikeBtn[i] = true
+              }
+              
+              // Local stroage
+              if from == "Network" {
+                objects?[i].pinInBackground()
+              }
+            })
+
+            
             let contentImage = object?["pic"] as! PFFile
             contentImage.getDataInBackground(block: { (data, error) in
               if error == nil {
@@ -314,6 +356,17 @@ extension GuestViewController {
                 print(error!.localizedDescription)
               }
             })
+            
+            let avaImage = object?["ava"] as! PFFile
+            avaImage.getDataInBackground(block: { (data, error) in
+              let image = UIImage(data: data!)
+              self.likesAva[i] = image!
+            })
+            
+            self.likesUsername.append(object?["username"] as! String)
+            self.likesLikes.append(object?["likes"] as! Int)
+            self.likesDateArray.append((object?.createdAt)! as Date)
+            self.likesUid.append(object?["uid"] as! String)
           })
         }
       }
@@ -332,25 +385,52 @@ extension GuestViewController {
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
       let count = objects?.count
-      
+
       guard count != 0 else {
         return
       }
+      
       self.outfitId.removeAll(keepingCapacity: false)
       self.outfitsImageSet.removeAll(keepingCapacity: false)
+      self.outfitLikes.removeAll(keepingCapacity: false)
+      self.outfitDateArray.removeAll(keepingCapacity: false)
+
       if error == nil {
 
         self.outfitsImageSet = Array(repeating: UIImage(named: "pbg"), count: count!) as [UIImage?]
         self.outfitId = Array(repeating: nil, count: count!) as [String?]
+        self.outfitLikeBtn = Array(repeating: false, count: count!)
+
         
-        for i in 0...count!-1{
+        for i in 0...count!-1 {
+          
+          //Query whether current user has liked a item
+          let query = PFQuery(className: "Like")
+          if from == "Local" {
+            query.fromLocalDatastore()
+          }
+          query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+          query.whereKey("pid", equalTo: objects?[i].objectId!)
+          query.findObjectsInBackground(block: { (objects, error) in
+            if objects?.count == 0 {
+              self.outfitLikeBtn[i] = false
+            }else if (objects?.count)! > 0 {
+              self.outfitLikeBtn[i] = true
+            }
+            
+            // Local stroage
+            if from == "Network" {
+              objects?[i].pinInBackground()
+            }
+          })
+
+
           let contentImage = objects?[i].value(forKey: "pic") as! PFFile
           contentImage.getDataInBackground(block: { (data, error) in
             if error == nil{
               let image = UIImage(data:data!)
                 self.outfitsImageSet[i] = image!
-                self.outfitId.append((objects?[i].objectId!)!)
-              
+                self.outfitId[i] = objects?[i].objectId!
               let delayTime = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
               if i == count!-1{
                 DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
@@ -361,6 +441,8 @@ extension GuestViewController {
               print("GetDataFailed")
             }
           })
+          self.outfitLikes.append(objects?[i].object(forKey: "likes") as! Int)
+          self.outfitDateArray.append((objects?[i].createdAt)! as Date)
         }
       } else {
         print(error!.localizedDescription)
@@ -377,14 +459,12 @@ extension GuestViewController {
 extension GuestViewController {
   
   @IBAction func following(_ sender: UIButton) {
-    
     to = "Following"
     performSegue(withIdentifier: "showFollowers", sender: sender)
     
   }
   
   @IBAction func follower(_ sender: UIButton) {
-    
     to = "Followers"
     performSegue(withIdentifier: "showFollowers", sender: sender)
     
@@ -395,6 +475,26 @@ extension GuestViewController {
       let dvc = segue.destination as! FollowViewController
       dvc.userId = guestId
       dvc.userName = userName
+    } else if segue.identifier == "showDetail" {
+      let index = collectionView?.indexPathsForSelectedItems?.first?.row
+      let dvc = segue.destination as! OutfitDetailViewController
+      if likesSelected {
+        dvc.postId.append(likesId[index!]!)
+        dvc.likes = likesLikes[index!]
+        dvc.date = likesDateArray[index!]
+        dvc.userNameArray.append(likesUsername[index!])
+        dvc.uid.append(likesUid[index!])
+        dvc.isLiked = likesLikeBtn[index!]
+        dvc.ava = likesAva[index!]
+      }else {
+        dvc.postId.append(outfitId[index!]!)
+        dvc.likes = outfitLikes[index!]
+        dvc.date = outfitDateArray[index!]
+        dvc.isLiked = outfitLikeBtn[index!]
+        dvc.userNameArray.append(userName!)
+        dvc.uid.append(guestId!)
+        dvc.ava = ava
+      }
     }
   }
 

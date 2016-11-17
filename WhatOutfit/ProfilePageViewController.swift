@@ -48,7 +48,6 @@ class ProfilePageViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpDataSource()
         setUpForNavigationBar()
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
@@ -62,14 +61,11 @@ class ProfilePageViewController: UICollectionViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    let hasUpload = UserDefaults.standard.bool(forKey: "hasUpload")
-    if hasUpload {
+    if likesSelected {
+      loadLikes(from: network)
+    }else{
       loadPosts(from: network)
-      UserDefaults.standard.set(false, forKey: "hasUpload")
-      UserDefaults.standard.synchronize()
     }
-    collectionView?.reloadData()
-    //loadPosts(from: network)
   }
   
   
@@ -93,12 +89,6 @@ class ProfilePageViewController: UICollectionViewController {
     } else {
       // Fallback on earlier versions
     }
-  }
-
-  func setUpDataSource() {
-    loadPosts(from: local)
-    loadPosts(from: network)
-    loadLikes(from: network)
   }
 }
 
@@ -133,6 +123,7 @@ extension ProfilePageViewController {
     if likesSelected {
       cell.imageView.image = likesImageSet[indexPath.row]
     }else {
+      print(indexPath.row)
       cell.imageView.image = outfitsImageSet[indexPath.row]
     }
   }
@@ -354,9 +345,6 @@ extension ProfilePageViewController {
 //    }
     query.whereKey("uid", equalTo: PFUser.current()!.objectId!)
     query.addDescendingOrder("createdAt")
-    
-   
-
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
           let count = objects?.count
@@ -421,9 +409,10 @@ extension ProfilePageViewController {
                 self.outfitLikes.append(objects?[i].object(forKey: "likes") as! Int)
                 self.outfitDateArray.append((objects?[i].createdAt)! as Date)
               }
-
             }
-            
+            else {
+            self.collectionView?.reloadData()
+            }
           } else {
         print(error!.localizedDescription)
       }
@@ -469,6 +458,7 @@ extension ProfilePageViewController {
         dvc.uid.append(likesUid[index!])
         dvc.isLiked = true
         dvc.ava = likesAva[index!]
+        dvc.index = index
       }else {
         dvc.postId.append(outfitId[index!]!)
         dvc.likes = outfitLikes[index!]
@@ -477,6 +467,7 @@ extension ProfilePageViewController {
         dvc.userNameArray.append((PFUser.current()?.username)!)
         dvc.uid.append((PFUser.current()?.objectId!)!)
         dvc.ava = ava
+        dvc.index = index
       }
     }
   }
