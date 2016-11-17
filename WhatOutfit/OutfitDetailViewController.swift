@@ -15,6 +15,37 @@ class OutfitDetailViewController: UITableViewController {
   @IBOutlet var carousel: iCarousel!
   @IBOutlet weak var likesLabel: UILabel!
   @IBOutlet weak var likeBtn: UIButton!
+  
+  @IBOutlet weak var moreBtn: UIBarButtonItem!
+  
+  
+  @IBAction func actions(_ sender: UIBarButtonItem) {
+    let delete = FloatingAction(title: "Delete") { action in
+      self.deleteOutfit()
+    }
+    if userNameArray.first == PFUser.current()?.username {
+      delete.textColor = UIColor.white
+      delete.tintColor = UIColor(red: 1, green: 0.41, blue: 0.38, alpha: 1)
+      delete.font = UIFont(name: "Avenir-Light", size: 17)
+      let cancel = FloatingAction(title: "Cancel") { action in
+      }
+      cancel.textColor = UIColor.black
+      cancel.tintColor = UIColor.white
+      cancel.font = UIFont(name: "Avenir-Light", size: 17)
+      let group1 = FloatingActionGroup(action: delete, cancel)
+      FloatingActionSheetController(actionGroup: group1,animationStyle: .slideUp)
+        .present(in: self)
+    } else {
+      let cancel = FloatingAction(title: "Cancel") { action in
+      }
+      cancel.textColor = UIColor.black
+      cancel.tintColor = UIColor.white
+      cancel.font = UIFont(name: "Avenir-Light", size: 17)
+      let group1 = FloatingActionGroup(action: cancel)
+      FloatingActionSheetController(actionGroup: group1,animationStyle: .slideUp)
+        .present(in: self)
+    }
+  }
 
   @IBAction func likeBtnPressed(_ sender: UIButton) {
     if isLiked! {
@@ -31,6 +62,7 @@ class OutfitDetailViewController: UITableViewController {
   }
   
     var delegate: UpdateLike?
+  
   
     var index: Int?
     var count: Int = 0
@@ -313,6 +345,52 @@ extension OutfitDetailViewController {
       }
     }
   }
+  
+  func deleteOutfit() {
+    let query = PFQuery(className: "Post")
+    query.getObjectInBackground(withId: postId.first!) { (object, error) in
+      let imageData = UIImageJPEGRepresentation(UIImage(named: "unknown")!, 0.5)
+      let file = PFFile(name: "unknown", data: imageData!)
+      object?["uid"] = ""
+      object?["username"] = "Unknown"
+      object?["ava"] = file
+      object?.saveInBackground(block: { (success, error) in
+        print("ChangeSuccess")
+        PFUser.current()?.incrementKey("posts", byAmount: -1)
+        PFUser.current()?.saveInBackground()
+        self.navigationController?.popViewController(animated: true)
+      })
+      
+   /*   object?.deleteInBackground(block: { (success, error) in
+        if success {
+          PFUser.current()?.incrementKey("posts", byAmount: -1)
+          PFUser.current()?.saveInBackground()
+          
+          let query = PFQuery(className: "Like")
+          query.whereKey("pid", equalTo: self.postId.first!)
+          query.findObjectsInBackground(block: { (objects, error) in
+      
+            var relatedUser: [String] = []
+            for object in objects! {
+              relatedUser.append(object["uid"] as! String)
+              object["uid"] = ""
+              object.saveInBackground()
+            }
+//            let query = PFQuery(className: "UserInfo")
+//            query.whereKey("uid", containedIn: relatedUser)
+//            query.findObjectsInBackground(block: { (objects, error) in
+//              for object in objects! {
+//                object.incrementKey("like", byAmount: -1)
+//                object.saveInBackground()
+//              }
+//            })
+            
+          })       
+         }
+       })    */
+    }
+  }
+  
 }
 
 

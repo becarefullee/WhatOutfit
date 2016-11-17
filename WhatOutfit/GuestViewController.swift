@@ -44,8 +44,10 @@ class GuestViewController: UICollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    loadPosts(from: network)
-    loadLikes(from: network)
+    if guestId != "" {
+      loadLikes(from: network)
+      loadPosts(from: network)
+    }
     setUpForNavigationBar()
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
@@ -59,7 +61,9 @@ class GuestViewController: UICollectionViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     collectionView?.reloadData()
-    loadPosts(from: network)
+    if guestId != "" {
+      loadPosts(from: network)
+    }
   }
   
   func setUpForNavigationBar() {
@@ -106,8 +110,6 @@ extension GuestViewController {
 
 
 extension GuestViewController {
-  
-  
   override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     let cell = cell as! ImageCell
     if likesSelected {
@@ -121,7 +123,7 @@ extension GuestViewController {
     if likesSelected {
       return likesImageSet.count
     }
-    return outfitsImageSet.count
+      return outfitsImageSet.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -135,59 +137,89 @@ extension GuestViewController {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "collectionHeader", for: indexPath) as! HeaderCollectionReusableView
       header = headerView
       
-      if PFUser.current()?.username == userName {
-        self.header?.editProfile.setTitle("Edit Profile", for: .normal)
-        self.header?.editProfile.tintColor = UIColor.black
-        setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
-      }else {
-        if follow == "FOLLOW" {
-          self.header?.editProfile.tintColor = self.defaultBlue
-          self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
-          setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
-        }else{
-          self.header?.editProfile.tintColor = UIColor.white
-          self.header?.editProfile.setTitle("FOLLOWING", for: UIControlState())
-          setBtnStyleToColor(sender: (self.header?.editProfile)!, color: self.greenColor, borderColor: self.greenColor)
-        }
-      }
-
-      let query = PFUser.query()
-      query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
-    
-        let query = PFQuery(className: "UserInfo")
-        query.whereKey("uid", equalTo: self.guestId)
-        query.getFirstObjectInBackground(block: { (object, error) in
-          //Followers
-          let followers = object?["followers"] as! Int
-          headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
-          
-          //Followings
-          let followings = object?["followings"] as! Int
-          headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
+      
+      if userName == "Unknown user" {
+        // call alert
+        let alert = UIAlertController(title: "Couldn't", message: "find user.", preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
+          self.navigationController?.popViewController(animated: true)
         })
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
         
+        self.header?.editProfile.tintColor = self.defaultBlue
+        self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
+        setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
         
+        headerView.numberOfFollowers.setTitle("0", for: .normal)
+        headerView.numberOfFollowing.setTitle("0", for: .normal)
+
         //Nickname
-        headerView.nameLabel.text = object?["username"] as? String
-        
+        headerView.nameLabel.text = "Unknown"
         //Likes
-        let likes = object?["likes"] as! Int
-        headerView.numberOfLikes.setTitle("\(likes)", for: .normal)
+        headerView.numberOfLikes.setTitle("0", for: .normal)
         
         //What's up
-        headerView.whatsupLabel.text = object?["bio"] as? String
+        headerView.whatsupLabel.text = ""
         
         //Post
-        let posts = object?["posts"] as! Int
-        headerView.numberOfPosts.setTitle("\(posts)", for: .normal)
+        headerView.numberOfPosts.setTitle("0", for: .normal)
         
+        headerView.profilePicture.image = UIImage(named: "unknown")
+      } else {
+        if PFUser.current()?.username == userName {
+          self.header?.editProfile.setTitle("Edit Profile", for: .normal)
+          self.header?.editProfile.tintColor = UIColor.black
+          setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
+        }else {
+          if follow == "FOLLOW" {
+            self.header?.editProfile.tintColor = self.defaultBlue
+            self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
+            setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
+          }else{
+            self.header?.editProfile.tintColor = UIColor.white
+            self.header?.editProfile.setTitle("FOLLOWING", for: UIControlState())
+            setBtnStyleToColor(sender: (self.header?.editProfile)!, color: self.greenColor, borderColor: self.greenColor)
+          }
+        }
         
-        //Ava
-        let image = object?["ava"] as! PFFile
-        image.getDataInBackground(block: { (data, error) in
-          headerView.profilePicture.image = UIImage(data: data!)
+        let query = PFUser.query()
+        query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
+          
+          let query = PFQuery(className: "UserInfo")
+          query.whereKey("uid", equalTo: self.guestId)
+          query.getFirstObjectInBackground(block: { (object, error) in
+            //Followers
+            let followers = object?["followers"] as! Int
+            headerView.numberOfFollowers.setTitle("\(followers)", for: .normal)
+            
+            //Followings
+            let followings = object?["followings"] as! Int
+            headerView.numberOfFollowing.setTitle("\(followings)", for: .normal)
+          })
+          
+          //Nickname
+          headerView.nameLabel.text = object?["username"] as? String
+          
+          //Likes
+          let likes = object?["likes"] as! Int
+          headerView.numberOfLikes.setTitle("\(likes)", for: .normal)
+          
+          //What's up
+          headerView.whatsupLabel.text = object?["bio"] as? String
+          
+          //Post
+          let posts = object?["posts"] as! Int
+          headerView.numberOfPosts.setTitle("\(posts)", for: .normal)
+          
+          //Ava
+          let image = object?["ava"] as! PFFile
+          image.getDataInBackground(block: { (data, error) in
+            headerView.profilePicture.image = UIImage(data: data!)
+          })
         })
-      })
+
+      }
     return headerView
     default:
       assert(false, "Unexpected element kind")

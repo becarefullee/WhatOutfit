@@ -66,9 +66,9 @@ class TimelinePageViewController: UITableViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     //loadPosts(from: "Network")
-    let statusView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 20))
-    statusView.backgroundColor = UIColor.white
-    UIApplication.shared.keyWindow?.addSubview(statusView)
+//    let statusView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 20))
+//    statusView.backgroundColor = UIColor.white
+//    UIApplication.shared.keyWindow?.addSubview(statusView)
   }
   
   

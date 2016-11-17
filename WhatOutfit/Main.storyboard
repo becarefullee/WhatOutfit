@@ -283,7 +283,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sxr-Hb-sEi" id="yI2-a6-swA">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="63"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuu-FF-ZvC">
@@ -359,7 +359,7 @@
         <scene sceneID="ZIb-ar-7zn">
             <objects>
                 <collectionViewController id="HN8-rP-Yoc" customClass="ProfilePageViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="dxm-2S-tyj">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="dxm-2S-tyj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -640,7 +640,7 @@
         <scene sceneID="bgY-AW-cjJ">
             <objects>
                 <collectionViewController id="ikn-uM-4QM" customClass="GuestViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9ld-cx-81l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9ld-cx-81l">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1162,11 +1162,19 @@
                             <outlet property="delegate" destination="TVY-vy-mGD" id="xn1-vP-nc4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Detail" id="4z4-JQ-4gB"/>
+                    <navigationItem key="navigationItem" title="Detail" id="4z4-JQ-4gB">
+                        <barButtonItem key="rightBarButtonItem" image="更多" id="xYt-xp-h3x">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="actions:" destination="TVY-vy-mGD" id="LhQ-iD-zB1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="carousel" destination="eeX-iQ-Zub" id="kbe-cb-V9S"/>
                         <outlet property="likeBtn" destination="0tV-R5-0d4" id="tPc-c2-Xy0"/>
                         <outlet property="likesLabel" destination="Pp8-eZ-GR2" id="orb-MN-q6O"/>
+                        <outlet property="moreBtn" destination="xYt-xp-h3x" id="uoW-GE-m9K"/>
                         <segue destination="ikn-uM-4QM" kind="show" identifier="showGuest" id="nnz-Kt-WBP"/>
                     </connections>
                 </tableViewController>
@@ -1210,7 +1218,7 @@
                                         <rect key="frame" x="0.0" y="55" width="414" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MhT-1A-Bfn" id="HcJ-TH-KG2">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="47"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6bl-xP-aGK">
@@ -1301,7 +1309,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dRa-0j-ewa" id="Hhr-IJ-ybM">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="63"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8v-SR-HJv">
@@ -1457,6 +1465,7 @@
         <image name="pbg" width="200" height="200"/>
         <image name="praise" width="64" height="64"/>
         <image name="主页" width="32" height="32"/>
+        <image name="更多" width="32" height="32"/>
         <image name="消息" width="32" height="32"/>
         <image name="添加好友 " width="32" height="32"/>
         <image name="用户" width="32" height="32"/>

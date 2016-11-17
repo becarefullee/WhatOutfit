@@ -25,7 +25,7 @@ open class FloatingActionSheetController: UIViewController {
     open var font = UIFont.boldSystemFont(ofSize: 14)
     open var textColor = UIColor.white
     open var dimmingColor = UIColor(white: 0, alpha: 0.7)
-    open var pushBackScale: CGFloat = 0.85
+    open var pushBackScale: CGFloat = 1
     
     public convenience init(animationStyle: AnimationStyle) {
         self.init(nibName: nil, bundle: nil)
