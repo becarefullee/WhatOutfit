@@ -154,7 +154,7 @@ class SignInViewController: UIViewController {
         }
         
         // login functions
-        PFUser.logInWithUsername(inBackground: usernameTxt.text!, password: passwordTxt.text!) { (user:PFUser?, error) -> Void in
+        PFUser.logInWithUsername(inBackground: usernameTxt.text!.lowercased(), password: passwordTxt.text!) { (user:PFUser?, error) -> Void in
             if error == nil {
                 
                 // remember user or save in App Memeory did the user login or not

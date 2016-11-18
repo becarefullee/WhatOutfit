@@ -331,6 +331,9 @@ extension ProfilePageViewController {
 //          }
 //        })
       }
+      else {
+        self.collectionView?.reloadData()
+      }
     }
   }
   
