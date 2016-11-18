@@ -24,12 +24,12 @@ class GuestViewController: UICollectionViewController {
   fileprivate var likesId: [String?] = []
   fileprivate var outfitId: [String?] = []
   
-  fileprivate var likesLikes: [Int] = []
+  fileprivate var likesLikes: [Int?] = []
   fileprivate var likesLikeBtn: [Bool?] = []
-  fileprivate var likesDateArray: [Date] = []
+  fileprivate var likesDateArray: [Date?] = []
   fileprivate var likesAva: [UIImage?] = []
-  fileprivate var likesUsername: [String] = []
-  fileprivate var likesUid: [String] = []
+  fileprivate var likesUsername: [String?] = []
+  fileprivate var likesUid: [String?] = []
   
   fileprivate var outfitLikes: [Int] = []
   fileprivate var outfitLikeBtn: [Bool?] = []
@@ -198,7 +198,7 @@ extension GuestViewController {
         query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
           
           let query = PFQuery(className: "UserInfo")
-          query.whereKey("uid", equalTo: self.guestId)
+          query.whereKey("uid", equalTo: self.guestId as Any)
           query.getFirstObjectInBackground(block: { (object, error) in
             //Followers
             let followers = object?["followers"] as! Int
@@ -303,11 +303,18 @@ extension GuestViewController {
       self.likesDateArray.removeAll(keepingCapacity: false)
       self.likesUsername.removeAll(keepingCapacity: false)
       self.likesUid.removeAll(keepingCapacity: false)
+      self.likesAva.removeAll(keepingCapacity: false)
+      self.likesLikeBtn.removeAll(keepingCapacity: false)
       
+      self.likesLikes = Array(repeating: nil, count: count!) as [Int?]
       self.likesAva = Array(repeating: nil, count: count!) as [UIImage?]
       self.likesImageSet = Array(repeating: nil, count: count!) as [UIImage?]
       self.likesId = Array(repeating: nil, count: count!) as [String?]
       self.likesLikeBtn = Array(repeating: false, count: count!)
+      self.likesUsername = Array(repeating: nil, count: count!) as [String?]
+      self.likesDateArray = Array(repeating: nil, count: count!) as [Date?]
+      self.likesUid = Array(repeating: nil, count: count!) as [String?]
+
     
       if count! > 0 {
         for i in 0...count!-1 {
@@ -328,13 +335,13 @@ extension GuestViewController {
             if from == "Local" {
               query.fromLocalDatastore()
             }
-            query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+            query.whereKey("uid", equalTo: PFUser.current()?.objectId! as Any)
             query.whereKey("pid", equalTo: objects?[i].value(forKey: "pid") as! String)
             query.findObjectsInBackground(block: { (likes, error) in
               if likes?.count == 0 {
-                self.outfitLikeBtn[i] = false
+                self.likesLikeBtn[i] = false
               }else if (likes?.count)! > 0 {
-                self.outfitLikeBtn[i] = true
+                self.likesLikeBtn[i] = true
               }
               
               // Local stroage
@@ -363,10 +370,10 @@ extension GuestViewController {
               self.likesAva[i] = image!
             })
             
-            self.likesUsername.append(object?["username"] as! String)
-            self.likesLikes.append(object?["likes"] as! Int)
-            self.likesDateArray.append((object?.createdAt)! as Date)
-            self.likesUid.append(object?["uid"] as! String)
+            self.likesUsername[i] = object?["username"] as? String
+            self.likesLikes[i] = object?["likes"] as? Int
+            self.likesDateArray[i] = (object?.createdAt)! as Date
+            self.likesUid[i] = object?["uid"] as? String
           })
         }
       }
@@ -380,7 +387,7 @@ extension GuestViewController {
       query.fromLocalDatastore()
     }
 
-    query.whereKey("uid", equalTo: guestId)
+    query.whereKey("uid", equalTo: guestId as Any)
     query.addDescendingOrder("createdAt")
     query.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       
@@ -409,8 +416,8 @@ extension GuestViewController {
           if from == "Local" {
             query.fromLocalDatastore()
           }
-          query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
-          query.whereKey("pid", equalTo: objects?[i].objectId!)
+          query.whereKey("uid", equalTo: PFUser.current()?.objectId! as Any)
+          query.whereKey("pid", equalTo: objects?[i].objectId! as Any)
           query.findObjectsInBackground(block: { (objects, error) in
             if objects?.count == 0 {
               self.outfitLikeBtn[i] = false
@@ -482,8 +489,8 @@ extension GuestViewController {
         dvc.postId.append(likesId[index!]!)
         dvc.likes = likesLikes[index!]
         dvc.date = likesDateArray[index!]
-        dvc.userNameArray.append(likesUsername[index!])
-        dvc.uid.append(likesUid[index!])
+        dvc.userNameArray = likesUsername[index!]
+        dvc.uid = likesUid[index!]
         dvc.isLiked = likesLikeBtn[index!]
         dvc.ava = likesAva[index!]
       }else {
@@ -491,8 +498,8 @@ extension GuestViewController {
         dvc.likes = outfitLikes[index!]
         dvc.date = outfitDateArray[index!]
         dvc.isLiked = outfitLikeBtn[index!]
-        dvc.userNameArray.append(userName!)
-        dvc.uid.append(guestId!)
+        dvc.userNameArray = userName!
+        dvc.uid = guestId!
         dvc.ava = ava
       }
     }
@@ -552,8 +559,8 @@ extension GuestViewController {
     // unfollow
       follow = "FOLLOW"
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
-      query.whereKey("following", equalTo: guestId)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+      query.whereKey("following", equalTo: guestId as Any)
       query.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
         if error == nil {
           for object in objects! {

@@ -138,7 +138,7 @@ extension FollowViewController {
     self.follow = Array.init(repeating: "", count: usernameArray.count)
     
     let query = PFQuery(className: "Follow")
-    query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+    query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
     
     if searchController.isActive && searchController.searchBar.text != "" {
       query.whereKey("following", equalTo: filterObjectId[indexPath.row])
@@ -196,7 +196,7 @@ extension FollowViewController {
   func loadFollowers() {
     
     let followQuery = PFQuery(className: "Follow")
-    followQuery.whereKey("following", equalTo:userId)
+    followQuery.whereKey("following", equalTo:userId as Any)
     followQuery.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
         
@@ -355,7 +355,7 @@ extension FollowViewController {
     } else {
       
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
       
       if searchController.isActive && searchController.searchBar.text != "" {
         query.whereKey("following", equalTo: filterObjectId[cell.index!])

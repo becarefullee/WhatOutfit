@@ -98,7 +98,7 @@ class SignInViewController: UIViewController {
     user.signUpInBackground { (success, error) in
       if success {
         print("registered")
-        print(PFUser.current()?.objectId)
+        print(PFUser.current()?.objectId as Any)
         let userInfo = PFObject(className: "UserInfo")
         userInfo["uid"] = PFUser.current()?.objectId!
         userInfo["followings"] = 1

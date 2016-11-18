@@ -156,8 +156,8 @@ class PostContentCell: UITableViewCell {
     case .delete:
       //Delete a like relation
       let query = PFQuery(className: "Like")
-      query.whereKey("pid", equalTo: self.pid)
-      query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("pid", equalTo: self.pid as Any)
+      query.whereKey("uid", equalTo: PFUser.current()?.objectId! as Any)
       query.findObjectsInBackground { (objects, error) in
         if (objects?.count)! > 0 {
           objects?.first?.deleteInBackground(block: { (success, error) in

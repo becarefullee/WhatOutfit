@@ -127,7 +127,7 @@ extension TimelinePageViewController: CellDelegate {
     // Query follow realtion
     if PFUser.current()?.objectId != guestId {
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
       query.whereKey("following", equalTo: guestId)
       query.countObjectsInBackground (block: { (count:Int32, error) -> Void in
         if error == nil {
@@ -195,8 +195,8 @@ extension TimelinePageViewController {
       dvc.isLiked = detailPageIsLiked
       dvc.index = detailPageIndex
       dvc.postId.append(detailPagePid!)
-      dvc.userNameArray.append(detailPageUserName!)
-      dvc.uid.append(detailPageUid!)
+      dvc.userNameArray = detailPageUserName
+      dvc.uid = detailPageUid
       dvc.ava = detailPageAva
       dvc.delegate = self
     }
@@ -278,7 +278,7 @@ extension TimelinePageViewController {
       followQuery.fromLocalDatastore()
     }
     
-    followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+    followQuery.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
     followQuery.findObjectsInBackground { (objects, error) in
       if from == "Network" {
         PFObject.pinAll(inBackground: objects)
@@ -329,8 +329,8 @@ extension TimelinePageViewController {
                   query.fromLocalDatastore()
                 }
 
-                query.whereKey("uid", equalTo: PFUser.current()?.objectId!)
-                query.whereKey("pid", equalTo: objects?[i].objectId!)
+                query.whereKey("uid", equalTo: PFUser.current()?.objectId! as Any)
+                query.whereKey("pid", equalTo: objects?[i].objectId! as Any)
                 query.findObjectsInBackground(block: { (objects, error) in
                   if objects?.count == 0 {
                     self.likeBtn[i] = false

@@ -100,7 +100,7 @@ extension SearchViewController {
     self.follow = Array.init(repeating: "", count: usernameArray.count)
     
     let query = PFQuery(className: "Follow")
-    query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+    query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
     query.whereKey("following", equalTo: objectId[indexPath.row])
     
     query.findObjectsInBackground { (objects, error) in
@@ -240,7 +240,7 @@ extension SearchViewController {
     } else {
       
       let query = PFQuery(className: "Follow")
-      query.whereKey("follower", equalTo: PFUser.current()?.objectId!)
+      query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
       query.whereKey("following", equalTo: objectId[cell.index!])
       
       query.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in

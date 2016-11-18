@@ -641,7 +641,7 @@
             <objects>
                 <collectionViewController id="ikn-uM-4QM" customClass="GuestViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9ld-cx-81l">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="yJq-V2-Y2f">
@@ -1033,11 +1033,11 @@
             <objects>
                 <tableViewController id="TVY-vy-mGD" customClass="OutfitDetailViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="55" sectionFooterHeight="1" id="0w9-Lj-iae">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="DY9-g1-LEk" userLabel="Content">
-                            <rect key="frame" x="0.0" y="167" width="414" height="528"/>
+                            <rect key="frame" x="0.0" y="103" width="414" height="528"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-Z9-hOT" userLabel="Bottom">
@@ -1075,7 +1075,7 @@
                                     <rect key="frame" x="0.0" y="414" width="414" height="0.0"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="0.20000000000000001" id="DzQ-j1-pzd"/>
+                                        <constraint firstAttribute="height" constant="0.40000000000000002" id="DzQ-j1-pzd"/>
                                     </constraints>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeX-iQ-Zub" customClass="iCarousel">
@@ -1345,7 +1345,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xPU-Kz-4Kz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3452" y="1092"/>
+            <point key="canvasLocation" x="3470" y="1253"/>
         </scene>
     </scenes>
     <resources>
