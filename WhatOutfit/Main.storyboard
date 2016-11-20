@@ -230,7 +230,7 @@
         <!--Edit Profile-->
         <scene sceneID="zI8-rX-iX1">
             <objects>
-                <tableViewController id="3VX-Qp-EpP" sceneMemberID="viewController">
+                <tableViewController id="3VX-Qp-EpP" customClass="EditProfileViewController" customModule="WhatOutfit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8UC-P1-lYa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -492,11 +492,25 @@
                     <navigationItem key="navigationItem" title="Edit Profile" id="EKV-nr-uv3">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SZW-0L-MnA">
                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="cancelBtnPressed:" destination="3VX-Qp-EpP" id="eoP-P8-7rE"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="done" id="45f-U6-Lez">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="doneBtnPressed:" destination="3VX-Qp-EpP" id="D3I-oA-PfN"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="ava" destination="9PH-bN-sAQ" id="WFt-t0-5Az"/>
+                        <outlet property="bioTextField" destination="P7J-JH-lfr" id="Pkt-mt-4Mi"/>
+                        <outlet property="emailTextField" destination="JRh-Me-8o2" id="U6f-lk-N0F"/>
+                        <outlet property="mobileTextField" destination="WmI-ZC-zfF" id="Jis-gZ-QGO"/>
+                        <outlet property="nicknameTextField" destination="Xp8-85-SGg" id="LuT-aY-EZJ"/>
+                        <outlet property="usernameTextField" destination="o64-I3-XAR" id="WWA-bP-UjA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGd-Yq-Pxl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1662,9 +1676,9 @@
         <image name="相机" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VWX-hx-BFC"/>
-        <segue reference="sUC-rH-i84"/>
         <segue reference="eVk-bx-4wf"/>
-        <segue reference="nnz-Kt-WBP"/>
+        <segue reference="sUC-rH-i84"/>
+        <segue reference="yxX-Qe-g49"/>
+        <segue reference="q9G-Hc-3Es"/>
     </inferredMetricsTieBreakers>
 </document>
