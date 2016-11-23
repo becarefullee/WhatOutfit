@@ -35,8 +35,7 @@ class PostContentCell: UITableViewCell {
     contentImage.bounds.size.width = screenWidth
     contentImage.bounds.size.height = screenWidth
     contentImage.isUserInteractionEnabled = true
-    
-    
+
     let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
     let doubleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
     singleTapRecognizer.numberOfTapsRequired = 1

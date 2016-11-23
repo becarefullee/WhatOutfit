@@ -53,37 +53,37 @@ class AddNewOutfitViewController: UIViewController {
       self.present(alert, animated: true, completion: nil)
       return
     }
-  ableToAddMore = true
-  print("done")
-  
-  // Update posts
-  let user = PFUser.current()
-  var posts = user?["posts"] as! Int
-  posts = posts + 1
-  user?["posts"] = posts
-  user?.saveInBackground()
-  
-  //Upload post
-  let object = PFObject(className: "Post")
-  object["uid"] = PFUser.current()?.objectId!
-  object["username"] = PFUser.current()?.username!
-  object["ava"] = PFUser.current()?.value(forKey: "ava") as? PFFile
-  object["likes"] = 0
-    for i in 0..<imageSet.count-1 {
-      let imageData = UIImageJPEGRepresentation(imageSet[i], 0.5)
-      let imageFile = PFFile(name: "post.jpg", data: imageData!)
-      outfit.append(imageFile!)
-    }
-  object["pic"] = outfit.first
-  object["outfits"] = outfit as? NSArray
-  object.saveInBackground (block: { (success:Bool, error) -> Void in
-    if error == nil {
-      print("Saved successfully!")
-      self.dismiss(animated: true, completion: nil)
+    ableToAddMore = true
+    print("done")
+    
+    // Update posts
+    let user = PFUser.current()
+    var posts = user?["posts"] as! Int
+    posts = posts + 1
+    user?["posts"] = posts
+    user?.saveInBackground()
+    
+    //Upload post
+    let object = PFObject(className: "Post")
+    object["uid"] = PFUser.current()?.objectId!
+    object["username"] = PFUser.current()?.username!
+    object["ava"] = PFUser.current()?.value(forKey: "ava") as? PFFile
+    object["likes"] = 0
+      for i in 0..<imageSet.count-1 {
+        let imageData = UIImageJPEGRepresentation(imageSet[i], 0.5)
+        let imageFile = PFFile(name: "post.jpg", data: imageData!)
+        outfit.append(imageFile!)
       }
-    })
+    object["pic"] = outfit.first
+    object["outfits"] = outfit as? NSArray
+    object.saveInBackground (block: { (success:Bool, error) -> Void in
+      if error == nil {
+        print("Saved successfully!")
+        self.dismiss(animated: true, completion: nil)
+        }
+      })
+    }
   }
-}
 
 extension AddNewOutfitViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   func initWithImagePickView(type:String){
@@ -112,11 +112,8 @@ extension AddNewOutfitViewController: UIImagePickerControllerDelegate, UINavigat
     }
     imagePicker.dismiss(animated: true, completion: { _ in
       if self.imageSet.count == 5 {
-//        self.imageSet.removeLast()
         self.ableToAddMore = false
       }
-      
-      
       self.outfitCollectionView.reloadData()
     })
   }

@@ -236,16 +236,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="vKv-UX-GKz">
+                        <view key="tableHeaderView" contentMode="scaleAspectFit" id="vKv-UX-GKz">
                             <rect key="frame" x="0.0" y="64" width="414" height="224"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ava" translatesAutoresizingMaskIntoConstraints="NO" id="9PH-bN-sAQ">
+                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ava" translatesAutoresizingMaskIntoConstraints="NO" id="9PH-bN-sAQ">
                                     <rect key="frame" x="143" y="49" width="128" height="128"/>
+                                    <gestureRecognizers/>
                                     <constraints>
-                                        <constraint firstAttribute="width" secondItem="9PH-bN-sAQ" secondAttribute="height" multiplier="106:103" id="aBt-9d-ReA"/>
-                                        <constraint firstAttribute="height" constant="103" id="hwg-Oc-3T6"/>
+                                        <constraint firstAttribute="width" secondItem="9PH-bN-sAQ" secondAttribute="height" multiplier="1:1" id="aBt-9d-ReA"/>
+                                        <constraint firstAttribute="height" constant="128" id="hwg-Oc-3T6"/>
                                     </constraints>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="wGd-dU-vn8" appends="YES" id="UN4-Qj-bQY"/>
+                                    </connections>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -271,7 +275,7 @@
                                                         <constraint firstAttribute="width" secondItem="nZI-2C-0ih" secondAttribute="height" multiplier="1:1" id="s85-0l-tZg"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Eddie" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="o64-I3-XAR">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="o64-I3-XAR">
                                                     <rect key="frame" x="80" y="5" width="318" height="32"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -303,7 +307,7 @@
                                                         <constraint firstAttribute="width" secondItem="dp8-uq-Il1" secondAttribute="height" multiplier="1:1" id="mdK-8s-QFC"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Qinyuan Li" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Xp8-85-SGg">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Xp8-85-SGg">
                                                     <rect key="frame" x="80" y="7" width="318" height="32"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -335,7 +339,7 @@
                                                         <constraint firstAttribute="height" constant="32" id="Rfs-lX-Jeo"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Same shit different day" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="P7J-JH-lfr">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="P7J-JH-lfr">
                                                     <rect key="frame" x="80" y="5" width="318" height="32"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -371,7 +375,7 @@
                                                         <constraint firstAttribute="height" constant="32" id="tBj-28-Vy7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="edison.li777@gmail.com" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JRh-Me-8o2">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JRh-Me-8o2">
                                                     <rect key="frame" x="80" y="5" width="318" height="32"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -403,7 +407,7 @@
                                                         <constraint firstAttribute="height" constant="32" id="nDR-ds-D6j"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+13194000903" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-ZC-zfF">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-ZC-zfF">
                                                     <rect key="frame" x="80" y="5" width="318" height="32"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -513,6 +517,11 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGd-Yq-Pxl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="wGd-dU-vn8">
+                    <connections>
+                        <action selector="avaTapped:" destination="3VX-Qp-EpP" id="isS-O5-kox"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2005.7971014492755" y="-505.43478260869568"/>
         </scene>

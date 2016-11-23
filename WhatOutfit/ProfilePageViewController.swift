@@ -62,6 +62,7 @@ class ProfilePageViewController: UICollectionViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.navigationItem.title = PFUser.current()?.username
     if likesSelected {
       loadLikes(from: network)
     }else{
@@ -71,7 +72,6 @@ class ProfilePageViewController: UICollectionViewController {
   
   
   func setUpForNavigationBar() {
-    self.navigationItem.title = PFUser.current()?.username
     if let navigationController = navigationController {
       navigationController.navigationBar.barTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
       navigationController.navigationBar.isTranslucent = false

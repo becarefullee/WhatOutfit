@@ -210,7 +210,7 @@ extension GuestViewController {
           })
           
           //Nickname
-          headerView.nameLabel.text = object?["username"] as? String
+          headerView.nameLabel.text = object?["nickname"] as? String
           
           //Likes
           let likes = object?["likes"] as! Int
