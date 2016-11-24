@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091D8AE21DE545C800173F3E /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D8AE11DE545C800173F3E /* MessageController.swift */; };
 		09408F561DE16C9100B28A11 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09408F551DE16C9100B28A11 /* EditProfileViewController.swift */; };
 		18316E651DCA5F380073C06C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E641DCA5F380073C06C /* libz.tbd */; };
 		18316E671DCA5F460073C06C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E661DCA5F460073C06C /* libsqlite3.tbd */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		091D8AE11DE545C800173F3E /* MessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		09408F551DE16C9100B28A11 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		18316E641DCA5F380073C06C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		18316E661DCA5F460073C06C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				18316E7E1DCA654F0073C06C /* SignInViewController.swift */,
+				091D8AE11DE545C800173F3E /* MessageController.swift */,
 				18F13A791DC6D6A00084F547 /* TabBarViewController.swift */,
 				18316E821DCA9D870073C06C /* FollowViewController.swift */,
 				18A158DA1DD3D04A00642483 /* SearchViewController.swift */,
@@ -343,6 +346,7 @@
 				18F13A781DC6AF300084F547 /* ProfilePageViewController.swift in Sources */,
 				1895E5DC1DC67F830060F7E8 /* PostContentCell.swift in Sources */,
 				18316E7F1DCA654F0073C06C /* SignInViewController.swift in Sources */,
+				091D8AE21DE545C800173F3E /* MessageController.swift in Sources */,
 				1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */,
 				18A158DB1DD3D04A00642483 /* SearchViewController.swift in Sources */,
 				1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */,

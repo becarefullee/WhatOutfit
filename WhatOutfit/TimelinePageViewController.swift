@@ -213,7 +213,9 @@ extension TimelinePageViewController {
     cell.contentImage.image = contentImageSet[indexPath.section]
     cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
     cell.likeBtn.setImage(unlikeImage, for: .normal)
+    cell.postOwnerId = uid[indexPath.section]
     cell.selectionStyle = .none
+    
     
     cell.delegate = self
     cell.likes = likes[indexPath.section]

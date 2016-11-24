@@ -22,6 +22,7 @@ class PostContentCell: UITableViewCell {
   var index: Int!
   var isLiked: Bool?
   var likes: Int?
+  var postOwnerId: String?
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   
@@ -124,7 +125,7 @@ class PostContentCell: UITableViewCell {
           self.likes = self.likes! + 1
           self.numberOfLikes.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
           self.isLiked = !self.isLiked!
-          
+          self.addLikeMessage()
           print("Update Sucess")
           
           //CurrentUser's Likes plus one
@@ -165,6 +166,7 @@ class PostContentCell: UITableViewCell {
               self.likes = self.likes! - 1
               self.numberOfLikes.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
               self.isLiked = !self.isLiked!
+              self.deleteLikeMessage()
               print("Delete Success")
               
               //CurrentUser's Likes minus one
@@ -194,7 +196,44 @@ class PostContentCell: UITableViewCell {
       }
     }
   }
-
+  
+  func addLikeMessage() {
+    if PFUser.current()?.objectId != postOwnerId {
+      let data = UIImageJPEGRepresentation(contentImage.image!, 0.5)
+      let file = PFFile(data: data!)
+      let message = PFObject(className: "Message")
+      message["from"] = PFUser.current()?.objectId
+      message["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+      message["to"] = postOwnerId! as String
+      message["pid"] = pid! as String
+      message["pic"] = file! as PFFile
+      message["type"] = "like" 
+      message.saveInBackground(block: { (success, error) in
+        if success {
+          print("add new message suceess")
+        }
+      })
+    }
+  }
+  
+  func deleteLikeMessage() {
+    let query = PFQuery(className: "Message")
+    query.whereKey("from", equalTo: PFUser.current()?.objectId as Any)
+    query.whereKey("pid", equalTo: pid as Any)
+    query.findObjectsInBackground { (objects, error) in
+      if error == nil {
+        for object in objects! {
+          object.deleteInBackground(block: { (success, error) in
+            if success {
+              print("delete message success")
+            }
+          })
+        }
+      }else{
+        print(error!.localizedDescription)
+      }
+    }
+  }
 }
 
 

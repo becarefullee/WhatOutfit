@@ -280,7 +280,7 @@ extension OutfitDetailViewController {
           self.likes = self.likes! + 1
           self.likesLabel.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
           self.isLiked = !self.isLiked!
-          
+          self.addLikeMessage()
           print("Update Sucess")
           
           //CurrentUser's Likes plus one
@@ -321,6 +321,7 @@ extension OutfitDetailViewController {
               self.likes = self.likes! - 1
               self.likesLabel.text = "\(self.converLikesToString(numberOfLikes: self.likes!)) likes"
               self.isLiked = !self.isLiked!
+              self.deleteLikeMessage()
               print("Delete Success")
               
               //CurrentUser's Likes minus one
@@ -350,6 +351,46 @@ extension OutfitDetailViewController {
       }
     }
   }
+  
+  
+  func addLikeMessage() {
+    if PFUser.current()?.objectId != uid {
+      let data = UIImageJPEGRepresentation(contentImageSet[0]!, 0.5)
+      let file = PFFile(data: data!)
+      let message = PFObject(className: "Message")
+      message["from"] = PFUser.current()?.objectId
+      message["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+      message["to"] = uid! as String
+      message["pid"] = postId.first! as String
+      message["pic"] = file! as PFFile
+      message["type"] = "like"
+      message.saveInBackground(block: { (success, error) in
+        if success {
+          print("add new message suceess")
+        }
+      })
+    }
+  }
+  
+  func deleteLikeMessage() {
+    let query = PFQuery(className: "Message")
+    query.whereKey("from", equalTo: PFUser.current()?.objectId as Any)
+    query.whereKey("pid", equalTo: postId.first as Any)
+    query.findObjectsInBackground { (objects, error) in
+      if error == nil {
+        for object in objects! {
+          object.deleteInBackground(block: { (success, error) in
+            if success {
+              print("delete message success")
+            }
+          })
+        }
+      }else{
+        print(error!.localizedDescription)
+      }
+    }
+  }
+
   
   func deleteOutfit() {
     let query = PFQuery(className: "Post")
@@ -401,10 +442,10 @@ extension OutfitDetailViewController {
       let query = PFQuery(className: "Post")
       query.getObjectInBackground(withId: postId.first!, block: { (object, error) in
         if error == nil {
-            self.userNameArray = object?["username"] as! String
+            self.userNameArray = object?["username"] as? String
             self.likesLabel.text = "\(self.converLikesToString(numberOfLikes: object?["likes"] as! Int)) likes"
             self.date = (object?.createdAt)! as Date
-            self.uid = object?["uid"] as! String
+            self.uid = object?["uid"] as? String
             let file = object?["ava"] as! PFFile
             file.getDataInBackground(block: { (data, error) in
               self.ava = UIImage(data: data!)
@@ -441,6 +482,7 @@ extension OutfitDetailViewController {
 
     }
   }
+  
 }
 
 
