@@ -346,6 +346,21 @@ extension FollowViewController {
             object?["followings"] = (object?["followings"] as! Int) + 1
             object?.saveInBackground()
           })
+          //Add follow message
+          let message = PFObject(className: "Message")
+          if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            message["to"] = self.filterObjectId[cell.index!] as String
+          }else{
+            message["to"] = self.objectId[cell.index!] as String
+          }
+          message["from"] = PFUser.current()?.objectId
+          message["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+          message["type"] = "follow"
+          message.saveInBackground(block: { (success, error) in
+            if success {
+              print("add new message suceess")
+            }
+          })
         } else {
           print(error!.localizedDescription)
         }
@@ -377,7 +392,7 @@ extension FollowViewController {
                 cell.followBtn.setTitle("FOLLOW", for: UIControlState())
                 setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
                 
-                  self.follow[cell.index!] = "FOLLOW"
+                self.follow[cell.index!] = "FOLLOW"
                 
                 // Change the followers of the people you follow
                 let unfollow = PFQuery(className: "UserInfo")
@@ -400,18 +415,41 @@ extension FollowViewController {
                 current.getFirstObjectInBackground(block: { (object, error) in
                   object?["followings"] = (object?["followings"] as! Int) - 1
                   object?.saveInBackground()
+                  
+                //Delete follow message
+                  let query = PFQuery(className: "Message")
+                  query.whereKey("from", equalTo: PFUser.current()?.objectId as Any)
+                  
+                  if self.searchController.isActive && self.searchController.searchBar.text != "" {
+                    query.whereKey("to", equalTo: self.filterObjectId[cell.index!])
+                  }else{
+                    query.whereKey("to", equalTo: self.objectId[cell.index!])
+                  }
+                  query.whereKey("type", equalTo: "follow")
+                  query.findObjectsInBackground { (objects, error) in
+                    if error == nil {
+                      for object in objects! {
+                        object.deleteInBackground(block: { (success, error) in
+                          if success {
+                            print("delete message success")
+                          }
+                        })
+                      }
+                    }else{
+                      print(error!.localizedDescription)
+                    }
+                  }
+
                 })
               } else {
                 print(error!.localizedDescription)
               }
             })
           }
-          
         } else {
           print(error!.localizedDescription)
         }
       })
-      
     }
   }
 }

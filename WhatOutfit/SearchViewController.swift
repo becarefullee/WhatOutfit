@@ -231,6 +231,18 @@ extension SearchViewController {
             object?["followings"] = (object?["followings"] as! Int) + 1
             object?.saveInBackground()
           })
+          //Add follow message
+          let message = PFObject(className: "Message")
+          message["to"] = self.objectId[cell.index!] as String
+          message["from"] = PFUser.current()?.objectId
+          message["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+          message["type"] = "follow"
+          message.saveInBackground(block: { (success, error) in
+            if success {
+              print("add new message suceess")
+            }
+          })
+          
         } else {
           print(error!.localizedDescription)
         }
@@ -275,6 +287,26 @@ extension SearchViewController {
                   object?["followings"] = (object?["followings"] as! Int) - 1
                   object?.saveInBackground()
                 })
+                
+                //Delete follow message
+                let query = PFQuery(className: "Message")
+                query.whereKey("from", equalTo: PFUser.current()?.objectId as Any)
+                query.whereKey("to", equalTo: self.objectId[cell.index!])
+                query.whereKey("type", equalTo: "follow")
+                query.findObjectsInBackground { (objects, error) in
+                  if error == nil {
+                    for object in objects! {
+                      object.deleteInBackground(block: { (success, error) in
+                        if success {
+                          print("delete message success")
+                        }
+                      })
+                    }
+                  }else{
+                    print(error!.localizedDescription)
+                  }
+                }
+                
               } else {
                 print(error!.localizedDescription)
               }

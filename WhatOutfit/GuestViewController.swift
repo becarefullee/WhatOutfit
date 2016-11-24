@@ -549,7 +549,8 @@ extension GuestViewController {
             object?["followings"] = (object?["followings"] as! Int) + 1
             object?.saveInBackground()
           })
-
+          //Add follow message
+          self.addFollowMessage()
         } else {
           print(error!.localizedDescription)
         }
@@ -591,6 +592,8 @@ extension GuestViewController {
                   object?["followings"] = (object?["followings"] as! Int) - 1
                   object?.saveInBackground()
                 })
+                //Delete follow message
+                self.deleteFollowMessage()
               } else {
             print(error!.localizedDescription)
               }
@@ -603,6 +606,39 @@ extension GuestViewController {
     }
   }
   
+  func addFollowMessage() {
+    let message = PFObject(className: "Message")
+    message["to"] = guestId
+    message["from"] = PFUser.current()?.objectId
+    message["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
+    message["type"] = "follow"
+    message.saveInBackground(block: { (success, error) in
+      if success {
+        print("add new message suceess")
+      }
+    })
+  }
+  
+  func deleteFollowMessage() {
+    let query = PFQuery(className: "Message")
+    query.whereKey("from", equalTo: PFUser.current()?.objectId as Any)
+    query.whereKey("to", equalTo: guestId as Any)
+    query.whereKey("type", equalTo: "follow")
+    query.findObjectsInBackground { (objects, error) in
+      if error == nil {
+        for object in objects! {
+          object.deleteInBackground(block: { (success, error) in
+            if success {
+              print("delete message success")
+            }
+          })
+        }
+      }else{
+        print(error!.localizedDescription)
+      }
+    }
+  }
+
 }
 
 
