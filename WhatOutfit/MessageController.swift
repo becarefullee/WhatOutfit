@@ -44,6 +44,10 @@ class MessageController: UITableViewController {
       return cell
     }else{
       let cell = tableView.dequeueReusableCell(withIdentifier: "LikeCell") as! LikeMessageCell
+      cell.ava.setImage(ava[indexPath.row], for: .normal)
+      cell.username.setTitle(username[indexPath.row], for: .normal)
+      cell.date.text = convertDateToString(date: date[indexPath.row]!)
+      cell.thumbnail.setImage(thumbnail[indexPath.row], for: .normal)
       return cell
 
     }
@@ -95,6 +99,7 @@ extension MessageController {
           if let pic = objects?[i].object(forKey: "pic") as? PFFile {
             pic.getDataInBackground(block: { (data, error) in
               self.thumbnail[i] = UIImage(data: data!)
+              self.tableView.reloadData()
             })
           }
         }

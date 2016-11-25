@@ -11,19 +11,15 @@ import UIKit
 class LikeMessageCell: UITableViewCell {
 
   @IBOutlet weak var date: UILabel!
-  @IBOutlet weak var thumbnail: UIImageView!
-  @IBOutlet weak var username: UILabel!
-  @IBOutlet weak var ava: UIImageView!
+  @IBOutlet weak var ava: UIButton!
+
+  @IBOutlet weak var thumbnail: UIButton!
+  @IBOutlet weak var username: UIButton!
   
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    ava.layer.cornerRadius = ava.bounds.width/2
+    ava.clipsToBounds = true
+    thumbnail.imageView?.contentMode = .scaleAspectFill
+  }
 }
