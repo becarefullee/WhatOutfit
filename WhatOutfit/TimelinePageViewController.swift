@@ -236,7 +236,7 @@ extension TimelinePageViewController {
     let headerCell = view as! HeaderCell
     headerCell.userId = uid[section]
     headerCell.profileImage.image = avaImageSet[section]
-    headerCell.postTime.text =  headerCell.convertDateToString(date: self.dateArray[section])
+    headerCell.postTime.text = convertDateToString(date: self.dateArray[section])
     headerCell.userName.text = userNameArray[section]
     headerCell.backgroundColor = UIColor.white
     headerCell.alpha = 1.0

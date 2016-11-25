@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		091D8AE21DE545C800173F3E /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D8AE11DE545C800173F3E /* MessageController.swift */; };
 		09408F561DE16C9100B28A11 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09408F551DE16C9100B28A11 /* EditProfileViewController.swift */; };
+		09FA89991DE7B712009B7ACE /* FollowMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA89981DE7B712009B7ACE /* FollowMessageCell.swift */; };
+		09FA899B1DE7B752009B7ACE /* LikeMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA899A1DE7B752009B7ACE /* LikeMessageCell.swift */; };
 		18316E651DCA5F380073C06C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E641DCA5F380073C06C /* libz.tbd */; };
 		18316E671DCA5F460073C06C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E661DCA5F460073C06C /* libsqlite3.tbd */; };
 		18316E691DCA5F530073C06C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E681DCA5F530073C06C /* SystemConfiguration.framework */; };
@@ -53,6 +55,8 @@
 /* Begin PBXFileReference section */
 		091D8AE11DE545C800173F3E /* MessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		09408F551DE16C9100B28A11 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		09FA89981DE7B712009B7ACE /* FollowMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowMessageCell.swift; sourceTree = "<group>"; };
+		09FA899A1DE7B752009B7ACE /* LikeMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeMessageCell.swift; sourceTree = "<group>"; };
 		18316E641DCA5F380073C06C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		18316E661DCA5F460073C06C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		18316E681DCA5F530073C06C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -227,6 +231,8 @@
 				18316E841DCA9D9E0073C06C /* FollowCell.swift */,
 				1895E5D31DC67F830060F7E8 /* PostContentCell.swift */,
 				18F13A721DC6AF300084F547 /* ImageCell.swift */,
+				09FA899A1DE7B752009B7ACE /* LikeMessageCell.swift */,
+				09FA89981DE7B712009B7ACE /* FollowMessageCell.swift */,
 				1895E5D51DC67F830060F7E8 /* HeaderCell.swift */,
 				1895E5CF1DC67F830060F7E8 /* Main.storyboard */,
 				1895E5D11DC67F830060F7E8 /* LaunchScreen.storyboard */,
@@ -331,6 +337,7 @@
 			files = (
 				18F13A761DC6AF300084F547 /* HeaderCollectionReusableView.swift in Sources */,
 				1897A93D1DDBF049009C2196 /* Protocols.swift in Sources */,
+				09FA89991DE7B712009B7ACE /* FollowMessageCell.swift in Sources */,
 				1895E5DE1DC67F830060F7E8 /* HeaderCell.swift in Sources */,
 				18F13A7A1DC6D6A00084F547 /* TabBarViewController.swift in Sources */,
 				18F13A771DC6AF300084F547 /* ImageCell.swift in Sources */,
@@ -354,6 +361,7 @@
 				18F13A751DC6AF300084F547 /* User.swift in Sources */,
 				18316E851DCA9D9E0073C06C /* FollowCell.swift in Sources */,
 				18F13A7C1DC6E3160084F547 /* AddNewOutfitViewController.swift in Sources */,
+				09FA899B1DE7B752009B7ACE /* LikeMessageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

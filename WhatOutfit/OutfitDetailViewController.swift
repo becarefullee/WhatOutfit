@@ -108,7 +108,7 @@ extension OutfitDetailViewController {
     if date == nil {
       headerCell.postTime.text = ""
     }else{
-      headerCell.postTime.text =  headerCell.convertDateToString(date: self.date!)
+      headerCell.postTime.text = convertDateToString(date: self.date!)
     }
     headerCell.userName.text = userNameArray
     headerCell.backgroundColor = UIColor.white
