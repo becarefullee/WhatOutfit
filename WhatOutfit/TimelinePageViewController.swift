@@ -14,7 +14,8 @@ fileprivate let reuseIdentifier = "Cell"
 class TimelinePageViewController: UITableViewController {
   
   
-  var contentImageSet: [UIImage?] = []
+
+  var contentImageSet: [[UIImage?]?] = []
   var avaImageSet: [UIImage?] = []
   
   fileprivate var detailPageUserName: String?
@@ -164,7 +165,7 @@ extension TimelinePageViewController: UpdateLike {
   
   
   func performSegue(identifier: String, index: Int) {
-    detailPagePic = contentImageSet[index]
+//    detailPagePic = contentImageSet[index]
     detailPageAva = avaImageSet[index]
     detailPageDate = dateArray[index]
     detailPageLikes = likes[index]
@@ -207,29 +208,27 @@ extension TimelinePageViewController {
 //MARK: TableView Datasource and delegate
 extension TimelinePageViewController {
   
-  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    let cell = cell as! PostContentCell
-    cell.numberOfLikes.text =  "\(cell.converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
-    cell.contentImage.image = contentImageSet[indexPath.section]
-    cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
-    cell.likeBtn.setImage(unlikeImage, for: .normal)
-    cell.postOwnerId = uid[indexPath.section]
-    cell.selectionStyle = .none
-    
-    
-    cell.delegate = self
-    cell.likes = likes[indexPath.section]
-    cell.index = indexPath.section
-    cell.pid = postId[indexPath.section]
-    if let isLiked = likeBtn[indexPath.section] {
-      cell.isLiked = isLiked
-      if isLiked {
-        cell.likeBtn.setImage(likeImage, for: .normal)
-      }else {
-        cell.likeBtn.setImage(unlikeImage, for: .normal)
-      }
-    }
-  }
+//  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//      let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
+//      cell.contentImage.image = contentImageSet[indexPath.section]?.first!
+//      cell.numberOfLikes.text =  "\(cell.converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+//      cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+//      cell.likeBtn.setImage(unlikeImage, for: .normal)
+//      cell.postOwnerId = uid[indexPath.section]
+//      cell.selectionStyle = .none
+//      cell.delegate = self
+//      cell.likes = likes[indexPath.section]
+//      cell.index = indexPath.section
+//      cell.pid = postId[indexPath.section]
+//      if let isLiked = likeBtn[indexPath.section] {
+//        cell.isLiked = isLiked
+//        if isLiked {
+//          cell.likeBtn.setImage(likeImage, for: .normal)
+//        }else {
+//          cell.likeBtn.setImage(unlikeImage, for: .normal)
+//        }
+//      }
+//  }
   
   
   override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -252,8 +251,144 @@ extension TimelinePageViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
-    return cell
+    if let count = contentImageSet[indexPath.section]?.count {
+      switch count {
+      case 1:
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
+        cell.contentImage.image = contentImageSet[indexPath.section]?.first!
+        cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+        cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+        cell.likeBtn.setImage(unlikeImage, for: .normal)
+        cell.postOwnerId = uid[indexPath.section]
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.likes = likes[indexPath.section]
+        cell.index = indexPath.section
+        cell.pid = postId[indexPath.section]
+        if let isLiked = likeBtn[indexPath.section] {
+          cell.isLiked = isLiked
+          if isLiked {
+            cell.likeBtn.setImage(likeImage, for: .normal)
+          }else {
+            cell.likeBtn.setImage(unlikeImage, for: .normal)
+          }
+        }
+        return cell
+      case 2:
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TwoCell") as! TwoItemCell
+        cell.firstImage.image = contentImageSet[indexPath.section]?[0]
+        cell.secondImage.image = contentImageSet[indexPath.section]?[1]
+        cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+        cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+        cell.likeBtn.setImage(unlikeImage, for: .normal)
+        cell.postOwnerId = uid[indexPath.section]
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.likes = likes[indexPath.section]
+        cell.index = indexPath.section
+        cell.pid = postId[indexPath.section]
+        if let isLiked = likeBtn[indexPath.section] {
+          cell.isLiked = isLiked
+          if isLiked {
+            cell.likeBtn.setImage(likeImage, for: .normal)
+          }else {
+            cell.likeBtn.setImage(unlikeImage, for: .normal)
+          }
+        }
+        return cell
+      case 3:
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeCell") as! ThreeItemCell
+        cell.firstImage.image = contentImageSet[indexPath.section]?[0]
+        cell.secondImage.image = contentImageSet[indexPath.section]?[1]
+        cell.thirdImage.image = contentImageSet[indexPath.section]?[2]
+        cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+        cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+        cell.likeBtn.setImage(unlikeImage, for: .normal)
+        cell.postOwnerId = uid[indexPath.section]
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.likes = likes[indexPath.section]
+        cell.index = indexPath.section
+        cell.pid = postId[indexPath.section]
+        if let isLiked = likeBtn[indexPath.section] {
+          cell.isLiked = isLiked
+          if isLiked {
+            cell.likeBtn.setImage(likeImage, for: .normal)
+          }else {
+            cell.likeBtn.setImage(unlikeImage, for: .normal)
+          }
+        }
+        return cell
+      case 4:
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FourCell") as! FourItemCell
+        cell.firstImage.image = contentImageSet[indexPath.section]?[0]
+        cell.secondImage.image = contentImageSet[indexPath.section]?[1]
+        cell.thirdImage.image = contentImageSet[indexPath.section]?[2]
+        cell.fourthImage.image = contentImageSet[indexPath.section]?[3]
+        cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+        cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+        cell.likeBtn.setImage(unlikeImage, for: .normal)
+        cell.postOwnerId = uid[indexPath.section]
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.likes = likes[indexPath.section]
+        cell.index = indexPath.section
+        cell.pid = postId[indexPath.section]
+        if let isLiked = likeBtn[indexPath.section] {
+          cell.isLiked = isLiked
+          if isLiked {
+            cell.likeBtn.setImage(likeImage, for: .normal)
+          }else {
+            cell.likeBtn.setImage(unlikeImage, for: .normal)
+          }
+        }
+        return cell
+
+      default:
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
+        cell.contentImage.image = contentImageSet[indexPath.section]?.first!
+        cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+        cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+        cell.likeBtn.setImage(unlikeImage, for: .normal)
+        cell.postOwnerId = uid[indexPath.section]
+        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.likes = likes[indexPath.section]
+        cell.index = indexPath.section
+        cell.pid = postId[indexPath.section]
+        if let isLiked = likeBtn[indexPath.section] {
+          cell.isLiked = isLiked
+          if isLiked {
+            cell.likeBtn.setImage(likeImage, for: .normal)
+          }else {
+            cell.likeBtn.setImage(unlikeImage, for: .normal)
+          }
+        }
+        return cell
+      }
+    }
+    else{
+      let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! PostContentCell
+      cell.contentImage.image = contentImageSet[indexPath.section]?.first!
+      cell.numberOfLikes.text =  "\(converLikesToString(numberOfLikes: likes[indexPath.section])) likes"
+      cell.likeBtn.setTitle("\(indexPath.section)", for: .normal)
+      cell.likeBtn.setImage(unlikeImage, for: .normal)
+      cell.postOwnerId = uid[indexPath.section]
+      cell.selectionStyle = .none
+      cell.delegate = self
+      cell.likes = likes[indexPath.section]
+      cell.index = indexPath.section
+      cell.pid = postId[indexPath.section]
+      if let isLiked = likeBtn[indexPath.section] {
+        cell.isLiked = isLiked
+        if isLiked {
+          cell.likeBtn.setImage(likeImage, for: .normal)
+        }else {
+          cell.likeBtn.setImage(unlikeImage, for: .normal)
+        }
+      }
+      return cell
+    }
   }
   
   override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -315,7 +450,7 @@ extension TimelinePageViewController {
             
             let count = objects?.count
             self.avaImageSet = Array(repeating: nil, count: count!)
-            self.contentImageSet = Array(repeating: nil, count: count!)
+            self.contentImageSet = Array(repeating: nil, count: count!) as [[UIImage?]?]
             self.likeBtn = Array(repeating: nil, count: count!)
             
             if count! > 0 {
@@ -350,10 +485,27 @@ extension TimelinePageViewController {
                 })
                 
                 
-                let pic = objects?[i].object(forKey: "pic") as! PFFile
-                pic.getDataInBackground(block: { (data, error) in
-                  self.contentImageSet[i] = (UIImage(data: data!))
-                })
+//                let pic = objects?[i].object(forKey: "pic") as! PFFile
+//                pic.getDataInBackground(block: { (data, error) in
+//                  self.contentImageSet[i] = (UIImage(data: data!))
+//                })
+//                
+                
+                let outfits = objects?[i].object(forKey: "outfits") as! NSArray
+                var imageSet: [UIImage?] = []
+                imageSet = Array(repeating: nil, count: outfits.count) as [UIImage?]
+                for j in 0...outfits.count-1 {
+                  let file = outfits[j] as! PFFile
+                  file.getDataInBackground(block: { (data, error) in
+                    imageSet[j] = UIImage(data: data!)
+//                    if j == outfits.count-1 {
+                      self.contentImageSet[i] = imageSet
+                      DispatchQueue.main.async {
+                        self.tableView.reloadData()
+//                      }
+                    }
+                  })
+                }
                 
                 
                 let ava = objects?[i].object(forKey: "ava") as! PFFile

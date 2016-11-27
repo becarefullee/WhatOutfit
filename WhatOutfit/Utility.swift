@@ -40,6 +40,26 @@ func setBtnStyleToColor(sender: UIButton, color: UIColor, borderColor: UIColor) 
 }
 
 
+func converLikesToString(numberOfLikes: Int) -> String{
+  var number:String = String(numberOfLikes)
+  switch numberOfLikes {
+  case 0..<1000:
+    return number
+  case 1000..<1000000:
+    let index = number.index(number.endIndex, offsetBy: -3)
+    number.insert(",", at: index)
+    return number
+  case 1000000..<1000000000:
+    var index = number.index(number.endIndex, offsetBy: -3)
+    number.insert(",", at: index)
+    index = number.index(number.endIndex, offsetBy: -7)
+    number.insert(",", at: index)
+    return number
+  default:
+    return number
+  }
+}
+
 
 func convertDateToString(date:Date) -> String {
   let currentTime = Date()

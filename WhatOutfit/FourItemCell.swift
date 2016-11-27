@@ -1,23 +1,26 @@
 //
-//  PostContent.swift
-//  WhatOutfitTimelinePage
+//  FourItemCell.swift
+//  WhatOutfit
 //
-//  Created by Qinyuan Li on 16/10/26.
-//  Copyright © 2016年 Qinyuan Li. All rights reserved.
+//  Created by becarefullee on 2016/11/26.
+//  Copyright © 2016年 Becarefullee. All rights reserved.
 //
+
+import UIKit
 
 import UIKit
 import Parse
 
-
-enum operation {
-  case delete
-  case add
-}
-
-class PostContentCell: UITableViewCell {
+class FourItemCell: UITableViewCell {
   
-  var delegate: UpdateLike?
+  @IBOutlet weak var firstImage: UIImageView!
+  @IBOutlet weak var secondImage: UIImageView!
+  @IBOutlet weak var thirdImage: UIImageView!
+  @IBOutlet weak var fourthImage: UIImageView!
+  @IBOutlet weak var likeBtn: UIButton!
+  @IBOutlet weak var numberOfLikes: UILabel!
+  @IBOutlet weak var collage: UIStackView!
+    var delegate: UpdateLike?
   var pid: String?
   var index: Int!
   var isLiked: Bool?
@@ -26,30 +29,16 @@ class PostContentCell: UITableViewCell {
   
   fileprivate var screenWidth: CGFloat = UIScreen.main.bounds.width
   
-  @IBOutlet weak var contentImage: UIImageView!
-  @IBOutlet weak var likeBtn: UIButton!
-  @IBOutlet weak var numberOfLikes: UILabel!
-  
-  
   override func awakeFromNib() {
     super.awakeFromNib()
-    contentImage.bounds.size.width = screenWidth
-    contentImage.bounds.size.height = screenWidth
-    contentImage.isUserInteractionEnabled = true
-
     let singleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
     let doubleTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
     singleTapRecognizer.numberOfTapsRequired = 1
     doubleTapRecognizer.numberOfTapsRequired = 2
     singleTapRecognizer.require(toFail: doubleTapRecognizer)
-    contentImage.addGestureRecognizer(singleTapRecognizer)
-    contentImage.addGestureRecognizer(doubleTapRecognizer)
+    collage.addGestureRecognizer(singleTapRecognizer)
+    collage.addGestureRecognizer(doubleTapRecognizer)
   }
-  
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-  }
-  
   
   func handleSingleTap(_ sender: UITapGestureRecognizer) {
     delegate?.performSegue(identifier: "showDetail", index: index)
@@ -63,19 +52,18 @@ class PostContentCell: UITableViewCell {
         updateLikeRelation(operation: operation.delete)
         delegate?.updateLikeBtn(index: index, isliked: false, needReload: false)
       }else {
-        likeAnimation(center: self.contentImage.center)
+        likeAnimation(center: self.collage.center)
         updateLikeRelation(operation: operation.add)
         delegate?.updateLikeBtn(index: index, isliked: true, needReload: false)
       }
     }
   }
   
-  
   func likeAnimation(center: CGPoint) {
     let newView = UIImageView(image:UIImage(named: "praised_1"))
     newView.center = center
     newView.alpha = 0
-    contentImage.addSubview(newView)
+    collage.addSubview(newView)
     self.bringSubview(toFront: newView)
     UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.3, options: [], animations: {
       newView.alpha = 1
@@ -179,7 +167,7 @@ class PostContentCell: UITableViewCell {
   
   func addLikeMessage() {
     if PFUser.current()?.objectId != postOwnerId {
-      let data = UIImageJPEGRepresentation(contentImage.image!, 0.5)
+      let data = UIImageJPEGRepresentation(firstImage.image!, 0.5)
       let file = PFFile(data: data!)
       let message = PFObject(className: "Message")
       message["from"] = PFUser.current()?.objectId
@@ -187,7 +175,7 @@ class PostContentCell: UITableViewCell {
       message["to"] = postOwnerId! as String
       message["pid"] = pid! as String
       message["pic"] = file! as PFFile
-      message["type"] = "like" 
+      message["type"] = "like"
       message.saveInBackground(block: { (success, error) in
         if success {
           print("add new message suceess")
@@ -214,8 +202,6 @@ class PostContentCell: UITableViewCell {
       }
     }
   }
+  
 }
-
-
-
 
