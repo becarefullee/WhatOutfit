@@ -157,3 +157,23 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
     })
   }
 }
+
+
+extension EditProfileViewController {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if indexPath.section == 2 && indexPath.row == 1 {
+      PFUser.logOutInBackground { (error) -> Void in
+        if error == nil {
+          UserDefaults.standard.removeObject(forKey: "username")
+          UserDefaults.standard.synchronize()
+          
+          let signin = self.storyboard?.instantiateViewController(withIdentifier: "SignInViewController") as! SignInViewController
+          let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+          appDelegate.window?.rootViewController = signin
+          
+        }
+      }
+
+    }
+  }
+}
