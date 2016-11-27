@@ -15,8 +15,12 @@ class MessageController: UITableViewController {
   fileprivate var ava: [UIImage?] = []
   fileprivate var date: [Date?] = []
   fileprivate var thumbnail: [UIImage?] = []
-  //Message - true/ follow - false
   fileprivate var type: [String?] = []
+  fileprivate var pid: [String?] = []
+  fileprivate var uid: [String?] = []
+  
+  fileprivate var toPid: String?
+  fileprivate var toUid: String?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -41,6 +45,8 @@ class MessageController: UITableViewController {
       cell.ava.setImage(ava[indexPath.row], for: .normal)
       cell.username.setTitle(username[indexPath.row], for: .normal)
       cell.date.text = convertDateToString(date: date[indexPath.row]!)
+      cell.ava.tag = indexPath.row
+      cell.username.tag = indexPath.row
       return cell
     }else{
       let cell = tableView.dequeueReusableCell(withIdentifier: "LikeCell") as! LikeMessageCell
@@ -48,6 +54,9 @@ class MessageController: UITableViewController {
       cell.username.setTitle(username[indexPath.row], for: .normal)
       cell.date.text = convertDateToString(date: date[indexPath.row]!)
       cell.thumbnail.setImage(thumbnail[indexPath.row], for: .normal)
+      cell.ava.tag = indexPath.row
+      cell.username.tag = indexPath.row
+      cell.thumbnail.tag = indexPath.row
       return cell
 
     }
@@ -56,8 +65,6 @@ class MessageController: UITableViewController {
   
 }
 
-
-
 extension MessageController {
   func loadMessage() {
     let query = PFQuery(className: "Message")
@@ -65,10 +72,9 @@ extension MessageController {
     query.addDescendingOrder("createdAt")
     query.findObjectsInBackground { (objects, error) in
       if error == nil {
-        
-        
-        
         let count = objects?.count
+        self.uid = Array(repeating: nil, count: count!) as [String?]
+        self.pid = Array(repeating: nil, count: count!) as [String?]
         self.username = Array(repeating: nil, count: count!) as [String?]
         self.ava = Array(repeating: nil, count: count!) as [UIImage?]
         self.date = Array(repeating: nil, count: count!) as [Date?]
@@ -88,6 +94,9 @@ extension MessageController {
           
           self.date[i] = (objects?[i].createdAt)!
           self.type[i] = objects?[i].object(forKey: "type") as? String
+          self.pid[i] = objects?[i].object(forKey: "pid") as? String
+          self.uid[i] = objects?[i].object(forKey: "from") as? String
+
           
           let avaPic = objects?[i].object(forKey: "ava") as! PFFile
           avaPic.getDataInBackground(block: { (data, error) in
@@ -95,7 +104,6 @@ extension MessageController {
             self.tableView.reloadData()
           })
          
-          
           if let pic = objects?[i].object(forKey: "pic") as? PFFile {
             pic.getDataInBackground(block: { (data, error) in
               self.thumbnail[i] = UIImage(data: data!)
@@ -108,6 +116,36 @@ extension MessageController {
       }
     }
   }
+}
+
+extension MessageController {
+  @IBAction func toProfile(_ sender: UIButton) {
+    print(sender.tag)
+    toUid = uid[sender.tag]
+    performSegue(withIdentifier: "showGuest", sender: self)
+  }
   
+  @IBAction func toDetail(_ sender: UIButton) {
+    print(sender.tag)
+    toPid = pid[sender.tag]
+    performSegue(withIdentifier: "showDetail", sender: self)
+
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showGuest" {
+      let dvc = segue.destination as! GuestViewController
+      dvc.guestId = toUid
+    }else if segue.identifier == "showDetail" {
+      let dvc = segue.destination as! OutfitDetailViewController
+      dvc.postId.append(toPid!)
+    }
+  }
   
 }
+
+
+
+
+
+

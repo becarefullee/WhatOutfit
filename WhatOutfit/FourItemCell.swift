@@ -20,7 +20,7 @@ class FourItemCell: UITableViewCell {
   @IBOutlet weak var likeBtn: UIButton!
   @IBOutlet weak var numberOfLikes: UILabel!
   @IBOutlet weak var collage: UIStackView!
-    var delegate: UpdateLike?
+  var delegate: UpdateLike?
   var pid: String?
   var index: Int!
   var isLiked: Bool?
