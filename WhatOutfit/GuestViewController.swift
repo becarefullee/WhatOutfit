@@ -78,6 +78,13 @@ class GuestViewController: UICollectionViewController {
   }
   
   func setUpForNavigationBar() {
+    if userName == nil {
+      let query = PFUser.query()
+      query?.getObjectInBackground(withId: guestId!, block: { (object, error) in
+        self.userName = object?.object(forKey: "username") as? String
+        self.navigationItem.title = self.userName
+      })
+    }
     self.navigationItem.title = userName
     if let navigationController = navigationController {
       navigationController.navigationBar.barTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -183,11 +190,27 @@ extension GuestViewController {
           self.header?.editProfile.tintColor = UIColor.black
           setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
         }else {
+          if follow == nil {
+            let query = PFQuery(className: "Follow")
+            query.whereKey("follower", equalTo: PFUser.current()?.objectId as Any)
+            query.whereKey("following", equalTo: guestId as Any)
+            query.findObjectsInBackground { (objects, error) in
+              if error == nil {
+                if objects?.count == 0 {
+                  self.follow = "FOLLOW"
+                }else if (objects?.count)! > 0 {
+                  self.follow = "FOLLOWING"
+                }
+              }else{
+                print(error!.localizedDescription)
+              }
+            }
+          }
           if follow == "FOLLOW" {
             self.header?.editProfile.tintColor = self.defaultBlue
             self.header?.editProfile.setTitle("FOLLOW", for: UIControlState())
             setBtnStyleToColor(sender: (self.header?.editProfile)!, color: UIColor.white, borderColor: self.defaultBlue)
-          }else{
+          }else if follow == "FOLLOWING"{
             self.header?.editProfile.tintColor = UIColor.white
             self.header?.editProfile.setTitle("FOLLOWING", for: UIControlState())
             setBtnStyleToColor(sender: (self.header?.editProfile)!, color: self.greenColor, borderColor: self.greenColor)

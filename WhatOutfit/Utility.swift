@@ -104,6 +104,51 @@ func convertDateToString(date:Date) -> String {
   return "1 MININUTE AGO"
 }
 
+
+
+func convertDateToStringShort(date:Date) -> String {
+  let currentTime = Date()
+  let calendar = Calendar.current
+  let components: Set<Calendar.Component> = [.minute, .hour, .day, .month, .year]
+  let result = calendar.dateComponents(components, from: date, to: currentTime)
+  let year = result.year
+  let month = result.month
+  let day = result.day
+  let hour = result.hour
+  let min = result.minute
+  if year != 0 {
+    if year == 1 {
+      return "1y"
+    }
+    return "\(year!)y"
+  }
+  if month != 0 {
+    if month == 1 {
+      return "1m"
+    }
+    return "\(month!)m"
+  }
+  if day != 0 {
+    if day == 1 {
+      return "1d"
+    }
+    return "\(day!)d"
+  }
+  if hour != 0 {
+    if hour == 1 {
+      return "1h"
+    }
+    return "\(hour!)h"
+  }
+  if min != 0 {
+    if min == 1 {
+      return "1m"
+    }
+    return "\(min!)m"
+  }
+  return "1m"
+}
+
 //func updateLikeRelation(operation: operation, cell: PostContentCell) {
 //  switch operation {
 //  case .add:

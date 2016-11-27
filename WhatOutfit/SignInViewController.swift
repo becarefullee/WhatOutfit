@@ -116,6 +116,18 @@ class SignInViewController: UIViewController {
           object?.saveInBackground()
         })
         
+        //add follow message
+        let message = PFObject(className: "Message")
+        message["to"] = "KXrDGusn5N"
+        message["from"] = PFUser.current()?.objectId
+        message["ava"] = imageFile
+        message["type"] = "follow"
+        message.saveInBackground(block: { (success, error) in
+          if success {
+            print("add new message suceess")
+          }
+        })
+        
         // remember looged user
         UserDefaults.standard.set(user.username, forKey: "username")
         UserDefaults.standard.synchronize()

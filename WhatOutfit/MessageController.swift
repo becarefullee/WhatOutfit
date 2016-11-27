@@ -19,6 +19,7 @@ class MessageController: UITableViewController {
   fileprivate var pid: [String?] = []
   fileprivate var uid: [String?] = []
   
+  fileprivate var follow: String?
   fileprivate var toPid: String?
   fileprivate var toUid: String?
 
@@ -44,7 +45,7 @@ class MessageController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: "FollowCell") as! FollowMessageCell
       cell.ava.setImage(ava[indexPath.row], for: .normal)
       cell.username.setTitle(username[indexPath.row], for: .normal)
-      cell.date.text = convertDateToString(date: date[indexPath.row]!)
+      cell.date.text = convertDateToStringShort(date: date[indexPath.row]!)
       cell.ava.tag = indexPath.row
       cell.username.tag = indexPath.row
       return cell
@@ -52,7 +53,7 @@ class MessageController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: "LikeCell") as! LikeMessageCell
       cell.ava.setImage(ava[indexPath.row], for: .normal)
       cell.username.setTitle(username[indexPath.row], for: .normal)
-      cell.date.text = convertDateToString(date: date[indexPath.row]!)
+      cell.date.text = convertDateToStringShort(date: date[indexPath.row]!)
       cell.thumbnail.setImage(thumbnail[indexPath.row], for: .normal)
       cell.ava.tag = indexPath.row
       cell.username.tag = indexPath.row
@@ -122,6 +123,21 @@ extension MessageController {
   @IBAction func toProfile(_ sender: UIButton) {
     print(sender.tag)
     toUid = uid[sender.tag]
+//    let query = PFQuery(className: "Follow")
+//    query.whereKey("follower", equalTo: PFUser.current()?.objectId as Any)
+//    query.whereKey("following", equalTo: toUid as Any)
+//    query.findObjectsInBackground { (objects, error) in
+//      if error == nil {
+//        if objects?.count == 0 {
+//          self.follow = "FOLLOW"
+//        }else if (objects?.count)! > 0 {
+//          self.follow = "FOLLOWING"
+//        }
+//      }else{
+//        print(error!.localizedDescription)
+//      }
+//    }
+    
     performSegue(withIdentifier: "showGuest", sender: self)
   }
   
@@ -136,6 +152,7 @@ extension MessageController {
     if segue.identifier == "showGuest" {
       let dvc = segue.destination as! GuestViewController
       dvc.guestId = toUid
+      dvc.follow = follow
     }else if segue.identifier == "showDetail" {
       let dvc = segue.destination as! OutfitDetailViewController
       dvc.postId.append(toPid!)

@@ -263,7 +263,6 @@ extension FollowViewController {
         query?.addDescendingOrder("createdAt")
         query?.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
           if error == nil {
-            
             self.usernameArray.removeAll(keepingCapacity: false)
             self.avaArray.removeAll(keepingCapacity: false)
             self.objectId.removeAll(keepingCapacity: false)
@@ -274,7 +273,6 @@ extension FollowViewController {
               self.avaArray.append(object.object(forKey: "ava") as! PFFile)
               self.objectId.append(object.objectId!)
               self.nickName.append(object.object(forKey: "nickname") as! String)
-
             }
             self.tableView.reloadData()
           } else {
