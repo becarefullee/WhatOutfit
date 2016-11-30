@@ -244,10 +244,14 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KJy-9Q-nj3">
                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="385"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NSb-Qb-yE5">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NSb-Qb-yE5">
                                                             <rect key="frame" x="0.0" y="0.0" width="207" height="385"/>
                                                         </imageView>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="NSb-Qb-yE5" firstAttribute="height" secondItem="KJy-9Q-nj3" secondAttribute="height" id="u4J-yr-jdC"/>
+                                                        <constraint firstItem="NSb-Qb-yE5" firstAttribute="width" secondItem="KJy-9Q-nj3" secondAttribute="width" id="v8V-66-Cvx"/>
+                                                    </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Tpn-Vq-FLR">
                                                     <rect key="frame" x="207" y="0.0" width="207" height="385"/>
@@ -1236,7 +1240,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nl7-aA-ddD">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="240"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lzc-ia-Ejb">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lzc-ia-Ejb">
                                             <rect key="frame" x="32" y="32" width="100" height="100"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="100" id="egL-AH-7F3"/>
@@ -2051,8 +2055,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sUC-rH-i84"/>
-        <segue reference="2Va-hk-zFC"/>
-        <segue reference="Pvv-J2-X8V"/>
+        <segue reference="yxX-Qe-g49"/>
+        <segue reference="q9G-Hc-3Es"/>
         <segue reference="7gy-fI-ML2"/>
     </inferredMetricsTieBreakers>
 </document>

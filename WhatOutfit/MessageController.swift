@@ -122,22 +122,7 @@ extension MessageController {
 extension MessageController {
   @IBAction func toProfile(_ sender: UIButton) {
     print(sender.tag)
-    toUid = uid[sender.tag]
-//    let query = PFQuery(className: "Follow")
-//    query.whereKey("follower", equalTo: PFUser.current()?.objectId as Any)
-//    query.whereKey("following", equalTo: toUid as Any)
-//    query.findObjectsInBackground { (objects, error) in
-//      if error == nil {
-//        if objects?.count == 0 {
-//          self.follow = "FOLLOW"
-//        }else if (objects?.count)! > 0 {
-//          self.follow = "FOLLOWING"
-//        }
-//      }else{
-//        print(error!.localizedDescription)
-//      }
-//    }
-    
+    toUid = uid[sender.tag]    
     performSegue(withIdentifier: "showGuest", sender: self)
   }
   

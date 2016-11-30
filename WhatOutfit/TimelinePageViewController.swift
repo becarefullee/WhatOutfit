@@ -87,15 +87,50 @@ class TimelinePageViewController: UITableViewController {
   @IBAction func likeBtnPressed(_ sender: UIButton) {
     let id: Int = Int(sender.title(for: .normal)!)!
 //    let indexPath = IndexPath.init(row: 0, section: id)
-    let cell = sender.superview?.superview?.superview as! PostContentCell
-    if likeBtn[id]! {
-      cell.updateLikeRelation(operation: .delete)
-      likes[id] -= 1
-    }else {
-      cell.updateLikeRelation(operation: .add)
-      likes[id] += 1
+    if contentImageSet[id]?.count == 1 {
+      let cell = sender.superview?.superview?.superview as! PostContentCell
+      if likeBtn[id]! {
+        cell.updateLikeRelation(operation: .delete)
+        likes[id] -= 1
+      }else {
+        cell.updateLikeRelation(operation: .add)
+        likes[id] += 1
+      }
+      likeBtn[id] = !likeBtn[id]!
+    }else if contentImageSet[id]?.count == 2 {
+      let cell = sender.superview?.superview?.superview as! TwoItemCell
+      if likeBtn[id]! {
+        cell.updateLikeRelation(operation: .delete)
+        likes[id] -= 1
+      }else {
+        cell.updateLikeRelation(operation: .add)
+        likes[id] += 1
+      }
+      likeBtn[id] = !likeBtn[id]!
+
+    }else if contentImageSet[id]?.count == 3 {
+      let cell = sender.superview?.superview?.superview as! ThreeItemCell
+      if likeBtn[id]! {
+        cell.updateLikeRelation(operation: .delete)
+        likes[id] -= 1
+      }else {
+        cell.updateLikeRelation(operation: .add)
+        likes[id] += 1
+      }
+      likeBtn[id] = !likeBtn[id]!
+
+    }else if contentImageSet[id]?.count == 4  {
+      let cell = sender.superview?.superview?.superview as! FourItemCell
+      if likeBtn[id]! {
+        cell.updateLikeRelation(operation: .delete)
+        likes[id] -= 1
+      }else {
+        cell.updateLikeRelation(operation: .add)
+        likes[id] += 1
+      }
+      likeBtn[id] = !likeBtn[id]!
+
     }
-    likeBtn[id] = !likeBtn[id]!
   }
 }
 
