@@ -158,7 +158,7 @@ extension GuestViewController {
       
       if userName == "Unknown" {
         // call alert
-        let alert = UIAlertController(title: "Couldn't", message: "find user.", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "", message: "Couldn't find user.", preferredStyle: UIAlertControllerStyle.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
           self.navigationController?.popViewController(animated: true)
         })
@@ -258,6 +258,7 @@ extension GuestViewController {
     return headerView
     default:
       assert(false, "Unexpected element kind")
+      fatalError("Unexpected element kind")
     }
   }
   

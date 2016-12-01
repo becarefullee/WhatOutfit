@@ -52,11 +52,13 @@ class TimelinePageViewController: UITableViewController {
     setUpForNavigationBar()
     setUpRefreshControl()
     loadPosts(from: "Local")
+    NotificationCenter.default.addObserver(self, selector: #selector(self.uploaded(_:)), name: NSNotification.Name(rawValue: "uploaded"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.deleted(_:)), name: NSNotification.Name(rawValue: "deleted"), object: nil)
     
-    let delayTime = DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-    DispatchQueue.global().asyncAfter(deadline: delayTime) {
-        self.loadPosts(from: "Network")
-    }
+//    let delayTime = DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//    DispatchQueue.global().asyncAfter(deadline: delayTime) {
+//        self.loadPosts(from: "Network")
+//    }
   }
   
   
@@ -565,6 +567,18 @@ extension TimelinePageViewController {
       }
     }
   }
+}
+
+
+//MARK: Notification
+extension TimelinePageViewController {
+  func uploaded(_ notification:Notification) {
+    loadPosts(from: "Network")
+  }
+  func deleted(_ notification:Notification) {
+    loadPosts(from: "Network")
+  }
+
 }
 
 

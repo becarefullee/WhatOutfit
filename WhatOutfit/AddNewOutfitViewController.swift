@@ -39,10 +39,9 @@ class AddNewOutfitViewController: UIViewController {
 
 
   @IBAction func cancel(_ sender: UIBarButtonItem) {
-    self.dismiss(animated: true, completion: nil)
     ableToAddMore = true
     print("cancel")
-
+    self.dismiss(animated: true, completion: nil)
   }
   
   @IBAction func done(_ sender: UIBarButtonItem) {
@@ -81,6 +80,10 @@ class AddNewOutfitViewController: UIViewController {
       if error == nil {
         print("Saved successfully!")
         LilithProgressHUD.hide()
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
+        let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let tab = appDelegate.window?.rootViewController as! TabBarViewController
+        tab.selectedIndex = 0
         self.dismiss(animated: true, completion: nil)
         }
       })

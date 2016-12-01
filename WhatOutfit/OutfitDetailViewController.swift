@@ -21,6 +21,7 @@ class OutfitDetailViewController: UITableViewController {
   
   @IBAction func actions(_ sender: UIBarButtonItem) {
     let delete = FloatingAction(title: "Delete") { action in
+      LilithProgressHUD.show()
       self.deleteOutfit()
     }
     if userNameArray == PFUser.current()?.username {
@@ -382,6 +383,7 @@ extension OutfitDetailViewController {
           object.deleteInBackground(block: { (success, error) in
             if success {
               print("delete message success")
+              
             }
           })
         }
@@ -404,6 +406,8 @@ extension OutfitDetailViewController {
         print("ChangeSuccess")
         PFUser.current()?.incrementKey("posts", byAmount: -1)
         PFUser.current()?.saveInBackground()
+        LilithProgressHUD.hide()
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "deleted"), object: nil)
         self.navigationController?.popViewController(animated: true)
       })
       
@@ -479,10 +483,8 @@ extension OutfitDetailViewController {
       }else{
         likeBtn.setImage(unlikeImage, for: .normal)
       }
-
     }
   }
-  
 }
 
 

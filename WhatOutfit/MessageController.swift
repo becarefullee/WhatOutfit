@@ -89,7 +89,7 @@ extension MessageController {
         self.thumbnail = Array(repeating: nil, count: count!) as [UIImage?]
         self.type = Array(repeating: nil, count: count!) as [String?]
         
-        for i in 0...count! {
+        for i in 0...count!-1 {
           let usernameQuery = PFUser.query()
           usernameQuery?.getObjectInBackground(withId: objects?[i].value(forKey: "from") as! String, block: { (object, error) in
             if error == nil {
@@ -150,7 +150,6 @@ extension MessageController {
       dvc.postId.append(toPid!)
     }
   }
-  
 }
 
 
