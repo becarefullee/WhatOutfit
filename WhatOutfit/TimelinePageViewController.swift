@@ -541,8 +541,7 @@ extension TimelinePageViewController {
                     }
                   })
                 }
-                
-                
+            
                 let ava = objects?[i].object(forKey: "ava") as! PFFile
                 ava.getDataInBackground(block: { (data, error) in
                   self.avaImageSet[i] = (UIImage(data: data!))
@@ -555,9 +554,7 @@ extension TimelinePageViewController {
                 self.postId.append((objects?[i].objectId!)! as String)
                 self.likes.append(objects?[i].object(forKey: "likes") as! Int)
                 self.dateArray.append((objects?[i].createdAt)! as Date)
-
               }
-
             }
           } else {
             print(error!.localizedDescription)

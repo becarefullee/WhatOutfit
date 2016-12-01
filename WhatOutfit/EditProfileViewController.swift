@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class EditProfileViewController: UITableViewController {
+class EditProfileViewController: UITableViewController, UITextFieldDelegate {
   
   fileprivate var isAvaChange: Bool = false
   fileprivate var username: String?
@@ -23,10 +23,11 @@ class EditProfileViewController: UITableViewController {
   @IBOutlet weak var emailTextField: UITextField!
   @IBOutlet weak var mobileTextField: UITextField!
   
-  
+
   @IBAction func avaTapped(_ sender: UITapGestureRecognizer) {
     print("tapped")
     let camera = FloatingAction(title: "Take a picture") { action in
+      
       self.initWithImagePickView(type: "Camera")
     }
     camera.textColor = UIColor.black
@@ -48,13 +49,16 @@ class EditProfileViewController: UITableViewController {
     super.viewDidLoad()
     ava.layer.cornerRadius = 64
     ava.layer.masksToBounds = true
+    tableView.keyboardDismissMode = .onDrag
     loadUserInfo()
   }
   
   @IBAction func cancelBtnPressed(_ sender: UIBarButtonItem) {
+    self.view.endEditing(true)
     self.dismiss(animated: true, completion: nil)
   }
   @IBAction func doneBtnPressed(_ sender: UIBarButtonItem) {
+    self.view.endEditing(true)
     saveUserInfo()
   }
 }
@@ -167,6 +171,7 @@ extension EditProfileViewController {
           UserDefaults.standard.removeObject(forKey: "username")
           UserDefaults.standard.synchronize()
           
+          self.view.endEditing(true)
           let signin = self.storyboard?.instantiateViewController(withIdentifier: "SignInViewController") as! SignInViewController
           let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
           appDelegate.window?.rootViewController = signin
@@ -177,3 +182,4 @@ extension EditProfileViewController {
     }
   }
 }
+
