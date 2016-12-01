@@ -337,7 +337,7 @@ open class FloatingActionSheetController: UIViewController {
     
     private func createSheetButton(_ action: FloatingAction) -> ActionButton {
         let button = ActionButton(type: .custom)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 0
         button.backgroundColor = itemTintColor
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = font

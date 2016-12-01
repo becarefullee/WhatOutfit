@@ -12,6 +12,7 @@
 		090C618A1DEA7F2700E9D504 /* FourItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090C61891DEA7F2700E9D504 /* FourItemCell.swift */; };
 		091D8AE21DE545C800173F3E /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D8AE11DE545C800173F3E /* MessageController.swift */; };
 		09408F561DE16C9100B28A11 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09408F551DE16C9100B28A11 /* EditProfileViewController.swift */; };
+		096F1B101DEFE075009348D0 /* LFProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F1B0F1DEFE075009348D0 /* LFProgressHUD.swift */; };
 		09FA89991DE7B712009B7ACE /* FollowMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA89981DE7B712009B7ACE /* FollowMessageCell.swift */; };
 		09FA899B1DE7B752009B7ACE /* LikeMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA899A1DE7B752009B7ACE /* LikeMessageCell.swift */; };
 		18316E651DCA5F380073C06C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18316E641DCA5F380073C06C /* libz.tbd */; };
@@ -61,6 +62,7 @@
 		090C61891DEA7F2700E9D504 /* FourItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FourItemCell.swift; sourceTree = "<group>"; };
 		091D8AE11DE545C800173F3E /* MessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		09408F551DE16C9100B28A11 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		096F1B0F1DEFE075009348D0 /* LFProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFProgressHUD.swift; sourceTree = "<group>"; };
 		09FA89981DE7B712009B7ACE /* FollowMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowMessageCell.swift; sourceTree = "<group>"; };
 		09FA899A1DE7B752009B7ACE /* LikeMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeMessageCell.swift; sourceTree = "<group>"; };
 		18316E641DCA5F380073C06C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -261,6 +263,7 @@
 		18F13A951DC7E8770084F547 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				096F1B0F1DEFE075009348D0 /* LFProgressHUD.swift */,
 				1897A93C1DDBF049009C2196 /* Protocols.swift */,
 				18F13A6F1DC6AF300084F547 /* Utility.swift */,
 				18AF2C201DDA5B680086F3DD /* iCarousel */,
@@ -367,6 +370,7 @@
 				091D8AE21DE545C800173F3E /* MessageController.swift in Sources */,
 				1895E5DD1DC67F830060F7E8 /* TimelinePageViewController.swift in Sources */,
 				18A158DB1DD3D04A00642483 /* SearchViewController.swift in Sources */,
+				096F1B101DEFE075009348D0 /* LFProgressHUD.swift in Sources */,
 				1895E5DF1DC67F830060F7E8 /* Post.swift in Sources */,
 				18F13A8B1DC6FEBB0084F547 /* FloatingAction.swift in Sources */,
 				18F13A751DC6AF300084F547 /* User.swift in Sources */,

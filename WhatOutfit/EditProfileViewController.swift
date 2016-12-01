@@ -59,6 +59,7 @@ class EditProfileViewController: UITableViewController, UITextFieldDelegate {
   }
   @IBAction func doneBtnPressed(_ sender: UIBarButtonItem) {
     self.view.endEditing(true)
+    LilithProgressHUD.show()
     saveUserInfo()
   }
 }
@@ -80,15 +81,17 @@ extension EditProfileViewController {
   
   func saveUserInfo() {
     username = PFUser.current()?.username
-    let imageData = UIImageJPEGRepresentation(ava.image!, 0.1)
-    avaFile = PFFile(name: "ava.jpg", data: imageData!)
     let user = PFUser.current()!
+    if isAvaChange {
+      let imageData = UIImageJPEGRepresentation(ava.image!, 0.1)
+      avaFile = PFFile(name: "ava.jpg", data: imageData!)
+      user["ava"] = avaFile
+    }
     user["username"] = usernameTextField.text
     user["nickname"] = nicknameTextField.text
     user["bio"] = bioTextField.text
     user["email"] = emailTextField.text
     user["mobile"] = mobileTextField.text
-    user["ava"] = avaFile
     user.saveInBackground(block: { (success, error) in
       if success {
         self.view.endEditing(true)
@@ -96,6 +99,7 @@ extension EditProfileViewController {
         if self.username != self.usernameTextField.text || self.isAvaChange {
           self.updatePost()
         }else{
+          LilithProgressHUD.hide()
           self.dismiss(animated: true, completion: nil)
         }
       }
@@ -122,6 +126,7 @@ extension EditProfileViewController {
           if success {
             print("update name in post")
             self.isAvaChange = false
+            LilithProgressHUD.hide()
             self.dismiss(animated: true, completion: nil)
           }
         })
@@ -158,6 +163,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
       print("Something went wrong")
     }
     imagePicker.dismiss(animated: true, completion: { _ in
+      
     })
   }
 }

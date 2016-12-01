@@ -47,12 +47,13 @@ class AddNewOutfitViewController: UIViewController {
   
   @IBAction func done(_ sender: UIBarButtonItem) {
     guard imageSet.count > 1 else {
-      let alert = UIAlertController(title: "PLEASE", message: "upload at least one item", preferredStyle: UIAlertControllerStyle.alert)
+      let alert = UIAlertController(title: "", message: "Please select at least one item", preferredStyle: UIAlertControllerStyle.alert)
       let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
       alert.addAction(ok)
       self.present(alert, animated: true, completion: nil)
       return
     }
+    LilithProgressHUD.show()
     ableToAddMore = true
     print("done")
     
@@ -79,6 +80,7 @@ class AddNewOutfitViewController: UIViewController {
     object.saveInBackground (block: { (success:Bool, error) -> Void in
       if error == nil {
         print("Saved successfully!")
+        LilithProgressHUD.hide()
         self.dismiss(animated: true, completion: nil)
         }
       })

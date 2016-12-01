@@ -63,6 +63,7 @@ class SignInViewController: UIViewController {
     }
 
   @IBAction func signUpBtn_click(_ sender: UIButton) {
+    LilithProgressHUD.show()
     print("sign up pressed")
     
     // dismiss keyboard
@@ -72,7 +73,7 @@ class SignInViewController: UIViewController {
     if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty) {
       
       // alert message
-      let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertControllerStyle.alert)
+      let alert = UIAlertController(title: "", message: "Please fill all fields", preferredStyle: UIAlertControllerStyle.alert)
       let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
       alert.addAction(ok)
       self.present(alert, animated: true, completion: nil)
@@ -132,6 +133,7 @@ class SignInViewController: UIViewController {
         UserDefaults.standard.set(user.username, forKey: "username")
         UserDefaults.standard.synchronize()
         
+        LilithProgressHUD.hide()
         // call login func from AppDelegate.swift class
         let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.login()
@@ -159,7 +161,7 @@ class SignInViewController: UIViewController {
         if usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty {
           
             // show alert message
-            let alert = UIAlertController(title: "Please", message: "fill in fields", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "", message: "Please fill in fields", preferredStyle: UIAlertControllerStyle.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
@@ -180,7 +182,7 @@ class SignInViewController: UIViewController {
             } else {
                 
                 // show alert message
-                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                let alert = UIAlertController(title: "", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)

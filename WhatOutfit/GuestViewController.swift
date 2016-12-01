@@ -283,7 +283,9 @@ extension GuestViewController {
     header?.outfitsBtn.setTitleColor(greyColor, for: .normal)
     likesSelected = true
     collectionView?.reloadData()
-    scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+    if likesImageSet.count > 12 {
+      scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+    }
   }
 
   
@@ -293,7 +295,9 @@ extension GuestViewController {
     header?.outfitsBtn.setTitleColor(defaultBlue, for: .normal)
     likesSelected = false
     collectionView?.reloadData()
-    scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+    if outfitsImageSet.count > 12 {
+      scrollToCertainPoint(scrollView: collectionView!, point: anchor)
+    }
   }
   
   func scrollToCertainPoint(scrollView: UIScrollView, point: CGPoint) {
