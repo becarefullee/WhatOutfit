@@ -32,4 +32,14 @@ Users could find other users by searching username or nickname
 
 Users could filter their followings or followers to find a specific following or follower
 
+Users could see the collection of the outfits on timline page
 
+Users could see the each outfit on outfit detail page
+
+Users could delete their own outfits
+
+Users could edit their profile(change username, nickname, ava, bio, email, mobile)
+
+Users could see who liked their outfits and who followed them recently
+
+Users could logout 
