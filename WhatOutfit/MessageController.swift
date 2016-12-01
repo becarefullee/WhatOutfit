@@ -74,6 +74,13 @@ extension MessageController {
     query.findObjectsInBackground { (objects, error) in
       if error == nil {
         let count = objects?.count
+        guard count! > 0 else {
+          let alert = UIAlertController(title: "", message: "You don't have any message yet.", preferredStyle: UIAlertControllerStyle.alert)
+          let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+          alert.addAction(ok)
+          self.present(alert, animated: true, completion: nil)
+          return
+        }
         self.uid = Array(repeating: nil, count: count!) as [String?]
         self.pid = Array(repeating: nil, count: count!) as [String?]
         self.username = Array(repeating: nil, count: count!) as [String?]

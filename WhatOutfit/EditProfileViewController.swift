@@ -104,7 +104,11 @@ extension EditProfileViewController {
         }
       }
       else{
-        print(error!.localizedDescription)
+        LilithProgressHUD.hide()
+        let alert = UIAlertController(title: "", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
       }
     })
   }
