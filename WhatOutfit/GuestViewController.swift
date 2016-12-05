@@ -198,8 +198,10 @@ extension GuestViewController {
               if error == nil {
                 if objects?.count == 0 {
                   self.follow = "FOLLOW"
+                  self.collectionView?.reloadData()
                 }else if (objects?.count)! > 0 {
                   self.follow = "FOLLOWING"
+                  self.collectionView?.reloadData()
                 }
               }else{
                 print(error!.localizedDescription)

@@ -63,7 +63,6 @@ class SignInViewController: UIViewController {
     }
 
   @IBAction func signUpBtn_click(_ sender: UIButton) {
-    LilithProgressHUD.show()
     print("sign up pressed")
     
     // dismiss keyboard
@@ -81,7 +80,8 @@ class SignInViewController: UIViewController {
       return
     }
     
-    
+    LilithProgressHUD.show()
+
     // send data to server to related collumns
     let user = PFUser()
     user.username = usernameTxt.text?.lowercased()
@@ -141,7 +141,7 @@ class SignInViewController: UIViewController {
       } else {
         
         // show alert message
-        let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
@@ -186,6 +186,7 @@ class SignInViewController: UIViewController {
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
+                LilithProgressHUD.hide()
             }
         }
         

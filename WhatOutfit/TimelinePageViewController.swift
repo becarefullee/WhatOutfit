@@ -574,9 +574,11 @@ extension TimelinePageViewController {
 extension TimelinePageViewController {
   func uploaded(_ notification:Notification) {
     loadPosts(from: "Network")
+    tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
   }
   func deleted(_ notification:Notification) {
     loadPosts(from: "Network")
+    tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
   }
 
 }

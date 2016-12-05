@@ -481,7 +481,7 @@
                             <rect key="frame" x="0.0" y="64" width="414" height="224"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pbg" translatesAutoresizingMaskIntoConstraints="NO" id="9PH-bN-sAQ">
+                                <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pbg" translatesAutoresizingMaskIntoConstraints="NO" id="9PH-bN-sAQ">
                                     <rect key="frame" x="143" y="48" width="128" height="128"/>
                                     <gestureRecognizers/>
                                     <constraints>
@@ -2023,8 +2023,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sUC-rH-i84"/>
-        <segue reference="yxX-Qe-g49"/>
-        <segue reference="q9G-Hc-3Es"/>
-        <segue reference="7gy-fI-ML2"/>
+        <segue reference="eVk-bx-4wf"/>
+        <segue reference="0vj-an-RNJ"/>
+        <segue reference="2Va-hk-zFC"/>
     </inferredMetricsTieBreakers>
 </document>
