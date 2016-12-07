@@ -2078,17 +2078,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="邮箱" translatesAutoresizingMaskIntoConstraints="NO" id="Yav-fC-Dma" userLabel="email">
-                                        <rect key="frame" x="-80" y="-1" width="62.000000000000007" height="62"/>
+                                        <rect key="frame" x="-80" y="0.0" width="60.000000000000007" height="60"/>
                                         <rect key="contentStretch" x="0.070000000000000007" y="0.070000000000000007" width="0.84999999999999998" height="0.84999999999999998"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Yav-fC-Dma" secondAttribute="height" multiplier="1:1" id="Yji-uh-Je8"/>
-                                            <constraint firstAttribute="width" constant="62" id="mtr-qw-okg"/>
+                                            <constraint firstAttribute="width" constant="60" id="mtr-qw-okg"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="密码" translatesAutoresizingMaskIntoConstraints="NO" id="nxN-pz-dqr" userLabel="pass">
-                                        <rect key="frame" x="-80" y="-1" width="62.000000000000007" height="62"/>
+                                        <rect key="frame" x="-80" y="0.0" width="60.000000000000007" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="62" id="duG-pY-2wt"/>
+                                            <constraint firstAttribute="width" constant="60" id="duG-pY-2wt"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDl-eT-1n6">
@@ -2103,10 +2103,10 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="用户登陆" translatesAutoresizingMaskIntoConstraints="NO" id="shh-7W-AA1">
-                                        <rect key="frame" x="-80" y="-1" width="62.000000000000007" height="62"/>
+                                        <rect key="frame" x="-80" y="0.0" width="60.000000000000007" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="shh-7W-AA1" secondAttribute="height" multiplier="1:1" id="ZXU-Pc-fNa"/>
-                                            <constraint firstAttribute="width" constant="62" id="lSU-Iw-3kw"/>
+                                            <constraint firstAttribute="width" constant="60" id="lSU-Iw-3kw"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
