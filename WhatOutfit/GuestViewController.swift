@@ -124,7 +124,7 @@ extension GuestViewController {
 }
 
 
-//:MARK CollectionView Datasource
+//MARK: CollectionView Datasource
 
 
 extension GuestViewController {
@@ -312,7 +312,7 @@ extension GuestViewController {
 
 
 
-//:MARK Network
+//MARK: Network
 
 extension GuestViewController {
   
@@ -490,7 +490,7 @@ extension GuestViewController {
 }
 
 
-//:MARK Segues
+//MARK: Segues
 
 
 extension GuestViewController {
@@ -539,7 +539,7 @@ extension GuestViewController {
 
 
 
-//:MARK Follow and unfollow
+//MARK: Follow and unfollow
 
 extension GuestViewController {
   

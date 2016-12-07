@@ -94,7 +94,7 @@ class ProfilePageViewController: UICollectionViewController {
   }
 }
 
-//:MARK Change Section
+//MARK: Change Section
 
 extension ProfilePageViewController {
   @IBAction func outfitsBtnPressed(_ sender: UIButton) {
@@ -114,7 +114,7 @@ extension ProfilePageViewController {
 }
 
 
-//:MARK CollectionView Datasource
+//MARK: CollectionView Datasource
 
 
 extension ProfilePageViewController {
@@ -194,7 +194,7 @@ extension ProfilePageViewController {
   }
 }
 
-//:MARK Resize the CollectionvViewCell based on screen size
+//MARK: Resize the CollectionvViewCell based on screen size
 
 
 extension ProfilePageViewController: UICollectionViewDelegateFlowLayout {
@@ -242,7 +242,7 @@ extension ProfilePageViewController {
 
 
 
-//:MARK Network
+//MARK: Network
 
 extension ProfilePageViewController {
   
@@ -447,7 +447,7 @@ extension ProfilePageViewController {
 }
 
 
-//:MARK Segues
+//MARK: Segues
 
 
 extension ProfilePageViewController {

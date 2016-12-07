@@ -133,7 +133,7 @@ extension OutfitDetailViewController {
 }
 
 
-//:MARK CellDelegate
+//MARK: CellDelegate
 
 extension OutfitDetailViewController: CellDelegate {
   func performSegue(identifier: String, guestId: String, guestName: String) {
@@ -163,7 +163,7 @@ extension OutfitDetailViewController: CellDelegate {
 
 
 
-//:MARK Segue
+//MARK: Segue
 
 extension OutfitDetailViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -177,7 +177,7 @@ extension OutfitDetailViewController {
 }
 
 
-//:MARK LoadDetail
+//MARK: LoadDetail
 
 extension OutfitDetailViewController {
   func loadDetails() {
@@ -242,7 +242,7 @@ extension OutfitDetailViewController: iCarouselDataSource, iCarouselDelegate {
 }
 
 
-//:MARK Helper method
+//MARK: Helper method
 
 extension OutfitDetailViewController {
   
