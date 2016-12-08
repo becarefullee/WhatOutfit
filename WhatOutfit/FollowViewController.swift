@@ -238,25 +238,27 @@ extension FollowViewController {
             let count = objects?.count
             self.follow = Array.init(repeating: "", count: count!)
             // found related objects
-            for i in 0...count!-1 {
-              self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
-              self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
-              self.objectId.append((objects?[i].objectId!)!)
-              self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
-              let query = PFQuery(className: "Follow")
-              query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
-              query.whereKey("following", equalTo: objects?[i].objectId as Any)
-              query.findObjectsInBackground { (results, error) in
-                if (results?.count)! > 0 {
-                  self.follow[i] = "FOLLOWING"
-                  self.tableView.reloadData()
-                }else if results?.count == 0{
-                  self.follow[i] = "FOLLOW"
-                  self.tableView.reloadData()
+            if count! > 0 {
+              for i in 0...count!-1 {
+                self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+                self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+                self.objectId.append((objects?[i].objectId!)!)
+                self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+                let query = PFQuery(className: "Follow")
+                query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+                query.whereKey("following", equalTo: objects?[i].objectId as Any)
+                query.findObjectsInBackground { (results, error) in
+                  if (results?.count)! > 0 {
+                    self.follow[i] = "FOLLOWING"
+                    self.tableView.reloadData()
+                  }else if results?.count == 0{
+                    self.follow[i] = "FOLLOW"
+                    self.tableView.reloadData()
+                  }
                 }
               }
+              self.tableView.reloadData()
             }
-            self.tableView.reloadData()
           } else {
             print(error!.localizedDescription)
           }
@@ -296,29 +298,30 @@ extension FollowViewController {
             self.nickName.removeAll(keepingCapacity: false)
             self.follow.removeAll(keepingCapacity: false)
 
-            
             let count = objects?.count
             self.follow = Array.init(repeating: "", count: count!)
             // found related objects
-            for i in 0...count!-1 {
-              self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
-              self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
-              self.objectId.append((objects?[i].objectId!)!)
-              self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
-              let query = PFQuery(className: "Follow")
-              query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
-              query.whereKey("following", equalTo: objects?[i].objectId as Any)
-              query.findObjectsInBackground { (results, error) in
-                if (results?.count)! > 0 {
-                  self.follow[i] = "FOLLOWING"
-                  self.tableView.reloadData()
-                }else if results?.count == 0{
-                  self.follow[i] = "FOLLOW"
-                  self.tableView.reloadData()
+            if count! > 0 {
+              for i in 0...count!-1 {
+                self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+                self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+                self.objectId.append((objects?[i].objectId!)!)
+                self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+                let query = PFQuery(className: "Follow")
+                query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+                query.whereKey("following", equalTo: objects?[i].objectId as Any)
+                query.findObjectsInBackground { (results, error) in
+                  if (results?.count)! > 0 {
+                    self.follow[i] = "FOLLOWING"
+                    self.tableView.reloadData()
+                  }else if results?.count == 0{
+                    self.follow[i] = "FOLLOW"
+                    self.tableView.reloadData()
+                  }
                 }
               }
+              self.tableView.reloadData()
             }
-            self.tableView.reloadData()
           } else {
             print(error!.localizedDescription)
           }

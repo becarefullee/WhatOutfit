@@ -172,6 +172,7 @@ extension OutfitDetailViewController {
       dvc.guestId = toGuest
       dvc.userName = guestName
       dvc.follow = followGuest
+      print(dvc.follow)
     }
   }
 }

@@ -95,43 +95,55 @@ class PostContentCell: UITableViewCell {
   func updateLikeRelation(operation: operation) {
     switch operation {
     case .add:
-      //Add a like relation
-      let object = PFObject(className: "Like")
-      object["uid"] = PFUser.current()?.objectId!
-      object["pid"] = self.pid!
-      object.saveInBackground { (success, error) in
-        if success {
-          self.likeBtn.setImage(likeImage, for: .normal)
-          self.likes = self.likes! + 1
-          self.numberOfLikes.text = "\(converLikesToString(numberOfLikes: self.likes!)) likes"
-          self.isLiked = !self.isLiked!
-          self.addLikeMessage()
-          print("Update Sucess")
-          
-          //CurrentUser's Likes plus one
-          PFUser.current()?.incrementKey("likes")
-          PFUser.current()?.saveInBackground(block: { (success, error) in
-            if success {
-              print("User likes update")
-            }
-          })
-          //Post's like plus one
-          let query = PFQuery(className: "Post")
-          query.getObjectInBackground(withId: self.pid!, block: { (object, error) in
-            object?.incrementKey("likes")
-            object?.saveInBackground(block: { (success, error) in
+      let query = PFQuery(className: "Like")
+      query.whereKey("uid", equalTo: PFUser.current()?.objectId as Any)
+      query.whereKey("pid", equalTo: self.pid as Any)
+      query.findObjectsInBackground(block: { (objects, error) in
+        guard objects?.count == 0 else {
+          print("Like relation already exist!")
+          return
+        }
+        //Add a like relation
+        let object = PFObject(className: "Like")
+        object["uid"] = PFUser.current()?.objectId!
+        object["pid"] = self.pid!
+        object.saveInBackground { (success, error) in
+          if success {
+            self.likeBtn.setImage(likeImage, for: .normal)
+            self.likes = self.likes! + 1
+            self.numberOfLikes.text = "\(converLikesToString(numberOfLikes: self.likes!)) likes"
+            self.isLiked = !self.isLiked!
+            self.addLikeMessage()
+            print("Update Sucess")
+            
+            //CurrentUser's Likes plus one
+            PFUser.current()?.incrementKey("likes")
+            PFUser.current()?.saveInBackground(block: { (success, error) in
               if success {
-                print("Likes updated")
-              }else {
-                print(error!.localizedDescription)
+                print("User likes update")
               }
             })
-          })
-          
-        }else {
-          print(error!.localizedDescription)
-        }
-      }
+            //Post's like plus one
+            let query = PFQuery(className: "Post")
+            query.getObjectInBackground(withId: self.pid!, block: { (object, error) in
+              object?.incrementKey("likes")
+              object?.saveInBackground(block: { (success, error) in
+                if success {
+                  print("Likes updated")
+                }else {
+                  print(error!.localizedDescription)
+                }
+              })
+            })
+            
+          }else {
+            print(error!.localizedDescription)
+          }
+        }        
+      })
+      
+      
+      
       
     case .delete:
       //Delete a like relation

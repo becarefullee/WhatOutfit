@@ -177,9 +177,7 @@ class SignInViewController: UIViewController {
       ava.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/6)
       email.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/6)
       pass.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/6)
-      
-      
-      
+  
       if mode == .SignIn {
         bgCenterY.constant = -distant
       }else{
@@ -187,7 +185,7 @@ class SignInViewController: UIViewController {
       }
       self.view.layoutIfNeeded()
       
-      UIView.animate(withDuration: 0.5, animations: {
+      UIView.animate(withDuration: 0.4, animations: {
         self.signin.alpha = 1
         self.signinBg.alpha = 1
         self.bg.alpha = 1
