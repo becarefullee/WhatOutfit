@@ -190,7 +190,7 @@ extension GuestViewController {
           self.header?.editProfile.tintColor = UIColor.black
           setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
         }else {
-          if follow == nil {
+          if follow == "" {
             let query = PFQuery(className: "Follow")
             query.whereKey("follower", equalTo: PFUser.current()?.objectId as Any)
             query.whereKey("following", equalTo: guestId as Any)

@@ -97,26 +97,18 @@ extension SearchViewController {
       }
     }
     
-    self.follow = Array.init(repeating: "", count: usernameArray.count)
-    
-    let query = PFQuery(className: "Follow")
-    query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
-    query.whereKey("following", equalTo: objectId[indexPath.row])
-    
-    query.findObjectsInBackground { (objects, error) in
-      if (objects?.count)! > 0 {
-        cell.followBtn.tintColor = UIColor.white
-        cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-        self.follow[indexPath.row] = "FOLLOWING"
-        setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
-      }else if objects?.count == 0{
-        cell.followBtn.tintColor = defaultBlue
-        cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-        self.follow[indexPath.row] = "FOLLOW"
-        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
-      }
+    if follow[indexPath.row] == "FOLLOW" {
+      cell.followBtn.tintColor = defaultBlue
+      cell.followBtn.setTitle("FOLLOW", for: UIControlState())
+      self.follow[indexPath.row] = "FOLLOW"
+      setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
+    }else if follow[indexPath.row] == "FOLLOWING" {
+      cell.followBtn.tintColor = UIColor.white
+      cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
+      self.follow[indexPath.row] = "FOLLOWING"
+      setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
     }
-    
+        
     if cell.userNameLabel.text == PFUser.current()?.username! {
       cell.followBtn.isHidden = true
     }
@@ -137,49 +129,72 @@ extension SearchViewController {
     usernameQuery?.whereKey("username", matchesRegex: "(?i)" + username.lowercased())
     usernameQuery?.findObjectsInBackground (block: { (objects:[PFObject]?, error) -> Void in
       if error == nil {
-        
         // clean up
         self.usernameArray.removeAll(keepingCapacity: false)
         self.avaArray.removeAll(keepingCapacity: false)
         self.objectId.removeAll(keepingCapacity: false)
         self.nickName.removeAll(keepingCapacity: false)
+        self.follow.removeAll(keepingCapacity: false)
 
         
         // if no objects are found according to entered text in usernaem colomn, find by fullname
         if objects!.isEmpty {
-          
           let fullnameQuery = PFUser.query()
           fullnameQuery?.whereKey("nickname", matchesRegex: "(?i)" + username)
           fullnameQuery?.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
             if error == nil {
               
-              
+              let count = objects?.count
+              self.follow = Array.init(repeating: "", count: count!)
               // found related objects
-              for object in objects! {
-                self.usernameArray.append(object.object(forKey: "username") as! String)
-                self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-                self.objectId.append(object.objectId!)
-                self.nickName.append(object.object(forKey: "nickname") as! String)
+              if count! > 0 {
+                for i in 0...count!-1 {
+                  self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+                  self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+                  self.objectId.append((objects?[i].objectId!)!)
+                  self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+                  let query = PFQuery(className: "Follow")
+                  query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+                  query.whereKey("following", equalTo: objects?[i].objectId as Any)
+                  query.findObjectsInBackground { (results, error) in
+                    if (results?.count)! > 0 {
+                      self.follow[i] = "FOLLOWING"
+                      self.tableView.reloadData()
+                    }else if results?.count == 0{
+                      self.follow[i] = "FOLLOW"
+                      self.tableView.reloadData()
+                    }
+                  }
+                }
+                self.tableView.reloadData()
               }
-              self.tableView.reloadData()
-
             }
           })
         }
-        
-  
-        
-        // found related objects
-        for object in objects! {
-          self.usernameArray.append(object.object(forKey: "username") as! String)
-          self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-          self.objectId.append(object.objectId!)
-          self.nickName.append(object.object(forKey: "nickname") as! String)
+        else{
+          let count = objects?.count
+          self.follow = Array.init(repeating: "", count: count!)
+          // found related objects
+          for i in 0...count!-1 {
+            self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+            self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+            self.objectId.append((objects?[i].objectId!)!)
+            self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+            let query = PFQuery(className: "Follow")
+            query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+            query.whereKey("following", equalTo: objects?[i].objectId as Any)
+            query.findObjectsInBackground { (results, error) in
+              if (results?.count)! > 0 {
+                self.follow[i] = "FOLLOWING"
+                self.tableView.reloadData()
+              }else if results?.count == 0{
+                self.follow[i] = "FOLLOW"
+                self.tableView.reloadData()
+              }
+            }
+          }
+          self.tableView.reloadData()
         }
-        
-        // reload
-        self.tableView.reloadData()
-        
       }
     })
   }

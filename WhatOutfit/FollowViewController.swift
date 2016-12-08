@@ -318,7 +318,6 @@ extension FollowViewController {
           cell.followBtn.tintColor = UIColor.white
           cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
           setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
-          
           self.follow[cell.index!] = "FOLLOWING"
           
           // Change the followers of the people you follow
@@ -458,8 +457,6 @@ extension FollowViewController {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showGuest" {
-      print("********************************")
-      print(follow)
       let dvc = segue.destination as! GuestViewController
       if searchController.isActive && searchController.searchBar.text != "" {
         dvc.guestId = filterObjectId[(tableView.indexPathForSelectedRow?.row)!]
@@ -470,6 +467,8 @@ extension FollowViewController {
         dvc.userName = usernameArray[(tableView.indexPathForSelectedRow?.row)!]
       }
       dvc.follow = follow[(tableView.indexPathForSelectedRow?.row)!]
+      print("********************************")
+      print((dvc.follow))
     }
   }
 }

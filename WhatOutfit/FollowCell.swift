@@ -19,7 +19,10 @@ class FollowCell: UITableViewCell {
   @IBOutlet weak var nickNameLabel: UILabel!
   @IBOutlet weak var followBtn: UIButton!
   
-  
+  override func prepareForReuse() {
+    followBtn.isHidden = false
+  }
+
   override func awakeFromNib() {
     super.awakeFromNib()
     avaImageView.layer.cornerRadius = avaImageView.bounds.width/2
