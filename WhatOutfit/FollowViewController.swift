@@ -25,6 +25,7 @@ class FollowViewController: UITableViewController {
   fileprivate var filterAvaArray = [PFFile]()
   fileprivate var filterNickName = [String]()
   fileprivate var filterObjectId = [String]()
+  fileprivate var filterFollow = [String]()
 
   fileprivate var usernameArray = [String]()
   fileprivate var avaArray = [PFFile]()
@@ -81,6 +82,8 @@ class FollowViewController: UITableViewController {
     filterUserNameArray.removeAll(keepingCapacity: false)
     filterNickName.removeAll(keepingCapacity: false)
     filterObjectId.removeAll(keepingCapacity: false)
+    filterFollow.removeAll(keepingCapacity: false)
+
     guard usernameArray.count > 0 else {
       return
     }
@@ -90,6 +93,7 @@ class FollowViewController: UITableViewController {
         filterNickName.append(nickName[i])
         filterObjectId.append(objectId[i])
         filterUserNameArray.append(usernameArray[i])
+        filterFollow.append(follow[i])
       }
     }
     tableView.reloadData()
@@ -135,31 +139,49 @@ extension FollowViewController {
       }
     }
     
-    self.follow = Array.init(repeating: "", count: usernameArray.count)
-    
-    let query = PFQuery(className: "Follow")
-    query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
-    
+    var temp = ""
     if searchController.isActive && searchController.searchBar.text != "" {
-      query.whereKey("following", equalTo: filterObjectId[indexPath.row])
+      temp = filterFollow[indexPath.row]
     }else{
-      query.whereKey("following", equalTo: objectId[indexPath.row])
+      temp = follow[indexPath.row]
+    }
+
+    
+    if temp == "FOLLOW" {
+      cell.followBtn.tintColor = defaultBlue
+      cell.followBtn.setTitle("FOLLOW", for: UIControlState())
+      setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
+    }else if temp == "FOLLOWING" {
+      cell.followBtn.tintColor = UIColor.white
+      cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
+      setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
     }
     
-    
-    query.findObjectsInBackground { (objects, error) in
-      if (objects?.count)! > 0 {
-        cell.followBtn.tintColor = UIColor.white
-        cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-        self.follow[indexPath.row] = "FOLLOWING"
-        setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
-      }else if objects?.count == 0{
-        cell.followBtn.tintColor = defaultBlue
-        cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-        self.follow[indexPath.row] = "FOLLOW"
-        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
-      }
-    }
+//    self.follow = Array.init(repeating: "", count: usernameArray.count)
+//    
+//    let query = PFQuery(className: "Follow")
+//    query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+//    
+//    if searchController.isActive && searchController.searchBar.text != "" {
+//      query.whereKey("following", equalTo: filterObjectId[indexPath.row])
+//    }else{
+//      query.whereKey("following", equalTo: objectId[indexPath.row])
+//    }
+//    
+//    
+//    query.findObjectsInBackground { (objects, error) in
+//      if (objects?.count)! > 0 {
+//        cell.followBtn.tintColor = UIColor.white
+//        cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
+//        self.follow[indexPath.row] = "FOLLOWING"
+//        setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
+//      }else if objects?.count == 0{
+//        cell.followBtn.tintColor = defaultBlue
+//        cell.followBtn.setTitle("FOLLOW", for: UIControlState())
+//        self.follow[indexPath.row] = "FOLLOW"
+//        setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
+//      }
+//    }
     
     if cell.userNameLabel.text == PFUser.current()?.username! {
       cell.followBtn.isHidden = true
@@ -167,16 +189,6 @@ extension FollowViewController {
     
     return cell
   }
-  
-//  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//    if animateCell {
-//        cell.center.x -= 500
-//        delay += 0.1
-//        UIView.animate(withDuration: 0.3, delay: delay, options: [.curveEaseIn], animations: {
-//          cell.center.x += 500
-//        }, completion: nil)
-//      }
-//    }
 }
 
 //MARK: SearchControl Delegate
@@ -220,16 +232,31 @@ extension FollowViewController {
             self.avaArray.removeAll(keepingCapacity: false)
             self.objectId.removeAll(keepingCapacity: false)
             self.nickName.removeAll(keepingCapacity: false)
+            self.follow.removeAll(keepingCapacity: false)
+
             
-            // find related objects in User class of Parse
-            for object in objects! {
-              self.usernameArray.append(object.object(forKey: "username") as! String)
-              self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-              self.objectId.append(object.objectId!)
-              self.nickName.append(object.object(forKey: "nickname") as! String)
+            let count = objects?.count
+            self.follow = Array.init(repeating: "", count: count!)
+            // found related objects
+            for i in 0...count!-1 {
+              self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+              self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+              self.objectId.append((objects?[i].objectId!)!)
+              self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+              let query = PFQuery(className: "Follow")
+              query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+              query.whereKey("following", equalTo: objects?[i].objectId as Any)
+              query.findObjectsInBackground { (results, error) in
+                if (results?.count)! > 0 {
+                  self.follow[i] = "FOLLOWING"
+                  self.tableView.reloadData()
+                }else if results?.count == 0{
+                  self.follow[i] = "FOLLOW"
+                  self.tableView.reloadData()
+                }
+              }
             }
             self.tableView.reloadData()
-
           } else {
             print(error!.localizedDescription)
           }
@@ -267,12 +294,29 @@ extension FollowViewController {
             self.avaArray.removeAll(keepingCapacity: false)
             self.objectId.removeAll(keepingCapacity: false)
             self.nickName.removeAll(keepingCapacity: false)
+            self.follow.removeAll(keepingCapacity: false)
+
             
-            for object in objects! {
-              self.usernameArray.append(object.object(forKey: "username") as! String)
-              self.avaArray.append(object.object(forKey: "ava") as! PFFile)
-              self.objectId.append(object.objectId!)
-              self.nickName.append(object.object(forKey: "nickname") as! String)
+            let count = objects?.count
+            self.follow = Array.init(repeating: "", count: count!)
+            // found related objects
+            for i in 0...count!-1 {
+              self.usernameArray.append(objects?[i].object(forKey: "username") as! String)
+              self.avaArray.append(objects?[i].object(forKey: "ava") as! PFFile)
+              self.objectId.append((objects?[i].objectId!)!)
+              self.nickName.append(objects?[i].object(forKey: "nickname") as! String)
+              let query = PFQuery(className: "Follow")
+              query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
+              query.whereKey("following", equalTo: objects?[i].objectId as Any)
+              query.findObjectsInBackground { (results, error) in
+                if (results?.count)! > 0 {
+                  self.follow[i] = "FOLLOWING"
+                  self.tableView.reloadData()
+                }else if results?.count == 0{
+                  self.follow[i] = "FOLLOW"
+                  self.tableView.reloadData()
+                }
+              }
             }
             self.tableView.reloadData()
           } else {

@@ -44,7 +44,7 @@ extension SearchViewController: UISearchResultsUpdating {
     guard let searchText = searchController.searchBar.text else { return }
     guard !searchText.characters.isEmpty else { return }
     searchTypingTimer?.invalidate()
-    searchTypingTimer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(self.startNewSearchFromTimer(_:)),userInfo: ["searchText": searchText], repeats: false)
+    searchTypingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startNewSearchFromTimer(_:)),userInfo: ["searchText": searchText], repeats: false)
   }
   
   
@@ -100,15 +100,13 @@ extension SearchViewController {
     if follow[indexPath.row] == "FOLLOW" {
       cell.followBtn.tintColor = defaultBlue
       cell.followBtn.setTitle("FOLLOW", for: UIControlState())
-      self.follow[indexPath.row] = "FOLLOW"
       setBtnStyleToColor(sender: cell.followBtn, color: UIColor.white, borderColor: defaultBlue)
     }else if follow[indexPath.row] == "FOLLOWING" {
       cell.followBtn.tintColor = UIColor.white
       cell.followBtn.setTitle("✔︎FOLLOWING", for: UIControlState())
-      self.follow[indexPath.row] = "FOLLOWING"
       setBtnStyleToColor(sender: cell.followBtn, color: greenColor, borderColor: greenColor)
     }
-        
+    
     if cell.userNameLabel.text == PFUser.current()?.username! {
       cell.followBtn.isHidden = true
     }
@@ -143,7 +141,6 @@ extension SearchViewController {
           fullnameQuery?.whereKey("nickname", matchesRegex: "(?i)" + username)
           fullnameQuery?.findObjectsInBackground(block: { (objects:[PFObject]?, error) -> Void in
             if error == nil {
-              
               let count = objects?.count
               self.follow = Array.init(repeating: "", count: count!)
               // found related objects
@@ -168,11 +165,20 @@ extension SearchViewController {
                 }
                 self.tableView.reloadData()
               }
+              else{
+                self.tableView.reloadData()
+                let alert = UIAlertController(title: "", message: "Couldn't find user.", preferredStyle: UIAlertControllerStyle.alert)
+                let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
+                })
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
+              }
             }
           })
         }
         else{
           let count = objects?.count
+          print(count)
           self.follow = Array.init(repeating: "", count: count!)
           // found related objects
           for i in 0...count!-1 {
