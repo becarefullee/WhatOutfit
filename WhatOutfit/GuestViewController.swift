@@ -184,13 +184,16 @@ extension GuestViewController {
         headerView.numberOfPosts.setTitle("0", for: .normal)
         
         headerView.profilePicture.image = UIImage(named: "unknown")
-      } else {
+      }
+      else {
         if PFUser.current()?.username == userName {
           self.header?.editProfile.setTitle("Edit Profile", for: .normal)
           self.header?.editProfile.tintColor = UIColor.black
           setBtnStyleToColor(sender: (header?.editProfile)!, color: lightGreyColor, borderColor: lightGreyColor)
-        }else {
-          if follow == "" {
+        }
+        else {
+          print("Follow? \(follow)")
+          if follow == nil || follow == ""{
             let query = PFQuery(className: "Follow")
             query.whereKey("follower", equalTo: PFUser.current()?.objectId as Any)
             query.whereKey("following", equalTo: guestId as Any)
