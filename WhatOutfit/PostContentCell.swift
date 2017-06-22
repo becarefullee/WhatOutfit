@@ -109,6 +109,7 @@ class PostContentCell: UITableViewCell {
         object["pid"] = self.pid!
         object.saveInBackground { (success, error) in
           if success {
+            
             self.likeBtn.setImage(likeImage, for: .normal)
             self.likes = self.likes! + 1
             self.numberOfLikes.text = "\(converLikesToString(numberOfLikes: self.likes!)) likes"
@@ -141,10 +142,7 @@ class PostContentCell: UITableViewCell {
           }
         }        
       })
-      
-      
-      
-      
+
     case .delete:
       //Delete a like relation
       let query = PFQuery(className: "Like")
@@ -202,6 +200,15 @@ class PostContentCell: UITableViewCell {
       message["type"] = "like" 
       message.saveInBackground(block: { (success, error) in
         if success {
+          
+          PFCloud.callFunction(inBackground: "pushLikeNotification", withParameters: ["name": PFUser.current()?.username, "target": self.postOwnerId!], block: { (object, error) in
+            guard error == nil else {
+              print(error?.localizedDescription)
+              return
+            }
+            print("Push success!")
+          })
+          
           print("add new message suceess")
         }
       })

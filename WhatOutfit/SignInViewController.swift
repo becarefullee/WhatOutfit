@@ -279,6 +279,12 @@ extension SignInViewController {
     PFUser.logInWithUsername(inBackground: username!.lowercased(), password: password!) { (user:PFUser?, error) -> Void in
       if error == nil {
         
+        //Update installation info
+        let installation = PFInstallation.current()
+        installation?["uid"] = PFUser.current()?.objectId
+        installation?.saveInBackground()
+      
+        
         // remember user or save in App Memeory did the user login or not
         UserDefaults.standard.set(user!.username, forKey: "username")
         UserDefaults.standard.synchronize()
@@ -333,38 +339,55 @@ extension SignInViewController {
         print(PFUser.current()?.objectId as Any)
         let userInfo = PFObject(className: "UserInfo")
         userInfo["uid"] = PFUser.current()?.objectId!
-        userInfo["followings"] = 1
+//        userInfo["followings"] = 1
+        userInfo["followings"] = 0
         userInfo["followers"] = 0
         userInfo.saveInBackground()
-        
-        let follow = PFObject(className: "Follow")
-        follow["follower"] = PFUser.current()?.objectId!
-        follow["following"] = "KXrDGusn5N"
-        follow.saveInBackground()
-        
-        let query = PFQuery(className: "UserInfo")
-        query.getObjectInBackground(withId: "uTd66kWyVC", block: { (object, error) in
-          object?.incrementKey("followers")
-          object?.saveInBackground()
-        })
-        
-        //add follow message
-        let message = PFObject(className: "Message")
-        message["to"] = "KXrDGusn5N"
-        message["from"] = PFUser.current()?.objectId
-        message["ava"] = imageFile
-        message["type"] = "follow"
-        message.saveInBackground(block: { (success, error) in
+        userInfo.saveInBackground(block: { (success, error) in
           if success {
-            LilithProgressHUD.hide()
-            self.welcomeAnimation()
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
-            UserDefaults.standard.set(user.username, forKey: "username")
-            UserDefaults.standard.synchronize()
-            print("add new message suceess")
-            
+            //Update installation info
+            let installation = PFInstallation.current()
+            installation?["uid"] = PFUser.current()?.objectId
+            installation?.saveInBackground(block: { (success, error) in
+              if success {
+                LilithProgressHUD.hide()
+                self.welcomeAnimation()
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
+                UserDefaults.standard.set(user.username, forKey: "username")
+                UserDefaults.standard.synchronize()
+              }
+            })
           }
         })
+//        
+//        let follow = PFObject(className: "Follow")
+//        follow["follower"] = PFUser.current()?.objectId!
+//        follow["following"] = "KXrDGusn5N"
+//        follow.saveInBackground()
+      
+//        let query = PFQuery(className: "UserInfo")
+//        query.getObjectInBackground(withId: "uTd66kWyVC", block: { (object, error) in
+//          object?.incrementKey("followers")
+//          object?.saveInBackground()
+//        })
+      
+        //add follow message
+//        let message = PFObject(className: "Message")
+//        message["to"] = "KXrDGusn5N"
+//        message["from"] = PFUser.current()?.objectId
+//        message["ava"] = imageFile
+//        message["type"] = "follow"
+//        message.saveInBackground(block: { (success, error) in
+//          if success {
+//            LilithProgressHUD.hide()
+//            self.welcomeAnimation()
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
+//            UserDefaults.standard.set(user.username, forKey: "username")
+//            UserDefaults.standard.synchronize()
+//            print("add new message suceess")
+//            
+//          }
+//        })
     }
   }
 }

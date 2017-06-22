@@ -7,6 +7,8 @@
 //
 import Parse
 import UIKit
+import UserNotifications
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,16 +22,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Parse.enableLocalDatastore()
     
     let parseConfig = ParseClientConfiguration { (ParseMutableClientConfiguration) in
-      ParseMutableClientConfiguration.applicationId = "YourApplicationId"
-      ParseMutableClientConfiguration.clientKey = "YourMasterKey"
-      ParseMutableClientConfiguration.server = "YourApp's URL"
-      ParseMutableClientConfiguration.isLocalDatastoreEnabled = true
+        ParseMutableClientConfiguration.applicationId = "com.Qinyuan-li.ParseTutorial"
+        //ParseMutableClientConfiguration.clientKey = "WhatOutfit_Liqinyuan_Uiowa_19940722"
+        ParseMutableClientConfiguration.server = "https://fierce-wildwood-43750.herokuapp.com/parse"
+        ParseMutableClientConfiguration.isLocalDatastoreEnabled = true
     }
     
     Parse.initialize(with: parseConfig)
     
-    login()
+    //1
+    let userNotificationCenter = UNUserNotificationCenter.current()
+    userNotificationCenter.delegate = self
     
+    //2
+    userNotificationCenter.requestAuthorization(options: [.badge, .sound]) { accepted, error in
+      guard accepted == true else {
+        print("User declined remote notifications")
+        return
+      }
+      //3
+      application.registerForRemoteNotifications()
+    }
+
+    
+    login()
     
     return true
   }
@@ -63,5 +79,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
+  // 1
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let installation = PFInstallation.current()
+    installation?.setDeviceTokenFrom(deviceToken)
+    installation?.saveInBackground()
+  }
+  // 2
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    if (error as NSError).code == 3010 {
+      print("Push notifications are not supported in the iOS Simulator.")
+    } else {
+      print("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
+    }
+  }
+  
+}
+
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              willPresent notification: UNNotification,
+                              withCompletionHandler completionHandler:
+    @escaping (UNNotificationPresentationOptions) -> Void) {
+    PFPush.handle(notification.request.content.userInfo)
+    completionHandler(.alert)
+  }
 }
 

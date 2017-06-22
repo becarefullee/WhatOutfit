@@ -32,12 +32,9 @@ class AddNewOutfitViewController: UIViewController {
         navigationController.navigationBar.barTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         navigationController.navigationBar.isTranslucent = false
       }
-
-
     }
+  
   @IBOutlet weak var outfitCollectionView: UICollectionView!
-
-
   @IBAction func cancel(_ sender: UIBarButtonItem) {
     ableToAddMore = true
     print("cancel")
@@ -78,6 +75,15 @@ class AddNewOutfitViewController: UIViewController {
     object["outfits"] = outfit as? NSArray
     object.saveInBackground (block: { (success:Bool, error) -> Void in
       if error == nil {
+        
+//        PFCloud.callFunction(inBackground: "iosPushTest", withParameters: ["message":"You just post a new outfit!"], block: { (object, error) in
+//          guard error == nil else{
+//            print(error?.localizedDescription)
+//            return
+//          }
+//          print("Push success!")
+//        })
+        
         print("Saved successfully!")
         LilithProgressHUD.hide()
         NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)

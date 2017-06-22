@@ -202,7 +202,7 @@ extension TimelinePageViewController: UpdateLike {
   
   
   func performSegue(identifier: String, index: Int) {
-//    detailPagePic = contentImageSet[index]
+//    detailPagePic = contentImageUISet[index]
     detailPageAva = avaImageSet[index]
     detailPageDate = dateArray[index]
     detailPageLikes = likes[index]
